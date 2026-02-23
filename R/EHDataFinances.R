@@ -15,12 +15,9 @@ library(roxygen2)
 #' @param xtitle - choose a custom title
 #'
 #' @returns ggplot graph
-#' @export
-#'
-#' @examples
-#' @rawNamespace exportPattern(*)
-
+#' @rawNamespace exportPattern()
 #' @export EH_Summarize_CategoryByTotal_ReturnsSingleTable
+#'
 EHSummarize_CategoryByTotal_ReturnsSingleTable <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2", xfill = "ivory", xtitle = "")
 {
 
