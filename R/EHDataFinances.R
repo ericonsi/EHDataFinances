@@ -13,7 +13,7 @@ library(gridExtra)
 #' @param xfill - color for the bars (Ivory is the default)
 #' @param xtitle - choose a custom title
 #'
-#' @returns a ggplot table
+#' @returns ggplot graph
 #' @export
 #'
 #' @examples
@@ -56,3 +56,4 @@ EHSummarize_CategoryByTotal_ReturnsSingleTable <- function(df, font_size=7, decr
 
   return (p)
 }
+

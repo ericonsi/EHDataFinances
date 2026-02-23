@@ -1,0 +1,19 @@
+---
+title: "Untitled"
+output: html_document
+date: "2026-02-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+devtools::install_github("ericonsi/EHDataFinances")
+
+```
+```{r}
+EHDataFinance::EHSummarize_CategoryByTotal_ReturnsSingleTable (df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2", xfill = "ivory", xtitle = "")
+
+```
+
