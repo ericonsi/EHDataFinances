@@ -1,6 +1,7 @@
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
+library(roxygen2)
 
 #' EHSummarize_CategoryByTotal_ReturnsSingleTable
 #'
