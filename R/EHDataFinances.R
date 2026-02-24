@@ -76,7 +76,7 @@ EH_CleanBankAccounts <- function(df, xsource) {
 }
 
 #' @export
-EHFinances_ImportAccountFiles <- function(Folder)
+EHFinances_ImportRawAccountFiles <- function(Folder)
 {
 
 dfChase2785_raw <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Chase2785.csv"))
@@ -95,9 +95,16 @@ dfCHK4987 <- EH_CleanBankAccounts(dfCHK4987_raw, "ba4987")
 dfCHK7144 <- EH_CleanBankAccounts(dfCHK7144_raw, "ba7144")
 dfCiti1547 <- EH_CleanBankAccounts(dfCiti1547_raw,  "dc1547")
 
-dfConsolidatedExpense2 <- rbind(dfChase2785, dfChase4025, dfChase7825, dfCHK4987, dfCHK7144, dfCiti1547) |>
+dfConsolidatedExpense <- rbind(dfChase2785, dfChase4025, dfChase7825, dfCHK4987, dfCHK7144, dfCiti1547) |>
   mutate(`Transaction Date` = anydate(`Transaction Date`)) |>
   mutate(ID = row_number())
+
+dfConsolidatedExpense2 <- dfConsolidatedExpense |>
+  rowwise() |>
+  mutate(SupercedesTrip = dfCategories$SupercedesTrip[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]
+  ) |>
+  ungroup() |>
+  mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip))
 
 liAccounts=list()
 liAccounts[[1]] <- dfConsolidatedExpense2
@@ -144,3 +151,37 @@ EHFinances_AssignAccountsToDelete <- function(dfExpenses)
   return(dfExpenses)
 
 }
+
+#' @export
+EHFinances_AssignTrips <- function(dfExpenses, strStartDate, strEndDate, strTripName)
+{
+
+dfConsolidatedExpense5 <- dfExpenses |>
+  mutate(zCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & zSupercedesTrip==0, "Travel", zCategory)) |>
+  mutate(zSubCategory = ifelse(between(`Transaction Date`, as.Date("2025-12-28"), as.Date("2026-01-08")) & zSupercedesTrip==0, "Rio", zSubCategory))
+
+#ASSIGN SHOCKS
+
+dfConsolidatedExpense6 <- dfConsolidatedExpense5 |>
+  dplyr::mutate(zSubCategory = if_else(Source=="cc7825", Category, zSubCategory), zCategory = if_else(Source=="cc7825", "Ruby", zCategory))
+
+#Complete Categories
+
+dfConsolidatedExpense7 <- dfConsolidatedExpense6 |>
+  mutate(Category=if_else(zCategory=="Travel" & zSupercedesTrip ==0, zCategory, Category)) |>
+  mutate(Category=if_else(zCategory!="Travel" & zCategory!="NA", zCategory, Category)) |>
+  mutate(SubCategory=if_else(zCategory=="Travel" & zSupercedesTrip ==0, zSubCategory, SubCategory)) |>
+  mutate(SubCategory=if_else(zCategory!="Travel" & zSubCategory!="NA", zSubCategory, SubCategory)) |>
+  mutate(Category=if_else(ToDelete==1, "To Delete", Category)) |>
+  mutate(SubCategory=if_else(ToDelete==1, "To Delete", SubCategory)) |>
+  dplyr::mutate(Category = if_else(Category=="Groceries" & Amount < 20, "Food & Drink", Category)) |>
+  dplyr::mutate(SubCategory=if_else(Category=="Groceries" & SubCategory=="NA", "Other", SubCategory)) |>
+  dplyr::mutate(SubCategory = if_else(Category=="Gas", "Gas", SubCategory)) |>
+  dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
+  dplyr::mutate(Amount=round(Amount,2)) |>
+  dplyr::mutate(Corrected=0) |>
+  dplyr::select(ID, Corrected, `Transaction Date`, Description, Category, SubCategory, Amount, Source, ToDelete, zSupercedesTrip, Memo, Type)
+
+
+}
+
