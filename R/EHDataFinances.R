@@ -16,7 +16,8 @@ library(roxygen2)
 #'
 #' @returns ggplot graph
 #'
-#'
+#' @export EHSummarize_CategoryByTotal_ReturnsSingleTable
+
 EHSummarize_CategoryByTotal_ReturnsSingleTable <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2", xfill = "ivory", xtitle = "")
 {
 
