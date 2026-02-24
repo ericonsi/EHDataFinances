@@ -230,10 +230,9 @@ if(xType=="Create")
 
 } else {
 
-  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\Overrides2_", Folder, ".csv")) |>
-    dplyr::filter(Corrected==1)
+  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\Overrides2_", Folder, ".csv"))
 
   return(dfOverrides)
-}
+  }
 }
 
