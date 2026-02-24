@@ -161,11 +161,11 @@ EHFinances_AssignAccountsToDelete <- function(dfExpenses)
 EHFinances_AssignTrips <- function(dfExpenses, strStartDate, strEndDate, strTripName)
 {
 
-  dfExpenses3 <- dfExpenses2 |>
+  dfExpenses2 <- dfExpenses |>
   mutate(zCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, "Travel", zCategory)) |>
   mutate(zSubCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, strTripName, zSubCategory))
 
-return(dfExpenses3)
+return(dfExpenses2)
 
 }
 
