@@ -224,7 +224,7 @@ EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses=data.frame(), Folder, 
 if(xType=="Create")
 {
 
-  write_csv(ddExpenses, paste0("D:\\RStudio\\Finances\\Overrides2_", Folder, ".csv"))
+  write_csv(dfExpenses, paste0("D:\\RStudio\\Finances\\Overrides2_", Folder, ".csv"))
 
   return("Completed")
 
