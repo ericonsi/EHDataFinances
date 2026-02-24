@@ -162,8 +162,8 @@ EHFinances_AssignTrips <- function(dfExpenses, strStartDate, strEndDate, strTrip
 {
 
   dfExpenses3 <- dfExpenses2 |>
-  mutate(zCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, "Travel", Category)) |>
-  mutate(zSubCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, strTripName, SubCategory))
+  mutate(zCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, "Travel", zCategory)) |>
+  mutate(zSubCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, strTripName, zSubCategory))
 
 return(dfExpenses3)
 
