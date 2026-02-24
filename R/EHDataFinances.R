@@ -117,7 +117,8 @@ dfExpenses2 <- dfExpenses |>
   mutate(SupercedesTrip = dfCategories$SupercedesTrip[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]
   ) |>
   ungroup() |>
-  mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip))
+  mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip)) |>
+  mutate(Corrected=0)
 
 liAccounts=list()
 liAccounts[[1]] <- dfExpenses2
@@ -183,3 +184,15 @@ dfExpenses2 <- dfExpenses |>
 
 return(dfExpenses2)
 }
+
+#' @export
+EHFinances_AssignRuby <- function(dfExpenses)
+{
+
+  dfExpenses2 <- dfExpenses |>
+    dplyr::mutate(zSubCategory = if_else(Source=="cc7825", Category, zSubCategory), zCategory = if_else(Source=="cc7825", "Ruby", zCategory))
+
+  return(dfExpenses2)
+
+}
+

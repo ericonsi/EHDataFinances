@@ -2,6 +2,7 @@
 
 export(EHFinances_AssignAccountsToDelete)
 export(EHFinances_AssignCategoriesAndSubcategories)
+export(EHFinances_AssignRuby)
 export(EHFinances_AssignTrips)
 export(EHFinances_CategoryByTotal_ReturnsSingleTable)
 export(EHFinances_ImportCategories)
