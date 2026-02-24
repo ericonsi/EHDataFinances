@@ -162,28 +162,7 @@ EHFinances_AssignTrips <- function(dfExpenses, strStartDate, strEndDate, strTrip
   mutate(zCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, "Travel", Category)) |>
   mutate(zSubCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, strTripName, SubCategory))
 
-#ASSIGN SHOCKS
-
-dfConsolidatedExpense6 <- dfConsolidatedExpense5 |>
-  dplyr::mutate(zSubCategory = if_else(Source=="cc7825", Category, zSubCategory), zCategory = if_else(Source=="cc7825", "Ruby", zCategory))
-
-#Complete Categories
-
-dfConsolidatedExpense7 <- dfConsolidatedExpense6 |>
-  mutate(Category=if_else(zCategory=="Travel" & zSupercedesTrip ==0, zCategory, Category)) |>
-  mutate(Category=if_else(zCategory!="Travel" & zCategory!="NA", zCategory, Category)) |>
-  mutate(SubCategory=if_else(zCategory=="Travel" & zSupercedesTrip ==0, zSubCategory, SubCategory)) |>
-  mutate(SubCategory=if_else(zCategory!="Travel" & zSubCategory!="NA", zSubCategory, SubCategory)) |>
-  mutate(Category=if_else(ToDelete==1, "To Delete", Category)) |>
-  mutate(SubCategory=if_else(ToDelete==1, "To Delete", SubCategory)) |>
-  dplyr::mutate(Category = if_else(Category=="Groceries" & Amount < 20, "Food & Drink", Category)) |>
-  dplyr::mutate(SubCategory=if_else(Category=="Groceries" & SubCategory=="NA", "Other", SubCategory)) |>
-  dplyr::mutate(SubCategory = if_else(Category=="Gas", "Gas", SubCategory)) |>
-  dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
-  dplyr::mutate(Amount=round(Amount,2)) |>
-  dplyr::mutate(Corrected=0) |>
-  dplyr::select(ID, Corrected, `Transaction Date`, Description, Category, SubCategory, Amount, Source, ToDelete, zSupercedesTrip, Memo, Type)
-
+return(dfExpenses3)
 
 }
 
