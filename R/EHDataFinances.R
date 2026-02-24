@@ -174,10 +174,12 @@ EHFinances_AssignCategoriesAndSubcategories <- function(dfExpenses) {
 
   dfCategories <- EHFinances_ImportCategories()
 
-dfConsolidatedExpense4 <- dfExpenses |>
+dfExpense2 <- dfExpenses |>
   rowwise() |>
   mutate(zCategory=Category, zSubCategory=SubCategory) |>
   mutate(zCategory = dfCategories$xCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]], zSubCategory = dfCategories$xSubCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]) |>
   ungroup() |>
   mutate(zCategory=if_else(is.na(zCategory), "NA", zCategory), zSubCategory=if_else(is.na(zSubCategory), "NA", zSubCategory))
+
+return(dfExpenses2)
 }
