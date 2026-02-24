@@ -2,4 +2,5 @@
 
 export(EHFinances_CategoryByTotal_ReturnsSingleTable)
 export(EHFinances_ImportAccountFiles)
+export(EHFinances_ImportAccountsToDelete)
 export(EHFinances_ImportCategories)
