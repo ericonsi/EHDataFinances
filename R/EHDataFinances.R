@@ -62,6 +62,17 @@ EH_CleanCreditCards <- function(df, xsource) {
   return(df2)
 }
 
+#' @export
+EHFinances_ImportCategories <- function()
+{
+
+  dfCategories <- read_csv("D:\\RStudio\\Finances\\Categories.csv")
+
+  return(dfCategories)
+
+}
+
+
 EH_CleanBankAccounts <- function(df, xsource) {
   df2 <- df |>
     dplyr::rename(Memo=Status, `Transaction Date` = Date) |>
@@ -95,24 +106,23 @@ dfCHK4987 <- EH_CleanBankAccounts(dfCHK4987_raw, "ba4987")
 dfCHK7144 <- EH_CleanBankAccounts(dfCHK7144_raw, "ba7144")
 dfCiti1547 <- EH_CleanBankAccounts(dfCiti1547_raw,  "dc1547")
 
-dfConsolidatedExpense <- rbind(dfChase2785, dfChase4025, dfChase7825, dfCHK4987, dfCHK7144, dfCiti1547) |>
+dfExpenses <- rbind(dfChase2785, dfChase4025, dfChase7825, dfCHK4987, dfCHK7144, dfCiti1547) |>
   mutate(`Transaction Date` = anydate(`Transaction Date`)) |>
   mutate(ID = row_number())
 
+dfCategories <- EHFinances_ImportCategories()
+
+dfExpenses2 <- dfExpenses |>
+  rowwise() |>
+  mutate(SupercedesTrip = dfCategories$SupercedesTrip[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]
+  ) |>
+  ungroup() |>
+  mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip))
+
 liAccounts=list()
-liAccounts[[1]] <- dfConsolidatedExpense
+liAccounts[[1]] <- dfExpenses2
 
 return (liAccounts)
-
-}
-
-#' @export
-EHFinances_ImportCategories <- function()
-{
-
-dfCategories <- read_csv("D:\\RStudio\\Finances\\Categories.csv")
-
-return(dfCategories)
 
 }
 
@@ -138,7 +148,9 @@ EHFinances_AssignAccountsToDelete <- function(dfExpenses)
   for(i in 1:length(vAccounts)) {
 
     dfExpenses <- dfExpenses |>
-      mutate(ToDelete = ifelse(str_detect(Description, vAccounts[i]), 1, ToDelete))
+      mutate(ToDelete = ifelse(str_detect(Description, vAccounts[i]), 1, ToDelete)) |>
+      mutate(Category=if_else(ToDelete==1, "To Delete", Category)) |>
+      mutate(SubCategory=if_else(ToDelete==1, "To Delete", SubCategory))
   }
 
   return(dfExpenses)
@@ -149,15 +161,6 @@ EHFinances_AssignAccountsToDelete <- function(dfExpenses)
 EHFinances_AssignTrips <- function(dfExpenses, strStartDate, strEndDate, strTripName)
 {
 
-  dfCategories <- EHFinances_ImportCategories()
-
-  dfExpenses2 <- dfExpenses |>
-    rowwise() |>
-    mutate(SupercedesTrip = dfCategories$SupercedesTrip[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]
-    ) |>
-    ungroup() |>
-    mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip))
-
   dfExpenses3 <- dfExpenses2 |>
   mutate(zCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, "Travel", Category)) |>
   mutate(zSubCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, strTripName, SubCategory))
@@ -166,3 +169,15 @@ return(dfExpenses3)
 
 }
 
+#' @export
+EHFinances_AssignCategoriesAndSubcategories <- function(dfExpenses) {
+
+  dfCategories <- EHFinances_ImportCategories()
+
+dfConsolidatedExpense4 <- dfExpenses |>
+  rowwise() |>
+  mutate(zCategory=Category, zSubCategory=SubCategory) |>
+  mutate(zCategory = dfCategories$xCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]], zSubCategory = dfCategories$xSubCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]) |>
+  ungroup() |>
+  mutate(zCategory=if_else(is.na(zCategory), "NA", zCategory), zSubCategory=if_else(is.na(zSubCategory), "NA", zSubCategory))
+}
