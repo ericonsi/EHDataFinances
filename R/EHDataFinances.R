@@ -76,7 +76,7 @@ EH_CleanBankAccounts <- function(df, xsource) {
 }
 
 #' @export
-EHFinances_ImportAccountFiles <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2", xfill = "ivory", xtitle = "")
+EHFinances_ImportAccountFiles <- function(Folder)
 {
 
 dfChase2785_raw <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Chase2785.csv"))
@@ -106,7 +106,6 @@ return (liAccounts)
 
 }
 
-
 #' @export
 EHFinances_ImportCategories <- function()
 {
@@ -117,3 +116,12 @@ return(dfCategories)
 
 }
 
+#' @export
+EHFinances_ImportAccountsToDelete <- function()
+{
+
+  dfCategories <- read_csv("D:\\RStudio\\Finances\\AccountsToDelete.csv")
+
+  return(dfCategories)
+
+}
