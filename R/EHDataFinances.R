@@ -17,7 +17,7 @@ library(roxygen2)
 #' @returns ggplot graph
 #'
 #' @export
-EHSummarize_CategoryByTotal_ReturnsSingleTable <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2", xfill = "ivory", xtitle = "")
+EHFinances_CategoryByTotal_ReturnsSingleTable <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2", xfill = "ivory", xtitle = "")
 {
 
   #EXPECTS A 2 COLUMN DF WITH CATEGORY AND AMOUNT IN THAT ORDER
@@ -53,5 +53,67 @@ EHSummarize_CategoryByTotal_ReturnsSingleTable <- function(df, font_size=7, decr
     scale_y_continuous(labels = comma, limits = c(ylimitmin, ylimitmax))
 
   return (p)
+}
+
+EH_CleanCreditCards <- function(df, xsource) {
+  df2 <- df |> dplyr::select(-`Post Date`) |>
+    mutate(Source = xsource, SubCategory = "NA", ToDelete = 0) |>
+    mutate(Amount=-1*Amount)
+  return(df2)
+}
+
+EH_CleanBankAccounts <- function(df, xsource) {
+  df2 <- df |>
+    dplyr::rename(Memo=Status, `Transaction Date` = Date) |>
+    mutate(Amount = as.character(ifelse(!is.na(Debit), Debit, Credit))) |>
+    mutate(Type = as.character(ifelse(!is.na(Debit), "Debit", "Credit"))) |>
+    mutate(Amount = as.numeric(parse_number(Amount))) |>
+    dplyr::select(-Debit, -Credit) |>
+    mutate(Category = "NA") |>
+    mutate(Source = xsource, SubCategory = "NA", ToDelete = 0)
+
+  return(df2)
+}
+
+#' @export
+EHFinances_ImportAccountFiles <- function(df, font_size=7, decreasingOrder=TRUE, rectfill="slategray2", xfill = "ivory", xtitle = "")
+{
+
+dfChase2785_raw <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Chase2785.csv"))
+dfChase4025_raw <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Chase4025.csv"))
+dfChase7825_raw <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Chase7825.csv"))
+
+dfChase2785 <- EH_CleanCreditCards(dfChase2785_raw, "cc2785")
+dfChase4025 <- EH_CleanCreditCards(dfChase4025_raw, "cc4025")
+dfChase7825 <- EH_CleanCreditCards(dfChase7825_raw, "cc7825")
+
+dfCHK4987_raw <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\CHK_4987.csv"))
+dfCHK7144_raw <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\CHK_7144.csv"))
+dfCiti1547_raw <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Citi_1547.csv"))
+
+dfCHK4987 <- EH_CleanBankAccounts(dfCHK4987_raw, "ba4987")
+dfCHK7144 <- EH_CleanBankAccounts(dfCHK7144_raw, "ba7144")
+dfCiti1547 <- EH_CleanBankAccounts(dfCiti1547_raw,  "dc1547")
+
+dfConsolidatedExpense2 <- rbind(dfChase2785, dfChase4025, dfChase7825, dfCHK4987, dfCHK7144, dfCiti1547) |>
+  mutate(`Transaction Date` = anydate(`Transaction Date`)) |>
+  mutate(ID = row_number())
+
+liAccounts=list()
+liAccounts[[1]] <- dfConsolidatedExpense2
+
+return (liAccounts)
+
+}
+
+
+#' @export
+EHFinances_ImportCategories <- function()
+{
+
+dfCategories <- read_csv("D:\\RStudio\\Finances\\Categories.csv")
+
+return(dfCategories)
+
 }
 
