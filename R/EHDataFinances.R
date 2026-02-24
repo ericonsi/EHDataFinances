@@ -174,7 +174,7 @@ EHFinances_AssignCategoriesAndSubcategories <- function(dfExpenses) {
 
   dfCategories <- EHFinances_ImportCategories()
 
-dfExpense2 <- dfExpenses |>
+dfExpenses2 <- dfExpenses |>
   rowwise() |>
   mutate(zCategory=Category, zSubCategory=SubCategory) |>
   mutate(zCategory = dfCategories$xCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]], zSubCategory = dfCategories$xSubCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]) |>
