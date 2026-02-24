@@ -198,3 +198,22 @@ if(xType=="Create")
   }
 }
 
+#' @export
+EHFinances_CreateShockAndTaxDFs <- function(dfExpenses) {
+
+  dfExpenses2 <- dfExpenses |>
+    dplyr::filter(Category!="Ruby" & Category != "Renovation" & Category != "To Delete")
+  dfRuby <- dfExpenses |>
+    dplyr::filter(Category=="Ruby")
+  dfRenovation <- dfExpenses |>
+    dplyr::filter(Category!="Renovation")
+
+  liAccounts=list()
+  liAccounts[[1]] <- dfExpenses2
+  liAccounts[[2]] <- dfRuby
+  liAccounts[[3]] <- dfRenovation
+
+  return (liAccounts)
+
+
+}
