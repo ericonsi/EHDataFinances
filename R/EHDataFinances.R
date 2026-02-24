@@ -218,3 +218,22 @@ return(dfExpenses2)
 
 }
 
+#' @export
+EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses=data.frame(), Folder, xType="Open") {
+
+if(xType=="Create")
+{
+
+  write_csv(ddExpenses, paste0("D:\\RStudio\\Finances\\Overrides2_", Folder, ".csv"))
+
+  return("Completed")
+
+} else {
+
+  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\Overrides2_", Folder, ".csv")) |>
+    dplyr::filter(Corrected==1)
+
+  return(dfOverrides)
+}
+}
+
