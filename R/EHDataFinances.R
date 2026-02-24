@@ -133,15 +133,14 @@ EHFinances_AssignAccountsToDelete <- function(dfExpenses)
 
   dfAccountsToDelete <- EHFinances_ImportAccountsToDelete()
 
-  for (i in seq_along(dfAccountsToDelete$AccountToDelete)) {
+  vAccounts <- dfAccountsToDelete$AccountToDelete
 
-    str <- dfAccountsToDelete$AccountToDelete
+  for(i in 1:length(vAccounts)) {
 
-dfExpenses2 <- dfExpenses |>
-  mutate(ToDelete = ifelse(str_detect(Description, str), 1, ToDelete))
+    dfExpenses <- dfExpenses |>
+      mutate(ToDelete = ifelse(str_detect(Description, vAccounts[i]), 1, ToDelete))
+  }
 
-}
-
-return(dfExpenses2)
+  return(dfExpenses)
 
 }
