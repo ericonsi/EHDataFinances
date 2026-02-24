@@ -196,9 +196,25 @@ EHFinances_AssignRuby <- function(dfExpenses)
 {
 
   dfExpenses2 <- dfExpenses |>
-    dplyr::mutate(zSubCategory = if_else(Source=="cc7825", Category, zSubCategory), zCategory = if_else(Source=="cc7825", "Ruby", zCategory))
+    dplyr::mutate(SubCategory = if_else(Source=="cc7825", Category, SubCategory), Category = if_else(Source=="cc7825", "Ruby", Category))
 
   return(dfExpenses2)
+
+}
+
+#' @export
+EHFinances_ApplyBusinessRules <- function(dfExpenses) {
+
+dfExpenses2 <- dfExpenses |>
+  dplyr::mutate(Category = if_else(Category=="Groceries" & Amount < 20, "Food & Drink", Category)) |>
+  dplyr::mutate(SubCategory=if_else(Category=="Groceries" & SubCategory=="NA", "Other", SubCategory)) |>
+  dplyr::mutate(SubCategory = if_else(Category=="Gas", "Gas", SubCategory)) |>
+  dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
+  mutate(SubCategory = if_else(Category=="Food & Drink", "Uncategorized", SubCategory)) |>
+  dplyr::mutate(Amount=round(Amount,2)) |>
+  dplyr::select(ID, Corrected, `Transaction Date`, Description, Category, SubCategory, Amount, Source, ToDelete, SupercedesTrip, Memo, Type)
+
+return(dfExpenses2)
 
 }
 
