@@ -116,12 +116,32 @@ return(dfCategories)
 
 }
 
-#' @export
+#'
+
 EHFinances_ImportAccountsToDelete <- function()
 {
 
   dfCategories <- read_csv("D:\\RStudio\\Finances\\AccountsToDelete.csv")
 
   return(dfCategories)
+
+}
+
+#' @export
+EHFinances_AssignAccountsToDelete <- function(dfExpenses)
+{
+
+  dfAccountsToDelete <- EHFinances_ImportAccountsToDelete()
+
+  for (i in seq_along(dfAccountsToDelete$AccountToDelete)) {
+
+    str <- dfAccountsToDelete$AccountToDelete
+
+dfExpenses2 <- dfExpenses |>
+  mutate(ToDelete = ifelse(str_detect(Description, str), 1, ToDelete))
+
+}
+
+return(dfExpenses2)
 
 }
