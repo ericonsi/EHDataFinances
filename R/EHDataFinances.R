@@ -99,13 +99,6 @@ dfConsolidatedExpense <- rbind(dfChase2785, dfChase4025, dfChase7825, dfCHK4987,
   mutate(`Transaction Date` = anydate(`Transaction Date`)) |>
   mutate(ID = row_number())
 
-dfConsolidatedExpense2 <- dfConsolidatedExpense |>
-  rowwise() |>
-  mutate(SupercedesTrip = dfCategories$SupercedesTrip[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]
-  ) |>
-  ungroup() |>
-  mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip))
-
 liAccounts=list()
 liAccounts[[1]] <- dfConsolidatedExpense2
 
@@ -156,9 +149,18 @@ EHFinances_AssignAccountsToDelete <- function(dfExpenses)
 EHFinances_AssignTrips <- function(dfExpenses, strStartDate, strEndDate, strTripName)
 {
 
-dfConsolidatedExpense5 <- dfExpenses |>
-  mutate(zCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & zSupercedesTrip==0, "Travel", zCategory)) |>
-  mutate(zSubCategory = ifelse(between(`Transaction Date`, as.Date("2025-12-28"), as.Date("2026-01-08")) & zSupercedesTrip==0, "Rio", zSubCategory))
+  dfCategories <- EHFinances_ImportCategories()
+
+  dfExpenses2 <- dfExpenses |>
+    rowwise() |>
+    mutate(SupercedesTrip = dfCategories$SupercedesTrip[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]
+    ) |>
+    ungroup() |>
+    mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip))
+
+  dfExpenses3 <- dfExpenses2 |>
+  mutate(zCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, "Travel", Category)) |>
+  mutate(zSubCategory = ifelse(between(`Transaction Date`, as.Date(strStartDate), as.Date(strEndDate)) & SupercedesTrip==0, strTripName, SubCategory))
 
 #ASSIGN SHOCKS
 
