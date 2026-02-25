@@ -48,7 +48,7 @@ EH_CleanBankAccounts <- function(df, xsource) {
   return(df2)
 }
 
-EHFinances_RetrieveYearAndMonth <- function(xMonth) {
+EHFinances_RetrieveYearAndMonth <- function(Folder) {
 
   Folder <- as.character(Folder)
   yy <- substr(Folder, 1, 2)
