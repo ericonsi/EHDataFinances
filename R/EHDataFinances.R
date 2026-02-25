@@ -207,13 +207,14 @@ EHFinances_CreateShockAndExpenseDFs <- function(dfExpenses) {
     dplyr::filter(Category=="Ruby")
   dfRenovation <- dfExpenses |>
     dplyr::filter(Category=="Renovation")
-  dfTaxes <- dfExpenses |>
+  dfIncomeTaxes <- dfExpenses |>
     dplyr::filter(Category=="Income Taxes")
 
   liAccounts=list()
   liAccounts[[1]] <- dfExpenses2
   liAccounts[[2]] <- dfRuby
   liAccounts[[3]] <- dfRenovation
+  liAccounts[[4]] <- dfIncomeTaxes
 
   return (liAccounts)
 
