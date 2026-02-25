@@ -103,6 +103,11 @@ dfCategories <- EHFinances_ImportCategories()
 liAccounts=list()
 liAccounts[[1]] <- dfExpenses2
 
+liAccounts[[2]] <- EHFinances_RetrieveYearAndMonth(Folder)[[1]]
+
+liAccounts[[3]] <- EHFinances_RetrieveYearAndMonth(Folder)[[2]]
+
+
 return (liAccounts)
 
 }
