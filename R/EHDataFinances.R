@@ -203,7 +203,6 @@ EHFinances_CreateShockAndExpenseDFs <- function(dfExpenses) {
 
 
   dfExpenses2 <- dfExpenses |>
-
     dplyr::filter(Category!="Ruby" & Category != "Renovation" & Category != "To Delete" & Category != "Income Taxes")
   dfRuby <- dfExpenses |>
     dplyr::filter(Category=="Ruby")
@@ -219,5 +218,25 @@ EHFinances_CreateShockAndExpenseDFs <- function(dfExpenses) {
   liAccounts[[4]] <- dfIncomeTaxes
 
   return (liAccounts)
+
+}
+
+#' @export
+EHFinances_FilterByCategory <- function(dfExpenses, xCategory) {
+
+  dfCat <- dfExpenses |>
+    dplyr::filter(Category==xCategory)
+
+  return(dfCat)
+
+}
+
+#' @export
+EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
+
+  dfCat <- dfExpenses |>
+    dplyr::filter(SubCategory==xSubCategory)
+
+  return(dfCat)
 
 }
