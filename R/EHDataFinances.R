@@ -192,7 +192,7 @@ if(xType=="Create")
 
 } else {
 
-  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\Overrides_", Folder, ".csv"))
+  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\Overrides_", Folder, ".csv", na.strings = ""))
 
   return(dfOverrides)
   }
