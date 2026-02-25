@@ -202,11 +202,13 @@ if(xType=="Create")
 EHFinances_CreateShockAndExpenseDFs <- function(dfExpenses) {
 
   dfExpenses2 <- dfExpenses |>
-    dplyr::filter(Category!="Ruby" & Category != "Renovation" & Category != "To Delete")
+    dplyr::filter(Category!="Ruby" & Category != "Renovation" & Category != "To Delete" & Category != "Income Taxes")
   dfRuby <- dfExpenses |>
     dplyr::filter(Category=="Ruby")
   dfRenovation <- dfExpenses |>
     dplyr::filter(Category=="Renovation")
+  dfTaxes <- dfExpenses |>
+    dplyr::filter(Category=="Income Taxes")
 
   liAccounts=list()
   liAccounts[[1]] <- dfExpenses2
