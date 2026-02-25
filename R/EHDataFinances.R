@@ -173,7 +173,7 @@ dfExpenses2 <- dfExpenses |>
   dplyr::mutate(SubCategory = if_else(Category=="Gas", "Gas", SubCategory)) |>
   dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
   mutate(SubCategory = if_else(Category=="Food & Drink", "Uncategorized", SubCategory)) |>
-  dplyr::mutate(Amount=round(Amount,2)) |>
+  dplyr::mutate(Amount=round(Amount,0)) |>
   dplyr::select(ID, Corrected, `Transaction Date`, Description, Category, SubCategory, Amount, Source, ToDelete, SupercedesTrip, Memo, Type)
 
 return(dfExpenses2)
@@ -201,7 +201,9 @@ if(xType=="Create")
 #' @export
 EHFinances_CreateShockAndExpenseDFs <- function(dfExpenses) {
 
+
   dfExpenses2 <- dfExpenses |>
+
     dplyr::filter(Category!="Ruby" & Category != "Renovation" & Category != "To Delete" & Category != "Income Taxes")
   dfRuby <- dfExpenses |>
     dplyr::filter(Category=="Ruby")
