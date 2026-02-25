@@ -55,10 +55,10 @@ EHFinances_RetrieveYearAndMonthfromFolder <- function(Folder) {
   xMonth <- substr(Folder, 3, 4)
   xYear <- paste0("20", yy)
 
-  li = list()
+  lix = list()
 
-  li[[1]] <- xYear
-  li[[2]] <- xMonth
+  lix[[1]] <- xYear
+  lix[[2]] <- xMonth
 
   return (li)
 
