@@ -104,7 +104,7 @@ dfExpenses3 <- dfExpenses2 |>
 dfCategories <- EHFinances_ImportCategories()
 liAccounts=list()
 
-liAccounts[[1]] <- dfExpenses2
+liAccounts[[1]] <- dfExpenses3
 
 return (liAccounts)
 
