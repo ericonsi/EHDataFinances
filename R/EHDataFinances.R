@@ -55,10 +55,10 @@ EHFinances_RetrieveYearAndMonth <- function(Folder) {
   qMonth <- substr(Folder, 3, 4)
   qYear <- paste0("20", yy)
 
-  lix = list()
+  li = list()
 
-  lix[[1]] <- qYear
-  lix[[2]] <- qMonth
+  li[[1]] <- as.numeric(qYear)
+  li[[2]] <- as.numeric(qMonth)
 
   return (li)
 
@@ -97,7 +97,7 @@ dfExpenses2 <- dfExpenses |>
   ungroup() |>
   mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip)) |>
   mutate(Corrected=0) |>
-  dplyr::filter(year(`Transaction Date`)==year(EHFinances_RetrieveYearAndMonthfromFolder(Folder)[[1]]) & month(`Transaction Date`) == month(EHFinances_RetrieveYearAndMonthfromFolder(Folder)[[2]]))
+  dplyr::filter(year(`Transaction Date`) == year(EHFinances_RetrieveYearAndMonth(Folder)[[1]]) & month(`Transaction Date`) == month(EHFinances_RetrieveYearAndMonth(Folder)[[2]]))
 
 liAccounts=list()
 liAccounts[[1]] <- dfExpenses2
