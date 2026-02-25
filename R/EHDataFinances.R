@@ -97,7 +97,7 @@ dfExpenses2 <- dfExpenses |>
   ungroup() |>
   mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip)) |>
   mutate(Corrected=0) |>
-  dplyr::filter(year(`Transaction Date`) == year(EHFinances_RetrieveYearAndMonthfromFolder(Folder)[[1]]) & month(`Transaction Date`) == month(EHFinances_RetrieveYearAndMonthfromFolder(Folder)[[2]]))
+  dplyr::filter(year(`Transaction Date`)==year(EHFinances_RetrieveYearAndMonthfromFolder(Folder)[[1]]) & month(`Transaction Date`) == month(EHFinances_RetrieveYearAndMonthfromFolder(Folder)[[2]]))
 
 liAccounts=list()
 liAccounts[[1]] <- dfExpenses2
