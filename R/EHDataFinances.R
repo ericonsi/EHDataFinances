@@ -159,21 +159,6 @@ return(dfExpenses3)
 
 }
 
-EHFinances_AssignFoodSubCategories <- function(dfExpenses) {
-
-  dfExpenses2 <- dfExpenses |>
-  mutate(AmountCategoryTmp = case_when(
-    Amount <=10 ~ "Snack",
-    Amount <= 20 ~ "Solo",
-    Amount <+ 60 ~ "Date",
-    Amount <+ 100 ~ "Family",
-    TRUE       ~ "Group")) |>
-    mutate(SubCategory = ifelse(Category=="Food & Drink", AmountCategoryTmp, SubCategory)) |>
-    dplyr::select(-AmountCategoryTmp)
-
-  return (dfExpenses2)
-}
-
 #' @export
 EHFinances_AssignCategoriesAndSubcategories <- function(dfExpenses) {
 
@@ -186,9 +171,9 @@ dfExpenses2 <- dfExpenses |>
   ungroup() |>
   mutate(zCategory=if_else(is.na(zCategory), "NA", zCategory), zSubCategory=if_else(is.na(zSubCategory), "NA", zSubCategory))
 
-  dfExpenses3 <- EHFinances_AssignFoodSubCategories(dfExpenses2)
+  #dfExpenses3 <- EHFinances_AssignFoodSubCategories(dfExpenses2)
 
-return(dfExpenses3)
+return(dfExpenses2)
 }
 
 #' @export
