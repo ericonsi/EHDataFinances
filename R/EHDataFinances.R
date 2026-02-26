@@ -64,6 +64,20 @@ EHFinances_RetrieveYearAndMonth <- function(Folder) {
 
 }
 
+EHFinances_TestIfDataIsInRange <- function(xDate, Folder) {
+
+  if(year(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[1]] & month(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) {
+     x = TRUE
+  } else {
+     x = FALSE
+  }
+
+  return (x)
+
+}
+
+
+
 #' @export
 EHFinances_ImportRawAccountFiles <- function(Folder)
 {
@@ -99,7 +113,8 @@ dfExpenses2 <- dfExpenses |>
 dfExpenses3 <- dfExpenses2 |>
   mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip)) |>
   mutate(Corrected=0) |>
-  dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
+  #dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
+  dplyr::filter(EHFinances_TestIfDataIsInRange(`Transaction Date`, Folder ))
 
 dfCategories <- EHFinances_ImportCategories()
 liAccounts=list()
@@ -159,6 +174,21 @@ return(dfExpenses3)
 
 }
 
+EHFinances_AssignFoodSubCategories <- function(dfExpenses) {
+
+  dfExpenses2 <- dfExpenses |>
+    mutate(AmountCategoryTmp = case_when(
+      Amount <=10 ~ "Snack",
+      Amount <= 20 ~ "Solo",
+      Amount <+ 60 ~ "Date",
+      Amount <+ 100 ~ "Family",
+      TRUE       ~ "Group")) |>
+    mutate(SubCategory = ifelse(Category=="Food & Drink", AmountCategoryTmp, SubCategory)) |>
+    dplyr::select(-AmountCategoryTmp)
+
+  return (dfExpenses2)
+}
+
 #' @export
 EHFinances_AssignCategoriesAndSubcategories <- function(dfExpenses) {
 
@@ -171,9 +201,9 @@ dfExpenses2 <- dfExpenses |>
   ungroup() |>
   mutate(zCategory=if_else(is.na(zCategory), "NA", zCategory), zSubCategory=if_else(is.na(zSubCategory), "NA", zSubCategory))
 
-  #dfExpenses3 <- EHFinances_AssignFoodSubCategories(dfExpenses2)
+  dfExpenses3 <- EHFinances_AssignFoodSubCategories(dfExpenses2)
 
-return(dfExpenses2)
+return(dfExpenses3)
 }
 
 #' @export
@@ -264,3 +294,46 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 
 }
 
+EHFinances_ConvertAmazonPages <- function(vPages) {
+
+  dfTotal =  data.frame(matrix(ncol = 4, nrow = 0))
+  colnames(dfTotal) <- c("order_date", "order_id", "total", "item")
+
+  for(i in 1:length(vPages)) {
+
+    Sys.sleep(2)
+    htmlPage <- read_html(vPages[[i]])
+    dfOrders <- htmlPage %>%
+      html_nodes("div.a-box-group") %>%
+      map_df(function(x) {
+
+        data.frame(
+          order_date = x %>% html_node(".order-header__header-list-item") %>% html_text(trim = TRUE),
+          order_id   = x %>% html_node(".yohtmlc-order-id") %>% html_text(trim = TRUE),
+          total      = x %>% html_node(".a-column.a-span2") %>% html_text(trim = TRUE),
+          item       = x %>% html_node(".yohtmlc-product-title") %>% html_text(trim = TRUE)
+        )
+      })
+
+    dfx <- dfOrders |>
+      mutate(item = paste("AMAZON:", item)) |>
+      mutate(order_date = mdy(date_str <- str_extract(order_date,
+        "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+\\d{4}"))) |>
+      mutate(order_id = str_remove(order_id, "Order #")) |>
+      mutate(order_id =  str_replace_all(order_id, " ", "")) |>
+      mutate(total =  as.numeric(parse_number(total)))
+
+    dfTotal <- rbind(dfx, dfTotal)
+
+  }
+
+  return (dfTotal)
+}
+
+#' @export
+EHFinances_ProcessAmazonFromPages <- function(vPages, Folder) {
+
+  #dfA <- EHFinances_ConvertAmazonPages(vPages) |>
+
+
+}
