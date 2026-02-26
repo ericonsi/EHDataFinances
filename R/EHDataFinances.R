@@ -56,7 +56,6 @@ EHFinances_ImportAmazonOrders <- function(Folder)
 
   dfCategories <- read_csv("D:\\RStudio\\Finances\\AmazonOrders\\Retail.OrderHistory.1\\Retail.OrderHistory.1.csv") |>
   dplyr::select(`Order ID`, `Order Date`, `Total Owed`, `Payment Instrument Type`, `Order Status`, `Shipping Address`, `Product Name`, ASIN) |>
-  dplyr::filter(`Order Status` != "Cancelled") |>
   dplyr::filter(year(`Order Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Order Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
 
   return(dfCategories)
