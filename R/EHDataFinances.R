@@ -66,6 +66,8 @@ EHFinances_RetrieveYearAndMonth <- function(Folder) {
 
 EHFinances_TestIfDataIsInRange <- function(xDate, Folder) {
 
+  x = FALSE
+
   if(year(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[1]] & month(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) {
      x = TRUE
   } else {
@@ -114,7 +116,7 @@ dfExpenses3 <- dfExpenses2 |>
   mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip)) |>
   mutate(Corrected=0) |>
   #dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
-  dplyr::filter(EHFinances_TestIfDataIsInRange(`Transaction Date`, Folder ))
+  dplyr::filter(EHFinances_TestIfDataIsInRange(xDate=`Transaction Date`, Folder))
 
 dfCategories <- EHFinances_ImportCategories()
 liAccounts=list()
