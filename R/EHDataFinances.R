@@ -34,11 +34,30 @@ EHFinances_ImportCategories <- function()
 
 }
 
+EHFinances_RetrieveYearAndMonth <- function(Folder) {
+
+  Folder <- as.character(Folder)
+  yy <- substr(Folder, 1, 2)
+  qMonth <- substr(Folder, 3, 4)
+  qYear <- paste0("20", yy)
+
+  li = list()
+
+  li[[1]] <- as.numeric(qYear)
+  li[[2]] <- as.numeric(qMonth)
+
+  return (li)
+
+}
+
 #' @export
 EHFinances_ImportAmazonOrders <- function()
 {
 
-  dfCategories <- read_csv("D:\\RStudio\\Finances\\AmazonOrders\\Retail.OrderHistory.1\\Retail.OrderHistory.1.csv")
+  dfCategories <- read_csv("D:\\RStudio\\Finances\\AmazonOrders\\Retail.OrderHistory.1\\Retail.OrderHistory.1.csv") |>
+  dplyr::select(`Order ID`, `Order Date`, `Total Owed`, `Payment Instrument Type`, `Order Status`, `Shipping Address`, `Product Name`, ASIN) |>
+  dplyr::filter(`Order Status` != "Cancelled") |>
+  dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
 
   return(dfCategories)
 
@@ -55,22 +74,6 @@ EH_CleanBankAccounts <- function(df, xsource) {
     mutate(Source = xsource, SubCategory = "NA", ToDelete = 0)
 
   return(df2)
-}
-
-EHFinances_RetrieveYearAndMonth <- function(Folder) {
-
-  Folder <- as.character(Folder)
-  yy <- substr(Folder, 1, 2)
-  qMonth <- substr(Folder, 3, 4)
-  qYear <- paste0("20", yy)
-
-  li = list()
-
-  li[[1]] <- as.numeric(qYear)
-  li[[2]] <- as.numeric(qMonth)
-
-  return (li)
-
 }
 
 EHFinances_TestIfDataIsInRange <- function(xDate, Folder) {
