@@ -38,7 +38,7 @@ EHFinances_ImportCategories <- function()
 EHFinances_ImportAmazonOrders <- function()
 {
 
-  dfCategories <- read_csv("D:\\RStudio\\Finances\\AmazonOrders\\Retail.OrderHistory.1.csv")
+  dfCategories <- read_csv("D:\\RStudio\\Finances\\AmazonOrders\\Retail.OrderHistory.1\\Retail.OrderHistory.1.csv")
 
   return(dfCategories)
 
