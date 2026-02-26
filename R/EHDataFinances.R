@@ -66,14 +66,8 @@ EHFinances_RetrieveYearAndMonth <- function(Folder) {
 
 EHFinances_TestIfDataIsInRange <- function(xDate, Folder) {
 
-  x = FALSE
 
-  if(year(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[1]] & month(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) {
-     x = TRUE
-  } else {
-     x = FALSE
-  }
-
+  x <- ifelse(year(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[2]], TRUE, FALSE)
   return (x)
 
 }
