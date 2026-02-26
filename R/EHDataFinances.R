@@ -51,7 +51,7 @@ EHFinances_RetrieveYearAndMonth <- function(Folder) {
 }
 
 #' @export
-EHFinances_ImportAmazonOrders <- function()
+EHFinances_ImportAmazonOrders <- function(Folder)
 {
 
   dfCategories <- read_csv("D:\\RStudio\\Finances\\AmazonOrders\\Retail.OrderHistory.1\\Retail.OrderHistory.1.csv") |>
