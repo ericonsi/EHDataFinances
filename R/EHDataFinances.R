@@ -2,6 +2,7 @@ library(dplyr)
 library(ggplot2)
 library(gridExtra)
 library(roxygen2)
+library(tidyverse)
 
 #' EHSummarize_CategoryByTotal_ReturnsSingleTable
 #'
@@ -347,10 +348,11 @@ EHFinances_ProcessAmazonFromPages <- function(vPages, Folder) {
 #' @export
 EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
-dfShop<- dfExpenses |>
-  dplyr::filter(Category=="Shopping")
+  v = Folder
+  vv <- vPages
 
-dfShop1 <- dfShop |>
+dfShop<- dfExpenses |>
+  dplyr::filter(Category=="Shopping") |>
   mutate(xScale = case_when(
     Amount <= 0 ~ "1: Refund",
     Amount <= 50 ~ "2: Under 50",
@@ -358,10 +360,9 @@ dfShop1 <- dfShop |>
     Amount <= 250 ~ "4: 101 - 250",
     Amount <= 500 ~ "5: 251 - 500",
     Amount <= 100000 ~ "6: 501 +",
-    TRUE ~ "7: Other"))  |>
-  dplyr::arrange(xScale)
+    TRUE ~ "7: Other"))
 
-return (dfShop1)
+return (dfShop)
 
 }
 
