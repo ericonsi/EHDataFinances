@@ -305,7 +305,7 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 EHFinances_ConvertAmazonPages <- function(vPages) {
 
   dfTotal =  data.frame(matrix(ncol = 4, nrow = 0))
-  colnames(dfTotal) <- c("`Transaction Date`", "Memo", "Amount", "Description")
+  colnames(dfTotal) <- c("Transaction_Date", "Memo", "Amount", "Description")
 
   for(i in 1:length(vPages)) {
 
@@ -316,7 +316,7 @@ EHFinances_ConvertAmazonPages <- function(vPages) {
       map_df(function(x) {
 
         data.frame(
-          `Transaction Date` = x %>% html_node(".order-header__header-list-item") %>% html_text(trim = TRUE),
+          Transaction_Date = x %>% html_node(".order-header__header-list-item") %>% html_text(trim = TRUE),
           Memo   = x %>% html_node(".yohtmlc-order-id") %>% html_text(trim = TRUE),
           Amount      = x %>% html_node(".a-column.a-span2") %>% html_text(trim = TRUE),
           Description       = x %>% html_node(".yohtmlc-product-title") %>% html_text(trim = TRUE)
@@ -325,50 +325,102 @@ EHFinances_ConvertAmazonPages <- function(vPages) {
 
     dfx <- dfOrders |>
       mutate(Description = paste("AMAZON:", Description)) |>
-      mutate(`Transaction Date` = mdy(date_str <- str_extract(`Transaction Date`,
-        "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+\\d{4}"))) |>
+      mutate(Transaction_Date = mdy(date_str <- str_extract(Transaction_Date,
+                                                            "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+\\d{4}"))) |>
       mutate(Memo = str_remove(Memo, "Order #")) |>
       mutate(Memo =  str_replace_all(Memo, " ", "")) |>
       mutate(Amount =  as.numeric(parse_number(Amount)))
 
     dfTotal <- rbind(dfx, dfTotal)
+
+    dfTotal2 <- dfTotal |>
+      dplyr::rename(`Transaction Date` = Transaction_Date)
   }
 
-  return (dfTotal)
+  return (dfTotal2)
 }
 
 #' @export
-EHFinances_ProcessAmazonFromPages <- function(vPages, Folder) {
+EHFinances_AssignShoppingCategories <- function(dfx, vPages, Folder) {
 
-  #dfA <- EHFinances_ConvertAmazonPages(vPages) |>
+vShoppingSewing <- c("TARA FAUGHNAN", "MICHAELS", "SEW MODERN", "sewciety", "TAMI RAND", "FABRIC", "SILKS", "Fabric", "Quilt", "quilt")
+vs <- str_c(vShoppingSewing, collapse = "|")
 
+vShoppingHouse <- c("PAGE HARDWARE", "TARGET", "Etsy", "FRAME SHOP", "HOME DEPOT", "CONTAINER STORE", "FRAME SHOP", "Sheets", "sheets", "Pillow", "pillow", "Floor", "floor", "Candle", "candle", "Duvet", "duvet", "Kitchen", "Kitchen", "Bedroom", "bedroom", "Laundry", "laundry", "Bathroom", "bathroom", "Fridge", "fridge", "Toaster", "toaster", "Pantry", "pantry", "Furniture", "furniture", "bowl", "bowl", "etsy")
+vh <- str_c(vShoppingHouse, collapse = "|")
+
+vShoppingBooks <- c("BOOK", "Book", "book", "Kindle", "KINDLE", "kindle")
+vbook <- str_c(vShoppingBooks, collapse = "|")
+
+vShoppingClothes <- c("POSHMARK", "HUDSON", "LANDS END", "CLINTON CROSS", "DSW", "sukara", "MIZ MOOZ", "UNIQLO", "ZAPPOS", "ABERCROMBIE", "ZANNA", "EILEEN FISHER", "WINDSOR FASHIONS", "CLOSET", "Shirt", "shirt", "Pants", "pants", " Pant ", " pant ", " Pant,", " pant,", "Panty", "panty","Shoes", "shoes", "Socks", "socks", "Boot", "boot", "Wallet", "wallet", "Purse", "purse", "Glasses", "glasses", "Underwear", "underwear", "Underpants", "underpants", "Briefs", "briefs", "Belt", "belt", " hat ", " Hat ", "hat, ", "Hat, ", "Shorts", "shorts", "Costume", "costume", "Glove", "glove", "Sneakers", "sneakers", "Slipper", "slipper", " Watch ", " watch ", " Watch,", " watch,")
+vc <- str_c(vShoppingClothes, collapse = "|")
+
+vShoppingBirding <- c("AUDUBON", "BIRDS", "Bird", "bird")
+vbird <- str_c(vShoppingBirding, collapse = "|")
+
+vShoppingBoats <- c("RIVER CONN", "LIGHT CRAFT", "KOKATAT", "WEST MARINE", "MARINA", "Kayak", "kayak", "Drysuit", "drysuit")
+vboat <- str_c(vShoppingBoats, collapse = "|")
+
+vTravel <- c("Luggage", "luggage", "Travel", "travel", "Uber", "uber")
+vtra <- str_c(vTravel, collapse = "|")
+
+vElectronics <- c("Adapter", "adapter", "Phone", "phone", "iPad", "Monitor", "monitor", "Cable", "cable", "Cord", "cord", "Batteries", "batteries", "Hard Drive", "hard drive", "Camera", "camera", "Tablet", "tablet", "Compressed Air", "compressed air", "Microscope", "microscope")
+vele <- str_c(vElectronics, collapse = "|")
+
+vToiletries <- c("Repellent", "repellent", "Tooth", "tooth", "Floss", "floss", "Bandaid", "bandaid", "Bug", "bug", "Earplug", "earplug", "Dramamine", "dramamine", "Capsule", "capsule", "Supplement", "supplement", "Shampoo", "shampoo", "Conditioner", "conditioner")
+vtoi <- str_c(vToiletries, collapse = "|")
+
+vOffice <- c("Printer", "printer", "Ballpoint", "ballpoint", "Gel pen", "gel pen", "Gel Pen", "Label", "label",  "Markers", "markers", "Magnet", "magnet", "Glue", "glue", "Tape", "tape" )
+voff <- str_c(vOffice, collapse = "|")
+
+vOutdoors <- c("Hike", "hike", "Hiking", "hiking", "Bik", "bik", "Water Bottle", " Tent ", " tent ", " tent,", "weights", "Weights", "Skeleton", "skeleton", "camping", "Camping", "Massage", "massage", "wrist", "Wrist" )
+vout <- str_c(vOutdoors, collapse = "|")
+
+dfShopping2 <- dfx |>
+  mutate(SubCategory = case_when(
+    str_detect(Description, regex(vs, ignore_case = TRUE)) ~ "Sewing",
+    str_detect(Description, regex(vh, ignore_case = TRUE)) ~ "House",
+    str_detect(Description, regex(vbook, ignore_case = TRUE)) ~ "Books",
+    str_detect(Description, regex(vc, ignore_case = TRUE)) ~ "Clothes",
+    str_detect(Description, regex(vbird, ignore_case = TRUE)) ~ "Birding",
+    str_detect(Description, regex(vboat, ignore_case = TRUE)) ~ "Boats",
+    str_detect(Description, regex(vtra, ignore_case = TRUE)) ~ "Travel",
+    str_detect(Description, regex(vele, ignore_case = TRUE)) ~ "Electronics",
+    str_detect(Description, regex(vtoi, ignore_case = TRUE)) ~ "Toiletries",
+    str_detect(Description, regex(voff, ignore_case = TRUE)) ~ "Office",
+    str_detect(Description, regex(vout, ignore_case = TRUE)) ~ "Outdoors",
+    TRUE ~ "NA"))
+
+return(dfShopping2)
 }
 
 #' @export
 EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
-dfAmazon <- EHFinances_ConvertAmazonPages(vPages) |>
-  dplyr::filter(!is.na(Amount))
+  dfAmazon <- EHFinances_ConvertAmazonPages2(vPages) |>
+    dplyr::filter(!is.na(Amount)) |>
+    dplyr::select(`Transaction Date`, Description, Amount, Memo)
 
-dfShop<- dfExpenses |>
-  dplyr::filter(Category=="Shopping") |>
-  dplyr::select(`Transaction Date`, Description, Amount, Memo)
+  dfShop<- dfExpenses |>
+    dplyr::filter(Category=="Shopping") |>
+    dplyr::filter(!str_detect(Description, regex("Amazon", ignore_case = TRUE))) |>
+    dplyr::select(`Transaction Date`, Description, Amount, Memo)
 
-dfBoth <- rbind(dfShop, dfAmazon)
+  dfBoth <- rbind(dfShop, dfAmazon)
 
-dfBoth2 <- dfBoth |>
-  mutate(xScale = case_when(
-    Amount <= 0 ~ "1: Refund",
-    Amount <= 50 ~ "2: Under 50",
-    Amount <= 100 ~ "3: 51 - 100",
-    Amount <= 250 ~ "4: 101 - 250",
-    Amount <= 500 ~ "5: 251 - 500",
-    Amount <= 100000 ~ "6: 501 +",
-    TRUE ~ "7: Other"))
+  dfBoth2 <- dfBoth |>
+    mutate(xScale = case_when(
+      Amount <= 0 ~ "1: Refund",
+      Amount <= 50 ~ "2: Under 50",
+      Amount <= 100 ~ "3: 51 - 100",
+      Amount <= 250 ~ "4: 101 - 250",
+      Amount <= 500 ~ "5: 251 - 500",
+      Amount <= 100000 ~ "6: 501 +",
+      TRUE ~ "7: Other"))
 
-return (dfBoth2)
+df3 <- EHFinances_AssignShoppingCategories(dfBoth2, vPages, Folder)
 
-
+  return (dfBoth2)
 
 }
 
