@@ -334,7 +334,7 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
     dfTotal <- rbind(dfx, dfTotal)
 
     dfTotal2 <- dfTotal |>
-      dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) |>
+      dplyr::filter(year(Transaction_Date)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(Transaction_Date)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) |>
       dplyr::rename(`Transaction Date` = Transaction_Date)
   }
 
