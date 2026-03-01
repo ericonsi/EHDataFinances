@@ -323,6 +323,7 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
     dDate <- anydate(htmlPage |> html_node('div[data-component="orderDate"]') %>% html_text(trim = TRUE))
     dTotalAmount <- str_sub(htmlPage |> html_node('div[data-component="orderSummary"]') %>% html_text(trim = TRUE), -10)
+    bRuby <- str_detect(htmlPage |> html_node('div[data-component="orderSummary"]'), "Ruby") %>% html_text(trim = TRUE)
 
     dfOrders2 <- dfOrders |>
       dplyr::filter(!is.na(Description) & !is.na(Amount) & Description!="") |>
@@ -338,7 +339,8 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
     dfTotal <- rbind(dfOrders3, dfTotal)
 
     dfTotal2 <- dfTotal |>
-      mutate(Description = paste("AMAZON:", Description)) |>
+      #mutate(Description = paste("AMAZON:", Description)) |>
+      mutate(Description = if_else(bRuby, "Yes", "No")) |>
       mutate(Tax=as.numeric(parse_number(dTotalAmount))) |>
       dplyr::select(`Transaction Date`, Description, Amount)
 
