@@ -347,7 +347,7 @@ EHFinances_ProcessAmazonFromPages <- function(vPages, Folder) {
 #' @export
 EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
-dfShop<- dfConsolidatedExpense |>
+dfShop<- dfExpenses |>
   dplyr::filter(Category=="Shopping")
 dfShop1 <- dfShop |>
   mutate(Scale = case_when(
@@ -363,3 +363,5 @@ dfShop1 <- dfShop |>
 return (dfShop)
 
 }
+
+
