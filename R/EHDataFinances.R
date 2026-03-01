@@ -362,7 +362,14 @@ dfShop<- dfExpenses |>
     Amount <= 100000 ~ "6: 501 +",
     TRUE ~ "7: Other"))
 
-return (dfShop)
+li = list()
+li[[1]] <- ncol(dfShop)
+
+dfShop3 <- dfShop
+
+li[[2]] <- dfShop3
+
+return (li)
 
 }
 
