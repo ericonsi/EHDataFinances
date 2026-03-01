@@ -349,6 +349,7 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
 dfShop<- dfExpenses |>
   dplyr::filter(Category=="Shopping")
+
 dfShop1 <- dfShop |>
   mutate(xScale = case_when(
     Amount <= 0 ~ "1: Refund",
