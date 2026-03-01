@@ -351,6 +351,7 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
   v = Folder
   vv <- vPages
 
+
 dfShop<- dfExpenses |>
   dplyr::filter(Category=="Shopping") |>
   mutate(xScale = case_when(
