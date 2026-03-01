@@ -325,11 +325,11 @@ EHFinances_ConvertAmazonPages <- function(vPages) {
 
     dfx <- dfOrders |>
       mutate(Description = paste("AMAZON:", Description)) |>
-      mutate(`Transaction Date` = mdy(date_str <- str_extract(order_date,
+      mutate(`Transaction Date` = mdy(date_str <- str_extract(`Transaction Date`,
         "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+\\d{4}"))) |>
       mutate(Memo = str_remove(Memo, "Order #")) |>
       mutate(Memo =  str_replace_all(Memo, " ", "")) |>
-      mutate(Amount =  as.numeric(parse_number(total)))
+      mutate(Amount =  as.numeric(parse_number(Amount)))
 
     dfTotal <- rbind(dfx, dfTotal)
   }
