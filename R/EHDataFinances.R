@@ -305,37 +305,43 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
   dfTotal =  data.frame(matrix(ncol = 4, nrow = 0))
-  colnames(dfTotal) <- c("Transaction_Date", "Memo", "Amount", "Description")
+  colnames(dfTotal) <- c("Description", "Amount", "`Transaction Date`", "TotalAmount")
 
   for(i in 1:length(vPages)) {
 
     Sys.sleep(2)
     htmlPage <- read_html(vPages[[i]])
-    dfOrders <- htmlPage %>%
-      html_nodes("div.a-box-group") %>%
-      map_df(function(x) {
 
+    dfOrders <- htmlPage %>%
+      html_nodes("div.a-fixed-left-grid-col.a-col-right") %>%
+      map_df(function(x) {
         data.frame(
-          Transaction_Date = x %>% html_node(".order-header__header-list-item") %>% html_text(trim = TRUE),
-          Memo   = x %>% html_node(".yohtmlc-order-id") %>% html_text(trim = TRUE),
-          Amount      = x %>% html_node(".a-column.a-span2") %>% html_text(trim = TRUE),
-          Description       = x %>% html_node(".yohtmlc-product-title") %>% html_text(trim = TRUE)
+          Description = x %>% html_element('div[data-component="itemTitle"]') %>% html_text(trim = TRUE),
+          Amount = x %>% html_node("span.a-offscreen") %>% html_text(trim = TRUE)
         )
       })
 
-    dfx <- dfOrders |>
-      mutate(Description = paste("AMAZON:", Description)) |>
-      mutate(Transaction_Date = mdy(date_str <- str_extract(Transaction_Date,
-                                                            "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+\\d{4}"))) |>
-      mutate(Memo = str_remove(Memo, "Order #")) |>
-      mutate(Memo =  str_replace_all(Memo, " ", "")) |>
-      mutate(Amount =  as.numeric(parse_number(Amount)))
+    dDate <- anydate(htmlPage |> html_node('div[data-component="orderDate"]') %>% html_text(trim = TRUE))
+    dTotalAmount <- str_sub(htmlPage |> html_node('div[data-component="orderSummary"]') %>% html_text(trim = TRUE), -10)
 
-    dfTotal <- rbind(dfx, dfTotal)
+    dfOrders2 <- dfOrders |>
+      dplyr::filter(!is.na(Description) & !is.na(Amount) & Description!="") |>
+      dplyr::mutate(Amount=as.numeric(parse_number(Amount))) |>
+      mutate(`Transaction Date` = dDate) |>
+      mutate(TotalAmount=as.numeric(parse_number(dTotalAmount)))
+
+    TotalToAdd <- (dfOrders2[1,4] - sum(dfOrders2$Amount))/nrow(dfOrders2)
+
+    dfOrders3 <- dfOrders2 |>
+      mutate(Amount=Amount+TotalToAdd)
+
+    dfTotal <- rbind(dfOrders3, dfTotal)
 
     dfTotal2 <- dfTotal |>
-      dplyr::filter(year(Transaction_Date)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(Transaction_Date)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) |>
-      dplyr::rename(`Transaction Date` = Transaction_Date)
+      mutate(Description = paste("AMAZON:", Description)) |>
+      mutate(Tax=as.numeric(parse_number(dTotalAmount))) |>
+      dplyr::select(`Transaction Date`, Description, Amount)
+
   }
 
   return (dfTotal2)
@@ -400,12 +406,12 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
   dfAmazon <- EHFinances_ConvertAmazonPages(vPages, Folder) |>
     dplyr::filter(!is.na(Amount)) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Memo)
+    dplyr::select(`Transaction Date`, Description, Amount)
 
   dfShop<- dfExpenses |>
     dplyr::filter(Category=="Shopping") |>
     dplyr::filter(!str_detect(Description, regex("Amazon", ignore_case = TRUE))) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Memo)
+    dplyr::select(`Transaction Date`, Description, Amount)
 
   dfBoth <- rbind(dfShop, dfAmazon)
 
