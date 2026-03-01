@@ -316,23 +316,22 @@ EHFinances_ConvertAmazonPages <- function(vPages) {
       map_df(function(x) {
 
         data.frame(
-          order_date = x %>% html_node(".order-header__header-list-item") %>% html_text(trim = TRUE),
-          order_id   = x %>% html_node(".yohtmlc-order-id") %>% html_text(trim = TRUE),
-          total      = x %>% html_node(".a-column.a-span2") %>% html_text(trim = TRUE),
-          item       = x %>% html_node(".yohtmlc-product-title") %>% html_text(trim = TRUE)
+          `Transaction Date` = x %>% html_node(".order-header__header-list-item") %>% html_text(trim = TRUE),
+          Memo   = x %>% html_node(".yohtmlc-order-id") %>% html_text(trim = TRUE),
+          Amount      = x %>% html_node(".a-column.a-span2") %>% html_text(trim = TRUE),
+          Description       = x %>% html_node(".yohtmlc-product-title") %>% html_text(trim = TRUE)
         )
       })
 
     dfx <- dfOrders |>
-      mutate(item = paste("AMAZON:", item)) |>
-      mutate(order_date = mdy(date_str <- str_extract(order_date,
+      mutate(Description = paste("AMAZON:", Description)) |>
+      mutate(`Transaction Date` = mdy(date_str <- str_extract(order_date,
         "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+\\d{4}"))) |>
-      mutate(order_id = str_remove(order_id, "Order #")) |>
-      mutate(order_id =  str_replace_all(order_id, " ", "")) |>
-      mutate(total =  as.numeric(parse_number(total)))
+      mutate(Memo = str_remove(Memo, "Order #")) |>
+      mutate(Memo =  str_replace_all(Memo, " ", "")) |>
+      mutate(Amount =  as.numeric(parse_number(total)))
 
     dfTotal <- rbind(dfx, dfTotal)
-
   }
 
   return (dfTotal)
@@ -352,6 +351,11 @@ dfAmazon <- EHFinances_ConvertAmazonPages(vPages)
 
 dfShop<- dfExpenses |>
   dplyr::filter(Category=="Shopping") |>
+  dplyr::select(`Transaction Date`, Description, Amount, Memo)
+
+dfBoth <- rbind(dfShop, dfAmazon)
+
+dfBoth2 <- dfBoth |>
   mutate(xScale = case_when(
     Amount <= 0 ~ "1: Refund",
     Amount <= 50 ~ "2: Under 50",
@@ -361,7 +365,7 @@ dfShop<- dfExpenses |>
     Amount <= 100000 ~ "6: 501 +",
     TRUE ~ "7: Other"))
 
-return (dfAmazon)
+return (dfBoth2)
 
 
 
