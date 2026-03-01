@@ -360,7 +360,7 @@ dfShop1 <- dfShop |>
     TRUE ~ "7: Other"))  |>
   dplyr::arrange(Scale)
 
-return (dfShop)
+return (dfShop1)
 
 }
 
