@@ -342,5 +342,24 @@ EHFinances_ProcessAmazonFromPages <- function(vPages, Folder) {
 
   #dfA <- EHFinances_ConvertAmazonPages(vPages) |>
 
+}
+
+#' @export
+EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
+
+dfShop<- dfConsolidatedExpense |>
+  dplyr::filter(Category=="Shopping")
+dfShop1 <- dfShop |>
+  mutate(Scale = case_when(
+    Amount <= 0 ~ "1: Refund",
+    Amount <= 50 ~ "2: Under 50",
+    Amount <= 100 ~ "3: 51 - 100",
+    Amount <= 250 ~ "4: 101 - 250",
+    Amount <= 500 ~ "5: 251 - 500",
+    Amount <= 100000 ~ "6: 501 +",
+    TRUE ~ "7: Other"))  |>
+  dplyr::arrange(Scale)
+
+return (dfShop)
 
 }
