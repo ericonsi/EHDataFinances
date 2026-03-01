@@ -305,7 +305,7 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 EHFinances_ConvertAmazonPages <- function(vPages) {
 
   dfTotal =  data.frame(matrix(ncol = 4, nrow = 0))
-  colnames(dfTotal) <- c("order_date", "order_id", "total", "item")
+  colnames(dfTotal) <- c("`order_date`Transaction Date`", "Memo", "Amount", "Description")
 
   for(i in 1:length(vPages)) {
 
@@ -347,7 +347,8 @@ EHFinances_ProcessAmazonFromPages <- function(vPages, Folder) {
 #' @export
 EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
-dfAmazon <- EHFinances_ConvertAmazonPages(vPages)
+dfAmazon <- EHFinances_ConvertAmazonPages(vPages) |>
+  dplyr::filter(!is.na(Amount))
 
 dfShop<- dfExpenses |>
   dplyr::filter(Category=="Shopping") |>
