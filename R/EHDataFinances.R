@@ -413,7 +413,7 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
   dfShop<- dfExpenses |>
     dplyr::filter(Category=="Shopping") |>
     dplyr::filter(!str_detect(Description, regex("Amazon", ignore_case = TRUE))) |>
-    dplyr::filter(Ruby=0) |>
+    dplyr::mutate(Ruby=0) |>
     dplyr::select(`Transaction Date`, Description, Amount, Ruby)
 
   dfBoth <- rbind(dfShop, dfAmazon)
