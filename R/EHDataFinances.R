@@ -304,8 +304,8 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 
 EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
-  dfTotal =  data.frame(matrix(ncol = 4, nrow = 0))
-  colnames(dfTotal) <- c("Description", "Amount", "`Transaction Date`", "TotalAmount")
+  dfTotal =  data.frame(matrix(ncol = 5, nrow = 0))
+  colnames(dfTotal) <- c("Description", "Amount", "`Transaction Date`", "TotalAmount", "Ruby")
 
   for(i in 1:length(vPages)) {
 
@@ -324,13 +324,14 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
     dDate <- anydate(htmlPage |> html_node('div[data-component="orderDate"]') %>% html_text(trim = TRUE))
     dTotalAmount <- str_sub(htmlPage |> html_node('div[data-component="orderSummary"]') %>% html_text(trim = TRUE), -10)
     sRuby <- htmlPage |> html_node('div[data-component="orderSummary"]') %>% html_text(trim = TRUE)
-    bRuby <- if_else(str_detect(sRuby, "Ruby") | str_detect(sRuby, "Yale University"), 1, 0)
+    bRuby <- if_else(str_detect(sRuby, "Yale University") | str_detect(sRuby, "Ruby"), 1, 0)
 
     dfOrders2 <- dfOrders |>
       dplyr::filter(!is.na(Description) & !is.na(Amount) & Description!="") |>
       dplyr::mutate(Amount=as.numeric(parse_number(Amount))) |>
       mutate(`Transaction Date` = dDate) |>
-      mutate(TotalAmount=as.numeric(parse_number(dTotalAmount)))
+      mutate(TotalAmount=as.numeric(parse_number(dTotalAmount))) |>
+      mutate(Ruby = bRuby)
 
     TotalToAdd <- (dfOrders2[1,4] - sum(dfOrders2$Amount))/nrow(dfOrders2)
 
@@ -341,7 +342,6 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
     dfTotal2 <- dfTotal |>
       mutate(Description = paste("AMAZON:", Description)) |>
-      mutate(Ruby = bRuby) |>
       dplyr::select(`Transaction Date`, Description, Amount, Ruby)
 
   }
