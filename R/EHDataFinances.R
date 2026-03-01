@@ -302,7 +302,7 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 
 }
 
-EHFinances_ConvertAmazonPages <- function(vPages) {
+EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
   dfTotal =  data.frame(matrix(ncol = 4, nrow = 0))
   colnames(dfTotal) <- c("Transaction_Date", "Memo", "Amount", "Description")
@@ -334,6 +334,7 @@ EHFinances_ConvertAmazonPages <- function(vPages) {
     dfTotal <- rbind(dfx, dfTotal)
 
     dfTotal2 <- dfTotal |>
+      dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) |>
       dplyr::rename(`Transaction Date` = Transaction_Date)
   }
 
