@@ -353,7 +353,7 @@ EHFinances_AssignShoppingCategories <- function(dfx, vPages, Folder) {
 vShoppingSewing <- c("TARA FAUGHNAN", "MICHAELS", "SEW MODERN", "sewciety", "TAMI RAND", "FABRIC", "SILKS", "Fabric", "Quilt", "quilt")
 vs <- str_c(vShoppingSewing, collapse = "|")
 
-vShoppingHouse <- c("PAGE HARDWARE", "TARGET", "Etsy", "FRAME SHOP", "HOME DEPOT", "CONTAINER STORE", "FRAME SHOP", "Sheets", "sheets", "Pillow", "pillow", "Floor", "floor", "Candle", "candle", "Duvet", "duvet", "Kitchen", "Kitchen", "Bedroom", "bedroom", "Laundry", "laundry", "Bathroom", "bathroom", "Fridge", "fridge", "Toaster", "toaster", "Pantry", "pantry", "Furniture", "furniture", "bowl", "bowl", "etsy")
+vShoppingHouse <- c("soap", " meal ", "SodaStream", "PAGE HARDWARE", "TARGET", "Etsy", "FRAME SHOP", "HOME DEPOT", "CONTAINER STORE", "FRAME SHOP", "Sheets", "sheets", "Pillow", "pillow", "Floor", "floor", "Candle", "candle", "Duvet", "duvet", "Kitchen", "Kitchen", "Bedroom", "bedroom", "Laundry", "laundry", "Bathroom", "bathroom", "Fridge", "fridge", "Toaster", "toaster", "Pantry", "pantry", "Furniture", "furniture", "bowl", "bowl", "etsy")
 vh <- str_c(vShoppingHouse, collapse = "|")
 
 vShoppingBooks <- c("BOOK", "Book", "book", "Kindle", "KINDLE", "kindle")
@@ -374,7 +374,7 @@ vtra <- str_c(vTravel, collapse = "|")
 vElectronics <- c("Adapter", "adapter", "Phone", "phone", "iPad", "Monitor", "monitor", "Cable", "cable", "Cord", "cord", "Batteries", "batteries", "Hard Drive", "hard drive", "Camera", "camera", "Tablet", "tablet", "Compressed Air", "compressed air", "Microscope", "microscope")
 vele <- str_c(vElectronics, collapse = "|")
 
-vToiletries <- c("Repellent", "repellent", "Tooth", "tooth", "Floss", "floss", "Bandaid", "bandaid", "Bug", "bug", "Earplug", "earplug", "Dramamine", "dramamine", "Capsule", "capsule", "Supplement", "supplement", "Shampoo", "shampoo", "Conditioner", "conditioner")
+vToiletries <- c(" curls ", "Biossance", "Repellent", "repellent", "Tooth", "tooth", "Floss", "floss", "Bandaid", "bandaid", "Bug", "bug", "Earplug", "earplug", "Dramamine", "dramamine", "Capsule", "capsule", "Supplement", "supplement", "Shampoo", "shampoo", "Conditioner", "conditioner")
 vtoi <- str_c(vToiletries, collapse = "|")
 
 vOffice <- c("Printer", "printer", "Ballpoint", "ballpoint", "Gel pen", "gel pen", "Gel Pen", "Label", "label",  "Markers", "markers", "Magnet", "magnet", "Glue", "glue", "Tape", "tape" )
