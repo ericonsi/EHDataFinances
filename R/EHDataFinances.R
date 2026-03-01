@@ -361,7 +361,7 @@ vh <- str_c(vShoppingHouse, collapse = "|")
 vShoppingBooks <- c("BOOK", "Book", "book", "Kindle", "KINDLE", "kindle")
 vbook <- str_c(vShoppingBooks, collapse = "|")
 
-vShoppingClothes <- c("POSHMARK", "HUDSON", "LANDS END", "CLINTON CROSS", "DSW", "sukara", "MIZ MOOZ", "UNIQLO", "ZAPPOS", "ABERCROMBIE", "ZANNA", "EILEEN FISHER", "WINDSOR FASHIONS", "CLOSET", "Shirt", "shirt", "Pants", "pants", " Pant ", " pant ", " Pant,", " pant,", "Panty", "panty","Shoes", "shoes", "Socks", "socks", "Boot", "boot", "Wallet", "wallet", "Purse", "purse", "Glasses", "glasses", "Underwear", "underwear", "Underpants", "underpants", "Briefs", "briefs", "Belt", "belt", " hat ", " Hat ", "hat, ", "Hat, ", "Shorts", "shorts", "Costume", "costume", "Glove", "glove", "Sneakers", "sneakers", "Slipper", "slipper", " Watch ", " watch ", " Watch,", " watch,")
+vShoppingClothes <- c("Leslie Oneill", "POSHMARK", "HUDSON", "LANDS END", "CLINTON CROSS", "DSW", "sukara", "MIZ MOOZ", "UNIQLO", "ZAPPOS", "ABERCROMBIE", "ZANNA", "EILEEN FISHER", "WINDSOR FASHIONS", "CLOSET", "Shirt", "shirt", "Pants", "pants", " Pant ", " pant ", " Pant,", " pant,", "Panty", "panty","Shoes", "shoes", "Socks", "socks", "Boot", "boot", "Wallet", "wallet", "Purse", "purse", "Glasses", "glasses", "Underwear", "underwear", "Underpants", "underpants", "Briefs", "briefs", "Belt", "belt", " hat ", " Hat ", "hat, ", "Hat, ", "Shorts", "shorts", "Costume", "costume", "Glove", "glove", "Sneakers", "sneakers", "Slipper", "slipper", " Watch ", " watch ", " Watch,", " watch,")
 vc <- str_c(vShoppingClothes, collapse = "|")
 
 vShoppingBirding <- c("AUDUBON", "BIRDS", "Bird", "bird")
