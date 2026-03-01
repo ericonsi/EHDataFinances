@@ -398,7 +398,7 @@ return(dfShopping2)
 #' @export
 EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
-  dfAmazon <- EHFinances_ConvertAmazonPages(vPages) |>
+  dfAmazon <- EHFinances_ConvertAmazonPages(vPages, Folder) |>
     dplyr::filter(!is.na(Amount)) |>
     dplyr::select(`Transaction Date`, Description, Amount, Memo)
 
