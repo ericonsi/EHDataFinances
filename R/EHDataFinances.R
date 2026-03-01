@@ -323,7 +323,8 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
     dDate <- anydate(htmlPage |> html_node('div[data-component="orderDate"]') %>% html_text(trim = TRUE))
     dTotalAmount <- str_sub(htmlPage |> html_node('div[data-component="orderSummary"]') %>% html_text(trim = TRUE), -10)
-    bRuby <- str_detect(htmlPage |> html_node('div[data-component="orderSummary"]'), "Ruby") %>% html_text(trim = TRUE)
+    sRuby <- htmlPage |> html_node('div[data-component="orderSummary"]') %>% html_text(trim = TRUE)
+    bRuby <- if_else(str_detect(sRuby, "Ruby"), "Yes", "No")
 
     dfOrders2 <- dfOrders |>
       dplyr::filter(!is.na(Description) & !is.na(Amount) & Description!="") |>
