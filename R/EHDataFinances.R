@@ -420,7 +420,7 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
 df3 <- EHFinances_AssignShoppingCategories(dfBoth2, vPages, Folder)
 
-  return (dfBoth2)
+  return (df3)
 
 }
 
