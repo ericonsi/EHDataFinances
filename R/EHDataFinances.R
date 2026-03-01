@@ -305,7 +305,7 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 EHFinances_ConvertAmazonPages <- function(vPages) {
 
   dfTotal =  data.frame(matrix(ncol = 4, nrow = 0))
-  colnames(dfTotal) <- c("`order_date`Transaction Date`", "Memo", "Amount", "Description")
+  colnames(dfTotal) <- c("`Transaction Date`", "Memo", "Amount", "Description")
 
   for(i in 1:length(vPages)) {
 
