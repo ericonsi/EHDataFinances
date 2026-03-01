@@ -324,7 +324,7 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
     dDate <- anydate(htmlPage |> html_node('div[data-component="orderDate"]') %>% html_text(trim = TRUE))
     dTotalAmount <- str_sub(htmlPage |> html_node('div[data-component="orderSummary"]') %>% html_text(trim = TRUE), -10)
     sRuby <- htmlPage |> html_node('div[data-component="orderSummary"]') %>% html_text(trim = TRUE)
-    bRuby <- if_else(str_detect(sRuby, "Ruby"), "Yes", "No")
+    bRuby <- if_else(str_detect(sRuby, "Ruby") | str_detect(sRuby, "Yale University"), 1, 0)
 
     dfOrders2 <- dfOrders |>
       dplyr::filter(!is.na(Description) & !is.na(Amount) & Description!="") |>
@@ -340,10 +340,9 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
     dfTotal <- rbind(dfOrders3, dfTotal)
 
     dfTotal2 <- dfTotal |>
-      #mutate(Description = paste("AMAZON:", Description)) |>
-      mutate(Description = bRuby) |>
-      mutate(Tax=as.numeric(parse_number(dTotalAmount))) |>
-      dplyr::select(`Transaction Date`, Description, Amount)
+      mutate(Description = paste("AMAZON:", Description)) |>
+      mutate(Ruby = bRuby) |>
+      dplyr::select(`Transaction Date`, Description, Amount, Ruby)
 
   }
 
@@ -409,12 +408,13 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
   dfAmazon <- EHFinances_ConvertAmazonPages(vPages, Folder) |>
     dplyr::filter(!is.na(Amount)) |>
-    dplyr::select(`Transaction Date`, Description, Amount)
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby)
 
   dfShop<- dfExpenses |>
     dplyr::filter(Category=="Shopping") |>
     dplyr::filter(!str_detect(Description, regex("Amazon", ignore_case = TRUE))) |>
-    dplyr::select(`Transaction Date`, Description, Amount)
+    dplyr::filter(Ruby=0) |>
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby)
 
   dfBoth <- rbind(dfShop, dfAmazon)
 
