@@ -63,6 +63,15 @@ EHFinances_ImportAmazonOrders <- function(Folder)
 
 }
 
+#' @export
+EHFinances_BudgetTargets <- function(Folder)
+{
+
+  dfTargets <- read_csv("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\BudgetTargets.csv")
+
+  return(dfTargets)
+
+}
 
 EH_CleanBankAccounts <- function(df, xsource) {
   df2 <- df |>
