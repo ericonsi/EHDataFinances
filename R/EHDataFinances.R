@@ -353,7 +353,7 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
     dfTotal2 <- dfTotal |>
       mutate(Description = paste("AMAZON:", Description)) |>
-      dplyr::select(`Transaction Date`, Description, Amount, Ruby)
+      dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory)
 
   }
 
