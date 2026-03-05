@@ -257,13 +257,14 @@ EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses, Folder, AlreadyWritte
 if(!AlreadyWritten)
 {
 
-  write_csv(dfExpenses, paste0("D:\\RStudio\\Finances\\Overrides_", Folder, ".csv"))
+  write_csv(dfExpenses, paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, ".csv"))
+
 
   return("Completed")
 
 } else {
 
-  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\Overrides_", Folder, ".csv"), na = c(""))
+  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "r.csv"), na = c(""))
 
   return(dfOverrides)
   }
