@@ -315,7 +315,7 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
   dfTotal =  data.frame(matrix(ncol = 5, nrow = 0))
-  colnames(dfTotal) <- c("Description", "Amount", "`Transaction Date`", "TotalAmount", "Ruby")
+  colnames(dfTotal) <- c("Description", "Amount", "`Transaction Date`", "TotalAmount", "Ruby", "SubCategory")
 
   for(i in 1:length(vPages)) {
 
@@ -341,7 +341,8 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
       dplyr::mutate(Amount=as.numeric(parse_number(Amount))) |>
       mutate(`Transaction Date` = dDate) |>
       mutate(TotalAmount=as.numeric(parse_number(dTotalAmount))) |>
-      mutate(Ruby = bRuby)
+      mutate(Ruby = bRuby) |>
+      mutate(SubCategory = "NA")
 
     TotalToAdd <- (dfOrders2[1,4] - sum(dfOrders2$Amount))/nrow(dfOrders2)
 
@@ -419,7 +420,7 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
 
   dfAmazon <- EHFinances_ConvertAmazonPages(vPages, Folder) |>
     dplyr::filter(!is.na(Amount)) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Ruby)
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory)
 
   dfShop<- dfExpenses |>
     dplyr::filter(Category=="Shopping") |>
