@@ -252,7 +252,7 @@ return(dfExpenses2)
 }
 
 #' @export
-EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses=data.frame(), Folder, AlreadyWritten = TRUE) {
+EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses, Folder, AlreadyWritten = TRUE) {
 
 if(!AlreadyWritten)
 {
