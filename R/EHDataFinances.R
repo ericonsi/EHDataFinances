@@ -409,7 +409,7 @@ dfShopping2 <- dfx |>
     str_detect(Description, regex(voff, ignore_case = TRUE)) ~ "Office",
     str_detect(Description, regex(vout, ignore_case = TRUE)) ~ "Outdoors",
     TRUE ~ SubCategory)) |>
-  mutate(Subcategory = else_if(is.na(SubCategory, "NA", SubCategory)))
+  mutate(Subcategory = else_if(is.na(SubCategory), "NA", SubCategory))
 
 return(dfShopping2)
 }
