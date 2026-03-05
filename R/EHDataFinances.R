@@ -191,6 +191,7 @@ return(dfExpenses3)
 
 }
 
+#' @export
 EHFinances_AssignFoodSubCategories <- function(dfExpenses) {
 
   dfExpenses2 <- dfExpenses |>
@@ -358,7 +359,6 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
   return (dfTotal2)
 }
 
-#' @export
 EHFinances_AssignShoppingCategories <- function(dfx, vPages, Folder) {
 
 vShoppingSewing <- c("TARA FAUGHNAN", "MICHAELS", "SEW MODERN", "sewciety", "TAMI RAND", "FABRIC", "SILKS", "Fabric", "Quilt", "quilt")
