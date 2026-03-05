@@ -428,11 +428,7 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
     dplyr::mutate(Ruby=0) |>
     dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory)
 
-print ("x")
-
   dfBoth <- rbind(dfShop, dfAmazon)
-
-print ("y")
 
   dfBoth2 <- dfBoth |>
     mutate(xScale = case_when(
