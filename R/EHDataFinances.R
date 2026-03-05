@@ -359,7 +359,8 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
   return (dfTotal2)
 }
 
-EHFinances_AssignShoppingCategories <- function(dfx, vPages, Folder) {
+#' @export
+EHFinances_AssignShoppingCategories <- function(dfx, Folder) {
 
 vShoppingSewing <- c("TARA FAUGHNAN", "MICHAELS", "SEW MODERN", "sewciety", "TAMI RAND", "FABRIC", "SILKS", "Fabric", "Quilt", "quilt")
 vs <- str_c(vShoppingSewing, collapse = "|")
@@ -437,7 +438,7 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, vPages, Folder) {
       Amount <= 100000 ~ "6: 501 +",
       TRUE ~ "7: Other"))
 
-df3 <- EHFinances_AssignShoppingCategories(dfBoth2, vPages, Folder)
+df3 <- EHFinances_AssignShoppingCategories(dfBoth2, Folder)
 
   return (df3)
 
