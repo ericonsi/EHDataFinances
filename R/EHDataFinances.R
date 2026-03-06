@@ -118,6 +118,7 @@ dfCiti1547 <- EH_CleanBankAccounts(dfCiti1547_raw,  "dc1547")
 
 dfExpenses <- rbind(dfChase2785, dfChase4025, dfChase7825, dfCHK4987, dfCHK7144, dfCiti1547) |>
   mutate(`Transaction Date` = anydate(`Transaction Date`)) |>
+  mutate(`Transaction Date` = as.Date(`Transaction Date`, format = "%m/%d/%Y")) |>
   mutate(ID = row_number())
 
 dfCategories <- EHFinances_ImportCategories()
