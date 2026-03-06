@@ -452,7 +452,7 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
       TRUE ~ "7: Other"))
 
 df3 <- EHFinances_AssignShoppingCategories(dfBoth2) |>
-  dplyr::select(`Transaction Date`, Description, Amount, Ruby,  Category, SubCategory)
+  dplyr::select(`Transaction Date`, Description, Amount, Ruby,  Category, SubCategory, xScale)
 
   return (df3)
 
