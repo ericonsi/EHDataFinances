@@ -312,13 +312,20 @@ EHFinances_FilterBySubCategory <- function(dfExpenses, xSubCategory) {
 
 }
 
-EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
+EHFinances_ConvertAmazonPages <- function(Folder) {
 
-  dfTotal =  data.frame(matrix(ncol = 7, nrow = 0))
-  colnames(dfTotal) <- c("Description", "Amount", "`Transaction Date`", "TotalAmount", "Ruby", "Category", "SubCategory")
+
+  get_html_list <- function(Folder) {
+    folder_path <- paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder)
+    list.files(folder_path, pattern = "^Details[0-9]+\\.html$", full.names = TRUE)
+  }
+
+  vPages <- get_html_list(Folder)
+
+  dfTotal =  data.frame(matrix(ncol = 6, nrow = 0))
+  colnames(dfTotal) <- c("Description", "Amount", "`Transaction Date`", "TotalAmount", "Ruby", "SubCategory")
 
   for(i in 1:length(vPages)) {
-
     Sys.sleep(2)
     htmlPage <- read_html(vPages[[i]])
 
@@ -342,8 +349,7 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
       mutate(`Transaction Date` = dDate) |>
       mutate(TotalAmount=as.numeric(parse_number(dTotalAmount))) |>
       mutate(Ruby = bRuby) |>
-      mutate(SubCategory = "NA") |>
-      mutate(Category="Shopping")
+      mutate(SubCategory = "NA")
 
     TotalToAdd <- (dfOrders2[1,4] - sum(dfOrders2$Amount))/nrow(dfOrders2)
 
@@ -354,7 +360,7 @@ EHFinances_ConvertAmazonPages <- function(vPages, Folder) {
 
     dfTotal2 <- dfTotal |>
       mutate(Description = paste("AMAZON:", Description)) |>
-      dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
+      dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory)
 
   }
 
