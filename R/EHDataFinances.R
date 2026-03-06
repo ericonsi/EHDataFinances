@@ -19,6 +19,21 @@ library(anytime)
 #' @returns ggplot graph
 #'
 
+EHFinances_RetrieveYearAndMonth <- function(Folder) {
+
+  Folder <- as.character(Folder)
+  yy <- substr(Folder, 1, 2)
+  qMonth <- substr(Folder, 3, 4)
+  qYear <- paste0("20", yy)
+
+  li = list()
+
+  li[[1]] <- as.numeric(qYear)
+  li[[2]] <- as.numeric(qMonth)
+
+  return (li)
+
+}
 
 EHFinances_TestIfDateIsInRange <- function(xDate, Folder) {
 
@@ -41,22 +56,6 @@ EHFinances_ImportCategories <- function()
   dfCategories <- read_csv("D:\\RStudio\\Finances\\Categories.csv")
 
   return(dfCategories)
-
-}
-
-EHFinances_RetrieveYearAndMonth <- function(Folder) {
-
-  Folder <- as.character(Folder)
-  yy <- substr(Folder, 1, 2)
-  qMonth <- substr(Folder, 3, 4)
-  qYear <- paste0("20", yy)
-
-  li = list()
-
-  li[[1]] <- as.numeric(qYear)
-  li[[2]] <- as.numeric(qMonth)
-
-  return (li)
 
 }
 
