@@ -72,7 +72,6 @@ EHFinances_ImportAmazonOrders <- function(Folder)
 
 }
 
-#' @export
 EHFinances_ImportBudgetTargets <- function(Folder)
 {
 
@@ -484,4 +483,50 @@ if(nMonths>1) {
 }
 
   return(EHFinances_CreateShockAndExpenseDFs(dfq))
+}
+
+EHFinances_BudgetAnalysisDF <- function(df, Folder, ytd=FALSE) {
+
+  if(!ytd) {
+  dfBudgetTargets <- EHFinances_ImportBudgetTargets(Folder)
+  } else     {
+  nMonths <- as.numeric(substr(Folder, nchar(Folder) - 1, nchar(Folder)))
+  dfBudgetTargets <- read_csv(paste0("D:\\RStudio\\Finances\\AnnualBudget.csv")) |>
+  mutate(Amount=Amount*nMonths)
+  }
+
+dfBudgetTargets2 <- dfBudgetTargets |>
+  dplyr::arrange(Category) |>
+  dplyr::rename(Amount_Budget=Amount)
+
+dfExpensesReviewedCategories <- df |>
+  group_by(Category) |>
+  dplyr::summarize(Amount = sum(Amount)) |>
+  dplyr::rename(Amount_Spent=Amount)
+
+CategoriesWithZero <- as.data.frame(anti_join(dfBudgetTargets2, dfExpensesReviewedCategories, by = "Category")) |>
+  mutate(Amount_Spent=0) |>
+  dplyr::select(Category, Amount_Spent)
+
+dfx1 <- rbind(dfExpensesReviewedCategories, CategoriesWithZero) |>
+  dplyr::arrange(Category) |>
+  dplyr::rename(Category_Spent = Category)
+
+dfNew <- cbind(dfBudgetTargets2, dfx1)
+
+dfNew2 <- dfNew |>
+  mutate(Differential = Amount_Budget-Amount_Spent)  |>
+  dplyr::select(Category, Amount_Budget, Amount_Spent, Differential)
+
+return (dfNew2)
+
+}
+
+#' @export
+EHFinances_CreateBudgetAnalysisDF <- function(df, df_ytd, Folder) {
+
+  li = list()
+  li[[1]] <- EHFinances_CreateBudgetAnalysisDF(df, Folder, ytd=FALSE)
+  li[[2]] <- EHFinances_CreateBudgetAnalysisDF(df_ytd, Folder, ytd=TRUE)
+
 }
