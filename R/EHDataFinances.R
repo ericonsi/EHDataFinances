@@ -541,7 +541,7 @@ df_plot <- df %>%
   arrange(spent) %>%
   mutate(category = factor(category, levels = category))
 
-ggplot(df_plot, aes(x = category)) +
+a <- ggplot(df_plot, aes(x = category)) +
 
   # Budget (background bar)
   geom_col(aes(y = budget),
