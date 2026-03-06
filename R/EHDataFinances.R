@@ -257,17 +257,16 @@ EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses, Folder, AlreadyWritte
 if(!AlreadyWritten)
 {
 
-  write_csv(dfExpenses, paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, ".csv"))
-
-
-  return("Completed")
+  write_csv(dfExpenses, paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "p.csv"))
+  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "p.csv"), na = c(""))
 
 } else {
 
   dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "r.csv"), na = c(""))
+}
 
   return(dfOverrides)
-  }
+
 }
 
 #' @export
@@ -450,4 +449,24 @@ df3 <- EHFinances_AssignShoppingCategories(dfBoth2)
 
 }
 
+#' @export
+EHFinances_CreateYtdDfs <- function(Folder) {
 
+nMonths <- as.numeric(substr(Folder, nchar(Folder) - 1, nchar(Folder)))
+year <- as.character(substr(Folder, 1, 2))
+
+dfq <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, "01\\Overrides_", year, "01r.csv"), na = c(""))
+
+if(nMonths>1) {
+  for(i in 2:nMonths) {
+    sMonth <- sprintf("%02d", i)
+
+    dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, "\\Overrides_", year, sMonth, "r.csv"), na = c(""))
+
+    dfq <- rbind(dfq, dfq2)
+
+  }
+}
+
+  return(EHFinances_CreateShockAndExpenseDFs(dfq))
+}
