@@ -19,6 +19,14 @@ library(anytime)
 #' @returns ggplot graph
 #'
 
+
+EHFinances_TestIfDateIsInRange <- function(xDate, Folder) {
+
+  x <- if_else(year(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[2]], TRUE, FALSE)
+  return (x)
+
+}
+
 EH_CleanCreditCards <- function(df, xsource) {
   df2 <- df |> dplyr::select(-`Post Date`) |>
     mutate(Source = xsource, SubCategory = "NA", ToDelete = 0) |>
@@ -58,7 +66,7 @@ EHFinances_ImportAmazonOrders <- function(Folder)
 
   dfCategories <- read_csv("D:\\RStudio\\Finances\\AmazonOrders\\Retail.OrderHistory.1\\Retail.OrderHistory.1.csv") |>
   dplyr::select(`Order ID`, `Order Date`, `Total Owed`, `Payment Instrument Type`, `Order Status`, `Shipping Address`, `Product Name`, ASIN) |>
-  dplyr::filter(year(`Order Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Order Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
+  dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder))
 
   return(dfCategories)
 
@@ -86,14 +94,6 @@ EH_CleanBankAccounts <- function(df, xsource) {
 
   return(df2)
 }
-
-EHFinances_TestIfDateIsInRange <- function(xDate, Folder) {
-
-  x <- if_else(year(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(xDate)==EHFinances_RetrieveYearAndMonth(Folder)[[2]], TRUE, FALSE)
-  return (x)
-
-}
-
 
 
 #' @export
@@ -363,6 +363,7 @@ EHFinances_ConvertAmazonPages <- function(Folder) {
 
     dfTotal2 <- dfTotal |>
       mutate(Description = paste("AMAZON:", Description)) |>
+      dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
       dplyr::select(`Transaction Date`, Description, Amount, Ruby, Category, SubCategory)
 
   }
