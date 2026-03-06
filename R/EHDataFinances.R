@@ -584,13 +584,3 @@ EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
   return(li)
 }
 
-#' @export
-EHFinances_CreateBudgetAnalysisPlots <- function(df, df_ytd, Folder) {
-
-  li = list()
-  li[[1]] <- EHFinances_BudgetAnalysisPlot(df, Folder, ytd=FALSE)
-  li[[2]] <- EHFinances_BudgetAnalysisPlot(df_ytd, Folder, ytd=TRUE)
-
-  return(li)
-
-}
