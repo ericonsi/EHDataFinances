@@ -491,7 +491,7 @@ EHFinances_BudgetAnalysisDF <- function(df, Folder, ytd=FALSE) {
   dfBudgetTargets <- EHFinances_ImportBudgetTargets(Folder)
   } else     {
   nMonths <- as.numeric(substr(Folder, nchar(Folder) - 1, nchar(Folder)))
-  dfBudgetTargets <- read_csv(paste0("D:\\RStudio\\Finances\\AnnualBudget.csv")) |>
+  dfBudgetTargets <- read_csv(paste0("D:\\RStudio\\Finances\\AnnualBudgetTargets.csv")) |>
   mutate(Amount=Amount*nMonths)
   }
 
