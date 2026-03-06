@@ -564,7 +564,7 @@ a <- ggplot(df_plot, aes(x = category)) +
     y = "Amount",
     fill = ""
   ) +
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 10) +
   theme(
     legend.position = "top",
     panel.grid.major.y = element_blank())
@@ -579,7 +579,7 @@ EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
   li[[1]] <- EHFinances_BudgetAnalysisDF(df, Folder, ytd=FALSE)
   li[[2]] <- EHFinances_BudgetAnalysisDF(df_ytd, Folder, ytd=TRUE)
   li[[3]] <- EHFinances_BudgetAnalysisPlot(df, Folder, ytd=FALSE)
-  li[[4]] <- EHFinances_BudgetAnalysisPlot(df, Folder, ytd=TRUE)
+  li[[4]] <- EHFinances_BudgetAnalysisPlot(df_ytd, Folder, ytd=TRUE)
 
   return(li)
 
