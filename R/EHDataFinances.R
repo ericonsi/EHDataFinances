@@ -398,7 +398,7 @@ vOutdoors <- c("Hike", "hike", "Hiking", "hiking", "Bik", "bik", "Water Bottle",
 vout <- str_c(vOutdoors, collapse = "|")
 
 dfShopping2 <- dfx |>
-  mutate(SubCategory = case_when(
+  mutate(SubCategoryx = case_when(
     str_detect(Description, regex(vs, ignore_case = TRUE)) ~ "Sewing",
     str_detect(Description, regex(vh, ignore_case = TRUE)) ~ "House",
     str_detect(Description, regex(vbook, ignore_case = TRUE)) ~ "Books",
@@ -411,9 +411,12 @@ dfShopping2 <- dfx |>
     str_detect(Description, regex(voff, ignore_case = TRUE)) ~ "Office",
     str_detect(Description, regex(vout, ignore_case = TRUE)) ~ "Outdoors",
     TRUE ~ SubCategory)) |>
-  mutate(SubCategory = if_else(is.na(SubCategory), "NA", SubCategory))
+  mutate(SubCategoryx = if_else(is.na(SubCategoryx), "NA", SubCategoryx))
 
-return(dfShopping2)
+  dfShopping3 <- dfShopping2 |>
+    mutate(SubCategory = if_else(Category=="Shopping", SubCategoryx, SubCategory))
+
+return(dfShopping3)
 }
 
 #' @export
