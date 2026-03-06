@@ -433,8 +433,6 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
     dplyr::filter(!is.na(Amount)) |>
     dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
 
-  print(dfAmazon)
-
   dfShop<- dfExpenses |>
     dplyr::filter(Category=="Shopping") |>
     dplyr::filter(!str_detect(Description, regex("Amazon", ignore_case = TRUE))) |>
@@ -442,8 +440,6 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
     dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
 
   dfBoth <- rbind(dfShop, dfAmazon)
-
-  print(dfBoth)
 
   dfBoth2 <- dfBoth |>
     mutate(xScale = case_when(
@@ -453,7 +449,8 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
       Amount <= 250 ~ "4: 101 - 250",
       Amount <= 500 ~ "5: 251 - 500",
       Amount <= 100000 ~ "6: 501 +",
-      TRUE ~ "7: Other"))
+      TRUE ~ "7: Other")) |>
+    mutate(`Transaction Date` = anydate(`Transaction Date`))
 
 df3 <- EHFinances_AssignShoppingCategories(dfBoth2) |>
   dplyr::select(`Transaction Date`, Description, Amount, Ruby,  Category, SubCategory, xScale)
