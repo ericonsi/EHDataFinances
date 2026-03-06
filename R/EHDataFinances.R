@@ -551,7 +551,7 @@ ggplot(df_plot, aes(x = category)) +
   # Spent (foreground bar)
   geom_col(aes(y = spent, fill = status),
            width = 0.3) +
-  ggtitle(paste0("Spending vs Budget, ", xtitle) )
+  ggtitle(paste0("Spending vs Budget, ", xtitle)) +
   coord_flip() +
 
   scale_fill_manual(values = c(
