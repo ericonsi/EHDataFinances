@@ -522,12 +522,64 @@ return (dfNew2)
 
 }
 
+
+a <- EHFinances_BudgetAnalysisPlot <- function(df, Folder, ytd=FALSE) {
+
+  if(!ytd) {
+  xtitle <- as.character(Folder)
+  } else {
+  xtitle <- "YTD"
+  }
+
+df <- dfBudget_YTD |>
+  dplyr::rename(spent=Amount_Spent, budget=Amount_Budget, category=Category)
+
+df_plot <- df %>%
+  mutate(
+    status = ifelse(spent > budget, "Over budget", "Under budget")
+  ) %>%
+  arrange(spent) %>%
+  mutate(category = factor(category, levels = category))
+
+ggplot(df_plot, aes(x = category)) +
+
+  # Budget (background bar)
+  geom_col(aes(y = budget),
+           fill = "grey80",
+           width = 0.7) +
+
+  # Spent (foreground bar)
+  geom_col(aes(y = spent, fill = status),
+           width = 0.3) +
+  ggtitle(paste0("Spending vs Budget, ", xtitle) )
+  coord_flip() +
+
+  scale_fill_manual(values = c(
+    "Under budget" = "#33a0a0",
+    "Over budget" = "#c76030"
+  )) +
+
+  labs(
+    x = "",
+    y = "Amount",
+    fill = ""
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "top",
+    panel.grid.major.y = element_blank())
+
+return (a)
+}
+
 #' @export
 EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
 
   li = list()
   li[[1]] <- EHFinances_BudgetAnalysisDF(df, Folder, ytd=FALSE)
   li[[2]] <- EHFinances_BudgetAnalysisDF(df_ytd, Folder, ytd=TRUE)
+  li[[3]] <- EHFinances_BudgetAnalysisPlot(df, Folder, ytd=FALSE)
+  li[[4]] <- EHFinances_BudgetAnalysisPlot(df, Folder, ytd=TRUE)
 
   return(li)
 
