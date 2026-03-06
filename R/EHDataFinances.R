@@ -538,7 +538,7 @@ df_plot <- df %>%
   mutate(
     status = ifelse(spent > budget, "Over budget", "Under budget")
   ) %>%
-  arrange(spent) %>%
+  arrange(budget) %>%
   mutate(category = factor(category, levels = category))
 
 a <- ggplot(df_plot, aes(x = category)) +
