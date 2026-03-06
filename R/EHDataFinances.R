@@ -531,7 +531,7 @@ a <- EHFinances_BudgetAnalysisPlot <- function(df, Folder, ytd=FALSE) {
   xtitle <- "YTD"
   }
 
-df <- dfBudget_YTD |>
+df <- df |>
   dplyr::rename(spent=Amount_Spent, budget=Amount_Budget, category=Category)
 
 df_plot <- df %>%
