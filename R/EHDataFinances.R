@@ -66,7 +66,7 @@ EHFinances_ImportAmazonOrders <- function(Folder)
 
   dfCategories <- read_csv("D:\\RStudio\\Finances\\AmazonOrders\\Retail.OrderHistory.1\\Retail.OrderHistory.1.csv") |>
   dplyr::select(`Order ID`, `Order Date`, `Total Owed`, `Payment Instrument Type`, `Order Status`, `Shipping Address`, `Product Name`, ASIN) |>
-  dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder))
+  dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Order Date`, Folder))
 
   return(dfCategories)
 
