@@ -529,4 +529,6 @@ EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
   li[[1]] <- EHFinances_BudgetAnalysisDF(df, Folder, ytd=FALSE)
   li[[2]] <- EHFinances_BudgetAnalysisDF(df_ytd, Folder, ytd=TRUE)
 
+  return(li)
+
 }
