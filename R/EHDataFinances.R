@@ -247,6 +247,8 @@ dfExpenses2 <- dfExpenses |>
   dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
   mutate(SubCategory = if_else(Category=="Food & Drink", "Uncategorized", SubCategory)) |>
   dplyr::mutate(Amount=round(Amount,0)) |>
+  dplyr::mutate(Category = if_else(Category=="Professional Services", "Home", Category)) |>
+  dplyr::mutate(SubCategory = if_else(Category=="Professional Services", "Admin", SubCategory)) |>
   dplyr::select(ID, Corrected, `Transaction Date`, Description, Category, SubCategory, Amount, Source, ToDelete, SupercedesTrip, Memo, Type)
 
 return(dfExpenses2)
