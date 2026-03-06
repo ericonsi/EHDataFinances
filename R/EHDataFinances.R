@@ -348,7 +348,7 @@ EHFinances_ConvertAmazonPages <- function(Folder) {
     dfOrders2 <- dfOrders |>
       dplyr::filter(!is.na(Description) & !is.na(Amount) & Description!="") |>
       dplyr::mutate(Amount=as.numeric(parse_number(Amount))) |>
-      mutate(`Transaction Date` = dDate) |>
+      mutate(`Transaction Date` = as.Date(dDate, format = "%m/%d/%Y")) |>
       mutate(TotalAmount=as.numeric(parse_number(dTotalAmount))) |>
       mutate(Ruby = bRuby) |>
       mutate(SubCategory = "NA") |>
@@ -433,15 +433,13 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
 
   dfAmazon <- EHFinances_ConvertAmazonPages(Folder) |>
     dplyr::filter(!is.na(Amount)) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category) |>
-    mutate(`Transaction Date`==as.Date(anydate(`Transaction Date`)))
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
 
   dfShop<- dfExpenses |>
     dplyr::filter(Category=="Shopping") |>
     dplyr::filter(!str_detect(Description, regex("Amazon", ignore_case = TRUE))) |>
     dplyr::mutate(Ruby=0) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category) |>
-    mutate(`Transaction Date`==as.Date(anydate(`Transaction Date`)))
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
 
   dfBoth <- bind_rows(dfShop, dfAmazon)
 
