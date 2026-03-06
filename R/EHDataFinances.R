@@ -3,6 +3,7 @@ library(ggplot2)
 library(gridExtra)
 library(roxygen2)
 library(tidyverse)
+library(anytime)
 
 #' EHSummarize_CategoryByTotal_ReturnsSingleTable
 #'
@@ -431,13 +432,15 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
 
   dfAmazon <- EHFinances_ConvertAmazonPages(Folder) |>
     dplyr::filter(!is.na(Amount)) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category) |>
+    mutate(`Transaction Date`==as.Date(`Transaction Date`))
 
   dfShop<- dfExpenses |>
     dplyr::filter(Category=="Shopping") |>
     dplyr::filter(!str_detect(Description, regex("Amazon", ignore_case = TRUE))) |>
     dplyr::mutate(Ruby=0) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category) |>
+    mutate(`Transaction Date`==as.Date(`Transaction Date`))
 
   dfBoth <- bind_rows(dfShop, dfAmazon)
 
