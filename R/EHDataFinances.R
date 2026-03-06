@@ -451,7 +451,8 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
       Amount <= 100000 ~ "6: 501 +",
       TRUE ~ "7: Other"))
 
-df3 <- EHFinances_AssignShoppingCategories(dfBoth2)
+df3 <- EHFinances_AssignShoppingCategories(dfBoth2) |>
+  dplyr::select(`Transaction Date`, Description, Amount, Ruby,  Category, SubCategory)
 
   return (df3)
 
