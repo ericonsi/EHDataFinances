@@ -523,10 +523,10 @@ return (dfNew2)
 }
 
 #' @export
-EHFinances_CreateBudgetAnalysisDF <- function(df, df_ytd, Folder) {
+EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
 
   li = list()
-  li[[1]] <- EHFinances_CreateBudgetAnalysisDF(df, Folder, ytd=FALSE)
-  li[[2]] <- EHFinances_CreateBudgetAnalysisDF(df_ytd, Folder, ytd=TRUE)
+  li[[1]] <- EHFinances_BudgetAnalysisDF(df, Folder, ytd=FALSE)
+  li[[2]] <- EHFinances_BudgetAnalysisDF(df_ytd, Folder, ytd=TRUE)
 
 }
