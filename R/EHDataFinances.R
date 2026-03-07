@@ -608,7 +608,7 @@ EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfR
 EHFinances_CreateTopSpendingTable <- function(df, xCategory) {
 
 a <- df %>%
-  dplyr::filter(Category==xCategory)
+  dplyr::filter(Category==xCategory) |>
   dplyr::select(`Transaction Date`, Description, Amount) |>
   arrange(desc(Amount)) %>%
   slice_head(n = 15) %>%
