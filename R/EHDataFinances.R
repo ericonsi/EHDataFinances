@@ -6,7 +6,7 @@ library(tidyverse)
 library(anytime)
 library(kableExtra)
 
-#' EHSummarize_CategoryByTotal_ReturnsSingleTable
+#' EHSummarize_CategoryByTotal_ReturnsSingleTable5
 #'
 #' Returns a bar chart for unaggregated data with a cetgory and a numeric value
 #'
@@ -604,3 +604,26 @@ EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfR
 
 }
 
+#' @export
+EHFinances_CreateTopSpendingTable <- function(dfExpenses, xCategory) {
+
+
+a <- dfExpensesReviewed %>%
+  dplyr::filter(Category==xCategory)
+  dplyr::select(`Transaction Date`, Description, Amount) |>
+  arrange(desc(Amount)) %>%
+  slice_head(n = 15) %>%
+  mutate(Amount = dollar(Amount)) %>%
+  kable(
+    col.names = c("Transaction Date", "Description", "Amount"),
+    caption = "Top 15 Items by Amount",
+    align = c("l", "l", "r")
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE,
+    position = "center"
+  )
+
+return (a)
+}

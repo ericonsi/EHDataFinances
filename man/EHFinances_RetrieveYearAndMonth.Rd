@@ -2,7 +2,7 @@
 % Please edit documentation in R/EHDataFinances.R
 \name{EHFinances_RetrieveYearAndMonth}
 \alias{EHFinances_RetrieveYearAndMonth}
-\title{EHSummarize_CategoryByTotal_ReturnsSingleTable}
+\title{EHSummarize_CategoryByTotal_ReturnsSingleTable5}
 \usage{
 EHFinances_RetrieveYearAndMonth(Folder)
 }
