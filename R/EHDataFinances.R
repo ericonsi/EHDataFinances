@@ -4,6 +4,7 @@ library(gridExtra)
 library(roxygen2)
 library(tidyverse)
 library(anytime)
+library(kableExtra)
 
 #' EHSummarize_CategoryByTotal_ReturnsSingleTable
 #'
@@ -581,5 +582,25 @@ EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
   li[[4]] <- EHFinances_BudgetAnalysisPlot(li[[2]], Folder, ytd=TRUE)
 
   return(li)
+}
+
+#' @export
+EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfRuby_ytd, dfRenovation, dfRenovation_ytd, dfIncomeTaxes, dfIncomeTaxes_ytd, Folder) {
+
+  mat2 <- matrix(c(sum(dfExpenses$Amount), sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation$Amount),  sum(dfIncomeTaxes$Amount),
+                   sum(dfExpenses_ytd$Amount), sum((dfRuby_ytd |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby_ytd |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation_ytd$Amount),  sum(dfIncomeTaxes_ytd$Amount)), ncol=2, byrow=FALSE)
+
+
+  colnames(mat2) <- c(paste0("Amount_", Folder), "Amount_YTD")
+  rownames(mat2) <- c("Total Expenses:", "Total Ruby Tuition:", "Ruby Non Tuition:", "Renovation:", "Income Taxes:")
+
+  dfMat <- as.data.frame(mat2)
+
+  tab_custom <- kable(dfMat,  caption = "Monthly Budget Summary", format.args = list(big.mark = ","), digits = 0) |>
+    kable_styling(full_width = FALSE, position = "center",
+                  latex_options = c("striped", "hold_position"))
+
+  return (tab_custom)
+
 }
 
