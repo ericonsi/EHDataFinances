@@ -609,12 +609,12 @@ EHFinances_CreateTopSpendingTable <- function(df, xCategory) {
 
 a <- df %>%
   dplyr::filter(Category==xCategory) |>
-  dplyr::select(`Transaction Date`, Description, Amount) |>
+  dplyr::select(`Transaction Date`, SubCategory, Description, Amount) |>
   arrange(desc(Amount)) %>%
   slice_head(n = 15) %>%
   mutate(Amount = dollar(Amount)) %>%
   kable(
-    col.names = c("Transaction Date", "Description", "Amount"),
+    col.names = c("Transaction Date", "SubCategory", "Description", "Amount"),
     caption = "Top 15 Items by Amount",
     align = c("l", "l", "r")
   ) %>%
