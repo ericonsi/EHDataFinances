@@ -605,10 +605,9 @@ EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfR
 }
 
 #' @export
-EHFinances_CreateTopSpendingTable <- function(dfExpenses, xCategory) {
+EHFinances_CreateTopSpendingTable <- function(df, xCategory) {
 
-
-a <- dfExpensesReviewed %>%
+a <- df %>%
   dplyr::filter(Category==xCategory)
   dplyr::select(`Transaction Date`, Description, Amount) |>
   arrange(desc(Amount)) %>%
