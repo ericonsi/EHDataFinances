@@ -621,7 +621,8 @@ a <- df %>%
   kable_styling(
     bootstrap_options = c("striped", "hover"),
     full_width = FALSE,
-    position = "center"
+    position = "center",
+    font_size=14
   )
 
 return (a)
