@@ -622,7 +622,7 @@ a <- df %>%
     bootstrap_options = c("striped", "hover"),
     full_width = FALSE,
     position = "center",
-    font_size=14
+    font_size=10
   )
 
 return (a)
