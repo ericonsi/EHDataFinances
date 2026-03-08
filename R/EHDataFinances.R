@@ -668,10 +668,10 @@ EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
 }
 
 #' @export
-EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, Folder) {
+EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, dfBudget, xCategory, Folder) {
 
   a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = xCategory)
-  b <- EHFinances_CreateTimePlot(dfExpensesReviewed_YTD, xCategory)
+  b <- EHFinances_CreateTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
 
   grid.arrange(a,b,ncol=2)
 
