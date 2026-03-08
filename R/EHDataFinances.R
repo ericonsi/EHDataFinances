@@ -664,3 +664,4 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
   EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 
 }
+
