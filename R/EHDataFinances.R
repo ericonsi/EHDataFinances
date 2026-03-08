@@ -652,3 +652,15 @@ a <- ggplot(df, aes(x = Month, y = Expenditures,)) +
 return(a)
 
 }
+
+#' @export
+EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, Folder) {
+
+  a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = xCategory)
+  b <- EHFinances_CreateTimePlot(dfExpensesReviewed_YTD, xCategory)
+
+  grid.arrange(a,b,ncol=2)
+
+  EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
+
+}
