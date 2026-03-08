@@ -366,7 +366,7 @@ EHFinances_ConvertAmazonPages <- function(Folder) {
       mutate(Description = paste("AMAZON:", Description)) |>
       dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
       dplyr::select(`Transaction Date`, Description, Amount, Ruby, Category, SubCategory) |>
-      dplyr::mutate(Description = substr(text, 1, 80))
+      dplyr::mutate(Description = substr(Description, 1, 80))
 
   }
 
