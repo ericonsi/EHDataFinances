@@ -365,7 +365,8 @@ EHFinances_ConvertAmazonPages <- function(Folder) {
     dfTotal2 <- dfTotal |>
       mutate(Description = paste("AMAZON:", Description)) |>
       dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
-      dplyr::select(`Transaction Date`, Description, Amount, Ruby, Category, SubCategory)
+      dplyr::select(`Transaction Date`, Description, Amount, Ruby, Category, SubCategory) |>
+      dplyr::mutate(Description = substr(text, 1, 80))
 
   }
 
@@ -628,8 +629,7 @@ a <- df %>%
     bootstrap_options = c("striped", "hover"),
     full_width = FALSE,
     position = "center",
-    font_size=fontSize,
-    column_spec(3, width = "10em")
+    font_size=fontSize
   )
 
 return (a)
