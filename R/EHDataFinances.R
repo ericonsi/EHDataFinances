@@ -144,7 +144,6 @@ return (liAccounts)
 
 }
 
-#'
 
 EHFinances_ImportAccountsToDelete <- function()
 {
@@ -480,11 +479,13 @@ if(nMonths>1) {
     dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, "\\Overrides_", year, sMonth, "r.csv"), na = c(""))
 
     dfq <- rbind(dfq, dfq2)
-
   }
 }
 
-  return(EHFinances_CreateShockAndExpenseDFs(dfq))
+  dfq1 <- dfq |>
+    dplyr::mutate(Description = substr(Description, 1, 65))
+
+  return(EHFinances_CreateShockAndExpenseDFs(dfq1))
 }
 
 EHFinances_BudgetAnalysisDF <- function(df, Folder, ytd=FALSE) {
