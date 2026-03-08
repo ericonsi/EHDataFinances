@@ -622,14 +622,14 @@ a <- df %>%
   kable(
     col.names = c("Transaction Date", "SubCategory", "Description", "Amount"),
     caption = cap,
-    align = c("l", "l", "l", "r"),
-    column_spec(3, width = "10em")
+    align = c("l", "l", "l", "r")
   ) %>%
   kable_styling(
     bootstrap_options = c("striped", "hover"),
     full_width = FALSE,
     position = "center",
-    font_size=fontSize
+    font_size=fontSize,
+    column_spec(3, width = "10em")
   )
 
 return (a)
