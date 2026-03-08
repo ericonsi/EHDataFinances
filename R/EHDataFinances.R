@@ -605,7 +605,7 @@ EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfR
 }
 
 #' @export
-EHFinances_CreateTopSpendingTable <- function(df, xCategory, Folder, ytd=FALSE) {
+EHFinances_CreateTopSpendingTable <- function(df, xCategory, Folder, ytd=FALSE, fontSize=9) {
 
 if (ytd) {
   cap <- paste0("Top 15 Expenditures, YTD")
@@ -628,7 +628,7 @@ a <- df %>%
     bootstrap_options = c("striped", "hover"),
     full_width = FALSE,
     position = "center",
-    font_size=9
+    font_size=fontSize
   )
 
 return (a)
