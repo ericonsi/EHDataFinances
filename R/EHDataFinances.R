@@ -635,21 +635,35 @@ return (a)
 }
 
 #' @export
-EHFinances_CreateTimePlot <- function(df, xCategory) {
-df <- dfExpensesReviewed_YTD |>
-  dplyr::filter(Category==xCategory) |>
-  group_by(month(`Transaction Date`)) |>
-  dplyr::summarize(Expenditures=sum(Amount)) |>
-  dplyr::rename(Month=1)
+EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
 
-a <- ggplot(df, aes(x = Month, y = Expenditures,)) +
-  geom_line(color = EH_Turquoise) +
-  geom_point(color = EH_Squash) +
-  theme(panel.background = element_rect(fill = EH_Cream, colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  scale_x_continuous(breaks = function(x) seq(ceiling(min(x)), floor(max(x)), by = 1)) +
-  ggtitle("Expenditures Over Time")
+    EH_Turquoise = "#33a0a0"
+    EH_Cream = "#FFFEE0"
+    EH_Squash = "#c95b0c"
+    EH_LabelColor = "#5d3f6a"
 
-return(a)
+    Budget2 <- dfBudget |>
+      dplyr::filter(Category==xCategory)
+
+    Bu <- Budget2[1,2]
+
+    df <- df_ytd |>
+      dplyr::filter(Category==xCategory) |>
+      group_by(month(`Transaction Date`)) |>
+      dplyr::summarize(Expenditures=sum(Amount)) |>
+      dplyr::rename(Month=1) |>
+      mutate(Budget=Bu)
+
+    a <- ggplot(df, aes(x = Month)) +
+      geom_line(aes(y = Expenditures, color = "Expenditures"), size = 1) +
+      geom_line(aes(y = Budget, color = "Budget"), size = 3) +
+      #geom_point(color = EH_LabelColor) +
+      theme(panel.background = element_rect(fill = EH_Cream, colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+      scale_color_manual("", values = c("Expenditures" = EH_Turquoise, "Budget" = EH_Squash)) +
+      scale_x_continuous(breaks = function(x) seq(ceiling(min(x)), floor(max(x)), by = 1)) +
+      ggtitle("Expenditures Over Time")
+
+    return(a)
 
 }
 
