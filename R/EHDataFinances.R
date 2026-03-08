@@ -132,7 +132,8 @@ dfExpenses3 <- dfExpenses2 |>
   mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip)) |>
   mutate(Corrected=0) |>
   #dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
-  dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder))
+  dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
+  dplyr::mutate(Description = substr(Description, 1, 65))
 
 dfCategories <- EHFinances_ImportCategories()
 liAccounts=list()
