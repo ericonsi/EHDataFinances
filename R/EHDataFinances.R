@@ -633,3 +633,22 @@ a <- df %>%
 
 return (a)
 }
+
+#' @export
+EHFinances_CreateTimePlot <- function(df) {
+df <- dfExpensesReviewed_YTD |>
+  dplyr::filter(Category=="Home") |>
+  group_by(month(`Transaction Date`)) |>
+  dplyr::summarize(Expenditures=sum(Amount)) |>
+  dplyr::rename(Month=1)
+
+a <- ggplot(df, aes(x = Month, y = Expenditures,)) +
+  geom_line(color = EH_Turquoise) +
+  geom_point(color = EH_Squash) +
+  theme(panel.background = element_rect(fill = EH_Cream, colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = function(x) seq(ceiling(min(x)), floor(max(x)), by = 1)) +
+  ggtitle("Expenditures Over Time")
+
+return(a)
+
+}
