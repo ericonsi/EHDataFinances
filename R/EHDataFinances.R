@@ -635,9 +635,9 @@ return (a)
 }
 
 #' @export
-EHFinances_CreateTimePlot <- function(df) {
+EHFinances_CreateTimePlot <- function(df, xCategory) {
 df <- dfExpensesReviewed_YTD |>
-  dplyr::filter(Category=="Home") |>
+  dplyr::filter(Category==xCategory) |>
   group_by(month(`Transaction Date`)) |>
   dplyr::summarize(Expenditures=sum(Amount)) |>
   dplyr::rename(Month=1)
