@@ -605,7 +605,13 @@ EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfR
 }
 
 #' @export
-EHFinances_CreateTopSpendingTable <- function(df, xCategory) {
+EHFinances_CreateTopSpendingTable <- function(df, xCategory, Folder, ytd=FALSE) {
+
+if (ytd) {
+  cap <- paste0("Top 15 Expenditures, YTD")
+} else {
+  cap <- paste0("Top 15 Expenditures, ", Folder)
+}
 
 a <- df %>%
   dplyr::filter(Category==xCategory) |>
@@ -615,7 +621,7 @@ a <- df %>%
   mutate(Amount = dollar(Amount)) %>%
   kable(
     col.names = c("Transaction Date", "SubCategory", "Description", "Amount"),
-    caption = "Top 15 Items by Amount",
+    caption = cap,
     align = c("l", "l", "l", "r")
   ) %>%
   kable_styling(
