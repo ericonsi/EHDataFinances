@@ -622,7 +622,7 @@ a <- df %>%
   kable(
     col.names = c("Transaction Date", "SubCategory", "Description", "Amount"),
     caption = cap,
-    align = c("l", "l", "l", "r") |>
+    align = c("l", "l", "l", "r"),
     column_spec(3, width = "10em")
   ) %>%
   kable_styling(
