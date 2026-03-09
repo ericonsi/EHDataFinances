@@ -133,7 +133,7 @@ dfExpenses3 <- dfExpenses2 |>
   mutate(Corrected=0) |>
   #dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
   dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
-  dplyr::mutate(Description = substr(Description, 1, 40))
+  dplyr::mutate(Description = substr(Description, 1, 65))
 
 dfCategories <- EHFinances_ImportCategories()
 liAccounts=list()
@@ -366,7 +366,7 @@ EHFinances_ConvertAmazonPages <- function(Folder) {
       mutate(Description = paste("AMAZON:", Description)) |>
       dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
       dplyr::select(`Transaction Date`, Description, Amount, Ruby, Category, SubCategory) |>
-      dplyr::mutate(Description = substr(Description, 1, 40))
+      dplyr::mutate(Description = substr(Description, 1, 65))
 
   }
 
@@ -483,7 +483,7 @@ if(nMonths>1) {
 }
 
   dfq1 <- dfq |>
-    dplyr::mutate(Description = substr(Description, 1, 40))
+    dplyr::mutate(Description = substr(Description, 1, 65))
 
   return(EHFinances_CreateShockAndExpenseDFs(dfq1))
 }
