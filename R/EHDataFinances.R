@@ -59,6 +59,15 @@ EHFinances_ImportCategories <- function()
   return(dfCategories)
 
 }
+#' @export
+EHFinances_Import2025 <- function()
+{
+
+  dfCategories <- read_csv("D:\\RStudio\\Finances\\Expenses2025.csv")
+
+  return(dfCategories)
+
+}
 
 #' @export
 EHFinances_ImportAmazonOrders <- function(Folder)
@@ -432,7 +441,7 @@ vout <- str_c(vOutdoors, collapse = "|")
 dfShopping2 <- dfx |>
   mutate(SubCategoryx = case_when(
     str_detect(Description, regex(vs, ignore_case = TRUE)) ~ "Sewing",
-    str_detect(Description, regex(vh, ignore_case = TRUE)) ~ "House",
+    str_detect(Description, regex(vh, ignore_case = TRUE)) ~ "Home",
     str_detect(Description, regex(vbook, ignore_case = TRUE)) ~ "Books",
     str_detect(Description, regex(vc, ignore_case = TRUE)) ~ "Clothes",
     str_detect(Description, regex(vbird, ignore_case = TRUE)) ~ "Birding",
