@@ -278,7 +278,7 @@ EHFinances_WriteOrOpenShoppingFile <- function(dfExpensesReviewed, Folder, Alrea
   if(!AlreadyWritten)
   {
 
-    dfShop1 <- EHFinances_CreateDfForShoppingAnalysis(dfExpensesReviewed, Folder=xMonth)
+    dfShop1 <- EHFinances_CreateDfForShoppingAnalysis(dfExpensesReviewed, Folder)
     write_csv(dfShop1, paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Shopping_", Folder, "p.csv"))
     dfShopping <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Shopping_", Folder, "p.csv"), na = c(""))
 
