@@ -461,11 +461,7 @@ return(dfShopping3)
 }
 
 #' @export
-EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
-
-  dfAmazon <- EHFinances_ConvertAmazonPages(Folder) |>
-    dplyr::filter(!is.na(Amount)) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
+EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder, NoAmazon=FALSE) {
 
   dfShop<- dfExpenses |>
     dplyr::filter(Category=="Shopping") |>
@@ -473,7 +469,18 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder) {
     dplyr::mutate(Ruby=0) |>
     dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
 
-  dfBoth <- bind_rows(dfShop, dfAmazon)
+  if(!NoAmazon) {
+
+  dfAmazon <- EHFinances_ConvertAmazonPages(Folder) |>
+    dplyr::filter(!is.na(Amount)) |>
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
+
+    dfBoth <- bind_rows(dfShop, dfAmazon)
+
+  }  else {
+
+    dfBoth <-   dfShop
+  }
 
   dfBoth2 <- dfBoth |>
     mutate(xScale = case_when(
