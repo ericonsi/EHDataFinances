@@ -273,6 +273,26 @@ if(!AlreadyWritten)
 }
 
 #' @export
+EHFinances_WriteOrOpenShoppingFile <- function(dfExpensesReviewed, Folder, AlreadyWritten = TRUE) {
+
+  if(!AlreadyWritten)
+  {
+
+    dfShop1 <- EHFinances_CreateDfForShoppingAnalysis(dfExpensesReviewed, Folder=xMonth)
+    write_csv(dfShop1, paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Shopping_", Folder, "p.csv"))
+    dfShopping <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Shopping_", Folder, "p.csv"), na = c(""))
+
+  } else {
+
+    dfShopping <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Shopping_", Folder, "r.csv"), na = c(""))
+  }
+
+  return(dfShopping)
+
+}
+
+
+#' @export
 EHFinances_CreateShockAndExpenseDFs <- function(dfExpenses) {
 
 
