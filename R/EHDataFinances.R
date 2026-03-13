@@ -455,9 +455,11 @@ dfShopping2 <- dfx |>
   mutate(SubCategoryx = if_else(is.na(SubCategoryx), "NA", SubCategoryx))
 
   dfShopping3 <- dfShopping2 |>
-    mutate(SubCategory = if_else(Category=="Shopping", SubCategoryx, SubCategory))
+    mutate(SubCategory = if_else(Category=="Shopping", SubCategoryx, SubCategory)) |>
+    dplyr::select(-SubCategoryx)
 
 return(dfShopping3)
+
 }
 
 #' @export
