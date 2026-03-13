@@ -84,7 +84,7 @@ EHFinances_ImportAmazonOrders <- function(Folder)
 EHFinances_ImportBudgetTargets <- function(Folder)
 {
 
-  dfTargets <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\BudgetTargets.csv"))
+  dfTargets <- read_csv(paste0("D:\\RStudio\\Finances\\AnnualBudgetTargets.csv"))
 
   return(dfTargets)
 
