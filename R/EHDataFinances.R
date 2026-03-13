@@ -529,13 +529,11 @@ EHFinances_CreateYtdDfs <- function(Folder) {
         dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, li1[[j]], year, sMonth, "r.csv"), na = c(""))
 
         dfq <- rbind(dfq, dfq2)
-
       }
-
-      li2[[j]] <- dfq |>
-        dplyr::mutate(Description = substr(Description, 1, 65))
-
     }
+
+    li2[[j]] <- dfq |>
+      dplyr::mutate(Description = substr(Description, 1, 65))
   }
 
   li3[[1]] <- EHFinances_CreateShockAndExpenseDFs(li2[[1]])
