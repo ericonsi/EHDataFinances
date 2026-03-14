@@ -5,6 +5,7 @@ library(roxygen2)
 library(tidyverse)
 library(anytime)
 library(kableExtra)
+library(datefixR)
 
 #' EHSummarize_CategoryByTotal_ReturnsSingleTable5
 #'
