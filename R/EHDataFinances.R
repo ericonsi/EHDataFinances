@@ -225,9 +225,9 @@ EHFinances_AssignCategoriesAndSubcategories <- function(dfExpenses) {
 dfExpenses2 <- dfExpenses |>
   rowwise() |>
   mutate(zCategory=Category, zSubCategory=SubCategory) |>
-  mutate(zCategory = dfCategories$xCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]], zSubCategory = dfCategories$xSubCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]) |>
+  mutate(zCategory = dfCategories$xCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]], zSubCategory = dfCategories$xSubCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]], PaidMonthly = dfCategories$PaidMonthly[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]) |>
   ungroup() |>
-  mutate(zCategory=if_else(is.na(zCategory), "NA", zCategory), zSubCategory=if_else(is.na(zSubCategory), "NA", zSubCategory))
+  mutate(zCategory=if_else(is.na(zCategory), "NA", zCategory), zSubCategory=if_else(is.na(zSubCategory), "NA", zSubCategory), PaidMonthly=if_else(is.na(PaidMonthly), 0, PaidMonthly))
 
   dfExpenses3 <- EHFinances_AssignFoodSubCategories(dfExpenses2)
 
@@ -257,7 +257,7 @@ dfExpenses2 <- dfExpenses |>
   dplyr::mutate(Amount=round(Amount,0)) |>
   dplyr::mutate(Category = if_else(Category=="Professional Services", "Home", Category)) |>
   dplyr::mutate(SubCategory = if_else(Category=="Professional Services", "Admin", SubCategory)) |>
-  dplyr::select(ID, Corrected, `Transaction Date`, Description, Category, SubCategory, Amount, Source, ToDelete, SupercedesTrip, Memo, Type)
+  dplyr::select(ID, Corrected, `Transaction Date`, Description, Category, SubCategory, Amount, Source, ToDelete, SupercedesTrip, Memo, Type, PaidMonthly)
 
 return(dfExpenses2)
 
