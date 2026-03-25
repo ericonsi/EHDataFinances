@@ -141,8 +141,8 @@ dfExpenses2 <- dfExpenses |>
 dfExpenses3 <- dfExpenses2 |>
   mutate(SupercedesTrip=if_else(is.na(SupercedesTrip), 0, SupercedesTrip)) |>
   mutate(Corrected=0) |>
-  #dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]])
-  dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
+  dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) |>
+  #dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
   dplyr::mutate(Description = substr(Description, 1, 65))
 
 dfCategories <- EHFinances_ImportCategories()
@@ -226,7 +226,7 @@ EHFinances_AssignCategoriesAndSubcategories <- function(dfExpenses) {
 dfExpenses2 <- dfExpenses |>
   rowwise() |>
   mutate(zCategory=Category, zSubCategory=SubCategory) |>
-  mutate(zCategory = dfCategories$xCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]], zSubCategory = dfCategories$xSubCategory[which(str_detect(Description, fixed(dfCategories$xKey)))[1]], PaidMonthly = dfCategories$PaidMonthly[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]) |>
+  mutate(zCategory = dfCategories$xCategory[which(str_detect(Description, regex(fixed(dfCategories$xKey), ignore_case = TRUE)))[1]], zSubCategory = dfCategories$xSubCategory[which(str_detect(Description, regex(fixed(dfCategories$xKey), ignore_case = TRUE)))[1]], PaidMonthly = dfCategories$PaidMonthly[which(str_detect(Description, fixed(dfCategories$xKey)))[1]]) |>
   ungroup() |>
   mutate(zCategory=if_else(is.na(zCategory), "NA", zCategory), zSubCategory=if_else(is.na(zSubCategory), "NA", zSubCategory), PaidMonthly=if_else(is.na(PaidMonthly), 0, PaidMonthly))
 
