@@ -1,0 +1,477 @@
+---
+title: "Jenny and Eric Spending Report, February"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 5
+date: "2026-01-29"
+---
+
+```{r setup, include = FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning =  FALSE, message = FALSE)
+```
+
+```{r}
+library(XML)
+library(RCurl)
+library(rlist)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(lubridate)
+library(readr)
+library(sf)
+unloadNamespace("EHData")
+devtools::install_github("ericonsi/EHData")
+library(EHData)
+library(devtools)
+library(roxygen2)
+library(Hmisc)
+library(psych)
+library(tidyverse)
+library(skimr)
+library(purrr)
+library(tidyr)
+library(tidyverse)
+library(gridExtra)
+library(lubridate)
+library(fastDummies)
+library(data.table)
+library(mltools)
+library(MASS)
+library(car)
+library(patchwork)
+library(ggthemes)
+library(tinytex)
+library(stats)
+library(ggsci)
+library(scales)
+library(naniar)
+library(caret)
+library(pROC)
+library(methods) 
+library(sf)
+library(mapproj)
+library(maps)
+#library(rnaturalearth)
+library(rnaturalearthdata)
+library(usmap)
+library(tsibbledata)
+library(tsibble)
+library(forecast)
+library(fpp3)
+library(fable)
+library(lme4)
+library(rvest)
+library(factoextra)
+library(gridGraphics)
+library(kableExtra)
+library(anytime)
+unloadNamespace("EHDataFinances")
+devtools::install_github("ericonsi/EHDataFinances")
+library(EHDataFinances)
+library(knitr)
+library(datefixR)
+```
+
+```{r}
+#Assign Month
+
+xMonth="2603"
+Folder = xMonth
+EH_Turquoise = "#33a0a0"
+EH_Cream = "#FFFEE0"
+EH_Squash = "#c95b0c"
+EH_LabelColor = "#5d3f6a"
+
+```
+
+```{r}
+
+# Import data
+
+dfExpenses <- EHFinances_ImportRawAccountFiles(xMonth)[[1]]
+dfCategories <- EHFinances_ImportCategories()
+dfAmazonOrders <- EHFinances_ImportAmazonOrders(xMonth)
+dfExpenses2025 <- EHFinances_Import2025()
+
+```
+
+```{r}
+# Assign Categories and Shocks
+
+dfExpenses2 <- EHFinances_AssignCategoriesAndSubcategories(dfExpenses)
+dfExpenses3 <- EHFinances_AssignTrips(dfExpenses2, "2025-12-28", "2026-01-08", "Rio")
+dfExpenses3 <- EHFinances_AssignTrips(dfExpenses2, "2026-02-2", "2026-02-10", "Puerto Rico")
+dfExpenses4 <- EHFinances_AssignRuby(dfExpenses3)
+dfExpenses5 <- EHFinances_AssignAccountsToDelete(dfExpenses4)
+dfExpenses6 <- EHFinances_ApplyBusinessRules(dfExpenses5)
+dfExpenses7 <- EHFinances_AssignFoodSubCategories(dfExpenses6)
+dfExpenses8 <- EHFinances_AssignShoppingCategories(dfExpenses7)
+
+```
+
+```{r}
+
+#Write or open override file
+
+dfExpenses9 <- EHFinances_WriteOrOpenOverrideFile(dfExpenses8, Folder=xMonth, AlreadyWritten = TRUE)
+
+```
+
+```{r}
+# Disaggregate Files - only works after override file has been written
+
+liExpenseDFs <- EHFinances_CreateShockAndExpenseDFs(dfExpenses9)
+
+dfExpensesReviewed = liExpenseDFs[[1]]
+dfRuby <- liExpenseDFs[[2]]
+dfRenovation <- liExpenseDFs[[3]]
+dfIncomeTaxes <- liExpenseDFs[[4]]
+
+```
+
+```{r}
+
+#Create/retrieve df for shopping analysis
+
+dfShopping <- EHFinances_WriteOrOpenShoppingFile(dfExpensesReviewed, Folder=xMonth, AlreadyWritten = TRUE)
+
+```
+
+```{r}
+# Create ytd dfs
+# Needs an Override_r file
+
+
+liExpenseDFs <- EHFinances_CreateYtdDfs(Folder)
+
+dfExpensesReviewed_YTD = liExpenseDFs[[1]][[1]]
+dfRuby_YTD <- liExpenseDFs[[1]][[2]]
+dfRenovation_YTD <- liExpenseDFs[[1]][[3]]
+dfIncomeTaxes_YTD <- liExpenseDFs[[1]][[4]]
+dfShopping_YTD <- liExpenseDFs[[2]][[1]]
+
+```
+
+```{r}
+#Perform Budget Analysis
+
+liBudget <- EHFinances_CreateBudgetAnalysisDFs(dfExpensesReviewed, dfExpensesReviewed_YTD, Folder)
+
+dfBudget <- liBudget[[1]]
+dfBudget_YTD <- liBudget[[2]]
+
+```
+
+## 1. Overall Spending
+
+```{r fig.width = 14, fig.height=8}
+
+EHFinances_CreateTotalsTable(dfExpensesReviewed, dfExpensesReviewed_YTD, dfRuby, dfRuby_YTD, dfRenovation, dfRenovation_YTD, dfIncomeTaxes, dfIncomeTaxes_YTD, dfBudget, dfBudget_YTD, Folder)
+
+```
+
+### a. Spending by Category
+
+```{r fig.width = 14, fig.height=8}
+
+a <- EHData::EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |> dplyr::select(Category, Amount), xfill =EH_Turquoise, rectfill = EH_Cream, font_size = 15, xtitle = "Total Spent by Category, 2602", labelColor=EH_LabelColor, labelSize = 5)
+
+b <- EHData::EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |> dplyr::select(Category, Amount), xfill =EH_Turquoise, rectfill = EH_Cream, font_size = 15, xtitle = "Total Spent by Category, YTD", labelColor=EH_LabelColor, labelSize = 5)
+
+par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
+grid.arrange(a, b, ncol = 2)
+
+```
+
+### b. Spending Compared to Budget (Goal: $173,000/Year)
+
+```{r}
+#par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
+grid.arrange(liBudget[[3]], liBudget[[4]], ncol = 2)
+
+kable(dfBudget,  caption = "Budget Summary", format.args = list(big.mark = ","), digits = 0) |>
+    kable_styling(full_width = FALSE, position = "center",
+                  latex_options = c("striped", "hold_position"))
+
+kable(dfBudget_YTD,  caption = "Budget Summary YTD", format.args = list(big.mark = ","), digits = 0) |>
+    kable_styling(full_width = FALSE, position = "center",
+                  latex_options = c("striped", "hold_position"))
+```
+
+### c. Spending by SubCategory For This Month
+
+```{r, fig.width=13, fig.height=20}
+
+a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Health & Wellness") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Health & Wellness", labelColor = EH_LabelColor)
+
+b <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Home") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Home", labelColor = EH_LabelColor)
+
+c <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Travel") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Travel", labelColor = EH_LabelColor)
+
+d <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Groceries") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Groceries", labelColor = EH_LabelColor)
+
+e <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Travel Local") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Travel Local", labelColor = EH_LabelColor)
+
+f <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |> dplyr::filter(ToDelete == 0, Category=="Shopping, YTD") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Shopping", labelColor = EH_LabelColor)
+
+g <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Food & Drink") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Food & Drink", labelColor = EH_LabelColor)
+
+h <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Gifts & Donations") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Gifts & Donations", labelColor = EH_LabelColor)
+
+i <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Car") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Car", labelColor = EH_LabelColor)
+
+j <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Entertainment") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Entertainment", labelColor = EH_LabelColor)
+
+k <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Education") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Education", labelColor = EH_LabelColor)
+
+l <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Subscriptions") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "SubScriptions", labelColor = EH_LabelColor)
+
+
+grid.arrange(a, b, c, d, e, f, g, h, i, j, k, l, ncol=3)
+```
+
+### d. Spending by SubCategory YTD
+
+```{r, fig.width=13, fig.height=20}
+
+a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Health & Wellness") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Health & Wellness, YTD", labelColor = EH_LabelColor)
+
+b <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Home") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Home, YTD", labelColor = EH_LabelColor)
+
+c <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Travel") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Travel, YTD", labelColor = EH_LabelColor)
+
+d <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Groceries") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Groceries, YTD", labelColor = EH_LabelColor)
+
+e <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Travel Local") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Travel Local, YTD", labelColor = EH_LabelColor)
+
+f <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Shopping, YTD")|> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Shopping, YTD", labelColor = EH_LabelColor)
+
+g <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Food & Drink") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Food & Drink, YTD", labelColor = EH_LabelColor)
+
+h <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Gifts & Donations") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Gifts & Donations, YTD", labelColor = EH_LabelColor)
+
+i <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Car") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Car, YTD", labelColor = EH_LabelColor)
+
+j <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Entertainment") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Entertainment, YTD", labelColor = EH_LabelColor)
+
+k <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Education") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Education, YTD", labelColor = EH_LabelColor)
+
+l <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Subscriptions") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "SubScriptions, YTD", labelColor = EH_LabelColor)
+
+
+grid.arrange(a, b, c, d, e, f, g, h, i, j, k, l, ncol=3)
+```
+
+
+
+## 2. Categories in Detail
+
+### a. Home
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Home"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+### b. Shopping
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Shopping"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+#### 1. With Amazon Info Coming From Website
+
+```{r fig.width = 14, fig.height=8}
+
+xCategory="Shopping"
+dfExSum <- EHFinances_FilterByCategory(dfExpensesReviewed, "Shopping")
+
+a <- paste0("Total shopping from bank info: ", sum(dfExSum$Amount))
+b <- paste0("Total shopping from Amazon: ", sum(dfShopping$Amount))
+
+a
+b
+
+z <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfShopping |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = paste0(xCategory, ", ", Folder))
+
+q <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfShopping_YTD |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = paste0(xCategory, ", YTD"))
+
+grid.arrange(z,q,ncol=2)
+
+EHFinances_CreateTopSpendingTable(dfShopping, xCategory, Folder, fontSize=8)
+EHFinances_CreateTopSpendingTable(dfShopping_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+a <- dfShopping |>
+  group_by(xScale) |>
+  dplyr::summarize(Count = n(), Expenditures = sum(Amount)) |>
+kable(
+    col.names = c("xScale", "Count", "Expenditures"),
+    caption = paste0("Count and Amount by Scale, ", Folder),
+    align = c("l", "r")
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE,
+    font_size=8)
+a
+
+
+```
+
+### c. Car
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Car"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+### d. Health and Wellness
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Health & Wellness"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+### e. Food and Drink
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Food & Drink"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+a <- dfExpensesReviewed |>
+  dplyr::filter(Category=="Food & Drink") |>
+  group_by(SubCategory) |>
+  dplyr::summarize(Count = n()) |>
+kable(
+    col.names = c("Type", "Count"),
+    caption = paste0("Count by Type, ", Folder),
+    align = c("l", "r")
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE,
+    font_size=8
+  )
+
+b <- dfExpensesReviewed_YTD |>
+  dplyr::filter(Category=="Food & Drink") |>
+  group_by(SubCategory) |>
+  dplyr::summarize(Count = n()) |>
+kable(
+    col.names = c("Type", "Count"),
+    caption = "Count by Type, YTD",
+    align = c("l", "r")
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE,
+    font_size=8
+  )
+
+kables(list(a, b), format = "pdf") %>%
+  kable_styling(position = "center")
+
+```
+### f. Entertainment
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Entertainment"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+### g. Groceries
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Groceries"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+### h. Subscriptions
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Subscriptions"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+### i. Gifts and Donations
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Gifts & Donations"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+### j. Travel
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Travel"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+### k. Travel Local
+
+```{r fig.width=10, fig.height = 3}
+
+xCategory="Travel Local"
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+```
+
+
+```{r}
+
+  dfCat <- dfExpensesReviewed |>
+    dplyr::filter(SubCategory=="Utilities")
+
+
+x <- EHFinances_FilterByCategory(dfExpensesReviewed, "Education")
+
+```
+
+## Payment Tracking
+
+```{r}
+
+kable(dfExpensesReviewed |> dplyr::filter(PaidMonthly==1) |>
+  dplyr::mutate(Description = substr(Description, 1, 45)) |> dplyr::arrange(Description) |> dplyr::select(-PaidMonthly, -SupercedesTrip, -Memo, -ToDelete, -Type, -ID, -Corrected),  caption = "Actual Payments", format.args = list(big.mark = ","), digits = 0) |>
+    kable_styling(full_width = FALSE, position = "center",
+                  latex_options = c("striped", "hold_position"))
+
+kable(dfCategories |> dplyr::filter(PaidMonthly==1) |> dplyr::arrange(xKey) |> dplyr::select(-PaidMonthly, -SupercedesTrip),  caption = "Accounts To Be Paid Monthly", format.args = list(big.mark = ","), digits = 0) |>
+    kable_styling(full_width = FALSE, position = "center",
+                  latex_options = c("striped", "hold_position"))
+
+```
+
