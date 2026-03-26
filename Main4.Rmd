@@ -185,7 +185,7 @@ grid.arrange(a, b, ncol = 2)
 
 ```
 
-### b. Spending Compared to Budget (Goal: $173,000/Year)
+### b. Spending Compared to Budget (Goal: $173,000/Year, 14,440 per month)
 
 ```{r}
 #par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
@@ -214,7 +214,7 @@ d <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr
 
 e <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Travel Local") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Travel Local", labelColor = EH_LabelColor)
 
-f <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |> dplyr::filter(ToDelete == 0, Category=="Shopping, YTD") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Shopping", labelColor = EH_LabelColor)
+f <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |> dplyr::filter(ToDelete == 0, Category=="Shopping") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Shopping", labelColor = EH_LabelColor)
 
 g <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Food & Drink") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Food & Drink", labelColor = EH_LabelColor)
 
@@ -246,7 +246,7 @@ d <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  d
 
 e <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Travel Local") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Travel Local, YTD", labelColor = EH_LabelColor)
 
-f <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Shopping, YTD")|> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Shopping, YTD", labelColor = EH_LabelColor)
+f <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Shopping")|> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Shopping, YTD", labelColor = EH_LabelColor)
 
 g <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Food & Drink") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Food & Drink, YTD", labelColor = EH_LabelColor)
 
@@ -460,7 +460,7 @@ x <- EHFinances_FilterByCategory(dfExpensesReviewed, "Education")
 
 ```
 
-## Payment Tracking
+## 3. Payment Tracking
 
 ```{r}
 
