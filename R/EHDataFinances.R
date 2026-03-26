@@ -64,9 +64,11 @@ EHFinances_ImportCategories <- function()
 EHFinances_Import2025 <- function()
 {
 
-  dfCategories <- read_csv("D:\\RStudio\\Finances\\Expenses2025.csv")
+  dfx <- read_csv("D:\\RStudio\\Finances\\Expenses2025.csv") |>
+    mutate(`Transaction Date` = anydate(`Transaction Date`)) |>
+    mutate(`Transaction Date` = as.Date(`Transaction Date`, format = "%m/%d/%Y"))
 
-  return(dfCategories)
+  return(dfx)
 
 }
 
