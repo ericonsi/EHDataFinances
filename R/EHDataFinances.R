@@ -716,6 +716,7 @@ EHFinances_CreateTopSpendingTable_AllYTD <- function(df, xNumber, Folder, ytd=TR
 
     df2 <- df |>
     group_by(Description, Category, SubCategory) |>
+    mutate(Description = substr(Description, 1, 25)) |>
     dplyr::summarise(Amount = sum(Amount))|>
     arrange(desc(Amount))
 
