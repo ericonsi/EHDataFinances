@@ -706,6 +706,36 @@ return (a)
 }
 
 #' @export
+EHFinances_CreateTopSpendingTableAll <- function(df, xNumber, Folder, ytd=FALSE, fontSize=9) {
+
+  if (ytd) {
+    cap <- paste0("Top ", xNumber, " Expenditures, YTD")
+  } else {
+    cap <- paste0("Top ", xNumber, " Expenditures, ", Folder)
+  }
+
+  a <- df %>%
+    dplyr::select(`Transaction Date`, Category, SubCategory, Description, Amount) |>
+    arrange(desc(Amount)) %>%
+    slice_head(n = xNumber) %>%
+    mutate(Amount = dollar(Amount)) %>%
+    kable(
+      col.names = c("Transaction Date", "Category", "SubCategory", "Description", "Amount"),
+      caption = cap,
+      align = c("l", "l", "l", "r")
+    ) %>%
+    kable_styling(
+      bootstrap_options = c("striped", "hover"),
+      full_width = FALSE,
+      position = "center",
+      font_size=fontSize
+    )
+
+  return (a)
+}
+
+
+#' @export
 EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
 
   EH_Turquoise = "#33a0a0"
