@@ -706,7 +706,7 @@ return (a)
 }
 
 #' @export
-EHFinances_CreateTopSpendingTableAll <- function(df, xNumber, Folder, ytd=FALSE, fontSize=9) {
+EHFinances_CreateTopSpendingTable_AllYTD <- function(df, xNumber, Folder, ytd=TRUE, fontSize=9) {
 
   if (ytd) {
     cap <- paste0("Top ", xNumber, " Expenditures, YTD")
@@ -714,13 +714,17 @@ EHFinances_CreateTopSpendingTableAll <- function(df, xNumber, Folder, ytd=FALSE,
     cap <- paste0("Top ", xNumber, " Expenditures, ", Folder)
   }
 
-  a <- df %>%
-    dplyr::select(`Transaction Date`, Category, SubCategory, Description, Amount) |>
-    arrange(desc(Amount)) %>%
+  df2 <- df |>
+    group_by(Description, Category, SubCategory) |>
+    dplyr::summarise(Amount = sum(Amount))|>
+    arrange(desc(Amount))
+
+  a <- df2 %>%
+    dplyr::select(Category, SubCategory, Description, Amount) |>
     slice_head(n = xNumber) %>%
-    mutate(Amount = dollar(Amount)) %>%
+    arrange(desc(Amount)) %>%
     kable(
-      col.names = c("Transaction Date", "Category", "SubCategory", "Description", "Amount"),
+      col.names = c("Category", "SubCategory", "Description", "Amount"),
       caption = cap,
       align = c("l", "l", "l", "r")
     ) %>%
