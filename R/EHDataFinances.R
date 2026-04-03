@@ -635,6 +635,9 @@ return (a)
 #' @export
 EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
 
+  tryCatch(
+  {
+
   li = list()
   li[[1]] <- EHFinances_BudgetAnalysisDF(df, Folder, ytd=FALSE)
   li[[2]] <- EHFinances_BudgetAnalysisDF(df_ytd, Folder, ytd=TRUE)
@@ -642,7 +645,15 @@ EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
   li[[4]] <- EHFinances_BudgetAnalysisPlot(li[[2]], Folder, ytd=TRUE)
 
   return(li)
+  },
+    error = function(e) {
+    message("An Error Occurred:")
+    print(paste(e, "This error can occur when there are categories (like NA) in the expenses df which do not have a corresponding category in the categories file. Carefully preparing the final expenses excel file with proper categories should fix this."))
+  return("Error")
+    }
+  )
 }
+
 
 #' @export
 EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfRuby_ytd, dfRenovation, dfRenovation_ytd, dfIncomeTaxes, dfIncomeTaxes_ytd, dfBudget, dfBudget_ytd, Folder) {
