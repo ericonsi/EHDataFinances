@@ -789,7 +789,7 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
 }
 
 #' @export
-EHFinances_MakeKableTable <- function(df, xCaption)  {
+EHFinances_MakeKableTable <- function(df, xCaption = "")  {
 a <- kable(df,  caption = xCaption, format.args = list(big.mark = ","), digits = 0) |>
   kable_styling(full_width = FALSE, position = "center",
                 latex_options = c("striped", "hold_position"))
