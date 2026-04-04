@@ -551,6 +551,7 @@ EHFinances_BudgetAnalysisDF <- function(df, Folder, ytd=FALSE) {
   dfBudgetTargets <- EHFinances_ImportBudgetTargets(Folder)
   } else     {
   nMonths <- as.numeric(substr(Folder, nchar(Folder) - 1, nchar(Folder)))
+
   dfBudgetTargets <- read_csv(paste0("D:\\RStudio\\Finances\\AnnualBudgetTargets.csv")) |>
   mutate(Amount=Amount*nMonths)
   }
@@ -787,3 +788,11 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
 
 }
 
+#' @export
+EHFinances_MakeKableTable <- function(df, xCaption)  {
+a <- kable(df,  caption = xCaption, format.args = list(big.mark = ","), digits = 0) |>
+  kable_styling(full_width = FALSE, position = "center",
+                latex_options = c("striped", "hold_position"))
+
+return(a)
+}
