@@ -269,11 +269,15 @@ return(dfExpenses2)
 #' @export
 EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses, Folder, AlreadyWritten = TRUE) {
 
+  dfExpenses2 <- dfExpenses |>
+    mutate(`Transaction Date` = as.character(`Transaction Date`))
+
 if(!AlreadyWritten)
 {
 
-  write_csv(dfExpenses, paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "p.csv"))
-  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "p.csv"), na = c(""))
+  write_csv(dfExpenses2, paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "p.csv"))
+  dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "p.csv"), na = c("")) |>
+    mutate(`Transaction Date` = as.Date(`Transaction Date`))
 
 } else {
 
