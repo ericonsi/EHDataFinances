@@ -800,3 +800,4 @@ a <- kable(df,  caption = xCaption, format.args = list(big.mark = ","), digits =
 
 return(a)
 }
+
