@@ -271,7 +271,7 @@ EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses, Folder, AlreadyWritte
 
   dfExpenses2 <- dfExpenses |>
     mutate(`Transaction Date` = as.character(`Transaction Date`)) |>
-    mutate(tDate = as.character(`Tranaction Date`)) |>
+    mutate(tDate = as.character(`Transaction Date`)) |>
     mutate(tDate2 = "2024-04-06")
 
 if(!AlreadyWritten)
