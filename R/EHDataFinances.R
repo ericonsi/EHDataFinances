@@ -279,7 +279,7 @@ if(!AlreadyWritten)
 
   write_csv(dfExpenses2, paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "p.csv"))
   dfOverrides <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\Overrides_", Folder, "p.csv"), na = c("")) |>
-    mutate(`Transaction Date` = as.Date(`Transaction Date`))
+    mutate(`Transaction Date` = as.Date(substr(`Transaction Date`, 2, nchar(`Transaction Date`))))
 
 } else {
 
