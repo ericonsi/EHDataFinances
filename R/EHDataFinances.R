@@ -269,7 +269,7 @@ return(dfExpenses2)
 #' @export
 EHFinances_WriteOrOpenOverrideFile <- function(dfExpenses, Folder, AlreadyWritten = TRUE) {
 
-  dfExpenses2 <- dfExpenses |>
+  dfExpenses2 <- dfExpenses  |>
     mutate(`Transaction Date` = paste("'", as.character(`Transaction Date`)))
 
 if(!AlreadyWritten)
