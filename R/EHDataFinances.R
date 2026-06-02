@@ -518,41 +518,50 @@ df3 <- EHFinances_AssignShoppingCategories(dfBoth2) |>
 #' @export
 EHFinances_CreateYtdDfs <- function(Folder) {
 
+  tryCatch(
+    {
+      li1 = list()
+      li1[[1]] = "\\Overrides_"
+      li1[[2]] = "\\Shopping_"
 
-  li1 = list()
-  li1[[1]] = "\\Overrides_"
-  li1[[2]] = "\\Shopping_"
+      li2 = list()
+      li3 = list()
 
-  li2 = list()
-  li3 = list()
+      for(j in 1:2) {
 
-  for(j in 1:2) {
+        dfq <- data.frame()
 
-    dfq <- data.frame()
+        nMonths <- as.numeric(substr(Folder, nchar(Folder) - 1, nchar(Folder)))
+        year <- as.character(substr(Folder, 1, 2))
 
-    nMonths <- as.numeric(substr(Folder, nchar(Folder) - 1, nchar(Folder)))
-    year <- as.character(substr(Folder, 1, 2))
+        dfq <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, "01\\", li1[j], year, "01r.csv"), na = c(""))
 
-    dfq <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, "01\\", li1[j], year, "01r.csv"), na = c(""))
+        if(nMonths>1) {
+          for(i in 2:nMonths) {
+            sMonth <- sprintf("%02d", i)
 
-    if(nMonths>1) {
-      for(i in 2:nMonths) {
-        sMonth <- sprintf("%02d", i)
+            dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, li1[[j]], year, sMonth, "r.csv"), na = c(""))
 
-        dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, li1[[j]], year, sMonth, "r.csv"), na = c(""))
+            dfq <- rbind(dfq, dfq2)
+          }
+        }
 
-        dfq <- rbind(dfq, dfq2)
+        li2[[j]] <- dfq |>
+          dplyr::mutate(Description = substr(Description, 1, 65))
       }
+
+      li3[[1]] <- EHFinances_CreateShockAndExpenseDFs(li2[[1]])
+      li3[[2]] <- li2[2]
+
+      return(li3)
+
+    },
+    error = function(e) {
+      message("An Error Occurred:")
+      print(paste(e, "This might be the excel date issue. The problem is in month", sMonth))
+      return("Error")
     }
-
-    li2[[j]] <- dfq |>
-      dplyr::mutate(Description = substr(Description, 1, 65))
-  }
-
-  li3[[1]] <- EHFinances_CreateShockAndExpenseDFs(li2[[1]])
-  li3[[2]] <- li2[2]
-
-  return(li3)
+  )
 }
 
 EHFinances_BudgetAnalysisDF <- function(df, Folder, ytd=FALSE) {
