@@ -541,13 +541,15 @@ EHFinances_CreateYtdDfs <- function(Folder) {
         nMonths <- as.numeric(substr(Folder, nchar(Folder) - 1, nchar(Folder)))
         year <- as.character(substr(Folder, 1, 2))
 
-        dfq <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, "01\\", li1[j], year, "01r.csv"), na = c(""))
+        dfq <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, "01\\", li1[j], year, "01r.csv"), na = c("")) |>
+          mutate(`Transaction Date` = EHCorrectedDate(`Tranaction`))
 
         if(nMonths>1) {
           for(i in 2:nMonths) {
             sMonth <- sprintf("%02d", i)
 
-            dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, li1[[j]], year, sMonth, "r.csv"), na = c(""))
+            dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, li1[[j]], year, sMonth, "r.csv"), na = c("")) |>
+              mutate(`Transaction Date` = EHCorrectedDate(`Tranaction`))
 
             dfq <- rbind(dfq, dfq2)
           }
