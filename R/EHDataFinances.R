@@ -542,14 +542,14 @@ EHFinances_CreateYtdDfs <- function(Folder) {
         year <- as.character(substr(Folder, 1, 2))
 
         dfq <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, "01\\", li1[j], year, "01r.csv"), na = c("")) |>
-          mutate(`Transaction Date` = EHCorrectedDate(`Tranaction`))
+          mutate(`Transaction Date` = EHCorrectedDate(`Transaction Date`))
 
         if(nMonths>1) {
           for(i in 2:nMonths) {
             sMonth <- sprintf("%02d", i)
 
             dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, li1[[j]], year, sMonth, "r.csv"), na = c("")) |>
-              mutate(`Transaction Date` = EHCorrectedDate(`Tranaction`))
+              mutate(`Transaction Date` = EHCorrectedDate(`Transaction Date`))
 
             dfq <- rbind(dfq, dfq2)
           }
@@ -567,7 +567,7 @@ EHFinances_CreateYtdDfs <- function(Folder) {
     },
     error = function(e) {
       message("An Error Occurred:")
-      #print(paste(e, "This might be the excel date issue. The problem is in month", sMonth))
+      print(paste(e, "This might be the excel date issue. The problem is in month", sMonth))
       return("Error")
     }
   )
