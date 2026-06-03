@@ -567,7 +567,7 @@ EHFinances_CreateYtdDfs <- function(Folder) {
     },
     error = function(e) {
       message("An Error Occurred:")
-      print(paste(e, "This might be the excel date issue. The problem is in month", sMonth))
+      #print(paste(e, "This might be the excel date issue. The problem is in month", sMonth))
       return("Error")
     }
   )
