@@ -590,7 +590,7 @@ dfBudgetTargets2 <- dfBudgetTargets |>
 
 dfExpensesReviewedCategories <- df |>
   group_by(Category) |>
-  dplyr::summarize(Amount = sum(Amount)) |>
+  dplyr::summarize(Amount = sum(as.numeric(Amount))) |>
   dplyr::rename(Amount_Spent=Amount)
 
 CategoriesWithZero <- as.data.frame(anti_join(dfBudgetTargets2, dfExpensesReviewedCategories, by = "Category")) |>
