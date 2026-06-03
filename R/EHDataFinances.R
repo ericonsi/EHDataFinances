@@ -152,7 +152,8 @@ dfExpenses3 <- dfExpenses2 |>
   mutate(Corrected=0) |>
   dplyr::filter(year(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[1]], month(`Transaction Date`)==EHFinances_RetrieveYearAndMonth(Folder)[[2]]) |>
   #dplyr::filter(EHFinances_TestIfDateIsInRange(xDate=`Transaction Date`, Folder)) |>
-  dplyr::mutate(Description = substr(Description, 1, 65))
+  dplyr::mutate(Description = substr(Description, 1, 65)) |>
+  mutate(Amount=as.numeric(Amount))
 
 dfCategories <- EHFinances_ImportCategories()
 liAccounts=list()
@@ -542,14 +543,16 @@ EHFinances_CreateYtdDfs <- function(Folder) {
         year <- as.character(substr(Folder, 1, 2))
 
         dfq <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, "01\\", li1[j], year, "01r.csv"), na = c("")) |>
-          mutate(`Transaction Date` = EHCorrectedDate(`Transaction Date`))
+          mutate(`Transaction Date` = EHCorrectedDate(`Transaction Date`)) |>
+          mutate(Amount=as.numeric(Amount))
 
         if(nMonths>1) {
           for(i in 2:nMonths) {
             sMonth <- sprintf("%02d", i)
 
             dfq2 <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", year, sMonth, li1[[j]], year, sMonth, "r.csv"), na = c("")) |>
-              mutate(`Transaction Date` = EHCorrectedDate(`Transaction Date`))
+              mutate(`Transaction Date` = EHCorrectedDate(`Transaction Date`)) |>
+            mutate(Amount=as.numeric(Amount))
 
             dfq <- rbind(dfq, dfq2)
           }
