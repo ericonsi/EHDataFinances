@@ -688,7 +688,7 @@ EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
 EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfRuby_ytd, dfRenovation, dfRenovation_ytd, dfIncomeTaxes, dfIncomeTaxes_ytd, dfBudget, dfBudget_ytd, Folder) {
 
 
-  mat2 <- matrix(c(sum(dfExpenses$Amount), sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation$Amount),  sum(dfIncomeTaxes$Amount), sum(dfBudget$Differential),
+  mat2 <- matrix(c(sum(as.numeric(dfExpenses$Amount)), sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation$Amount),  sum(dfIncomeTaxes$Amount), sum(dfBudget$Differential),
                    sum(dfExpenses_ytd$Amount), sum((dfRuby_ytd |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby_ytd |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation_ytd$Amount),  sum(dfIncomeTaxes_ytd$Amount), sum(dfBudget_ytd$Differential)), ncol=2, byrow=FALSE)
 
 
