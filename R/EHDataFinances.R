@@ -23,8 +23,8 @@ library(datefixR)
 
 EHCorrectedDate <- function(date_input) {
 
-  parsed_date <- try(as.Date(date_input, format = "%Y/%m/%d"), silent = TRUE)
-  return(format(parsed_date, "%Y-%m-%d"))
+    dd <- anydate(date_input)
+  return(format(dd, "%Y-%m-%d"))
 
 }
 
@@ -163,7 +163,6 @@ liAccounts[[1]] <- dfExpenses3
 return (liAccounts)
 
 }
-
 
 EHFinances_ImportAccountsToDelete <- function()
 {
