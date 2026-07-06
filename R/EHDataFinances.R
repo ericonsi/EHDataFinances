@@ -24,7 +24,7 @@ library(datefixR)
 EHCorrectedDate <- function(date_input) {
 
     dd <- anydate(date_input)
-  return(format(dd, "%Y-%m-%d"))
+    return(as.Date(format(dd, "%Y-%m-%d")))
 
 }
 
@@ -263,6 +263,9 @@ dfExpenses2 <- dfExpenses |>
   dplyr::mutate(SubCategory=if_else(Category=="Groceries" & SubCategory=="NA", "Other", SubCategory)) |>
   dplyr::mutate(SubCategory = if_else(Category=="Gas", "Gas", SubCategory)) |>
   dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
+  dplyr::mutate(Category = if_else(Category=="Automotive", "Car", Category)) |>
+  dplyr::mutate(Category = if_else(Category=="NA", "NA1", Category)) |>
+  dplyr::mutate(Category = if_else(Category=="Venmo", "NA1", Category)) |>
   mutate(SubCategory = if_else(Category=="Food & Drink", "Uncategorized", SubCategory)) |>
   dplyr::mutate(Amount=round(Amount,0)) |>
   dplyr::mutate(Category = if_else(Category=="Professional Services", "Home", Category)) |>
@@ -489,7 +492,8 @@ EHFinances_CreateDfForShoppingAnalysis <- function(dfExpenses, Folder, NoAmazon=
     dplyr::filter(Category=="Shopping") |>
     dplyr::filter(!str_detect(Description, regex("Amazon", ignore_case = TRUE))) |>
     dplyr::mutate(Ruby=0) |>
-    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)
+    dplyr::select(`Transaction Date`, Description, Amount, Ruby, SubCategory, Category)|>
+    dplyr::mutate(`Transaction Date` = EHCorrectedDate(`Transaction Date`))
 
   if(!NoAmazon) {
 
