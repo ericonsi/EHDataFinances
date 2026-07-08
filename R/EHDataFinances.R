@@ -838,6 +838,7 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
 #' @export
 EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets) {
 
+
   Months = as.numeric(substr(xMonth, nchar(xMonth) - 2 + 1, nchar(xMonth)))
 
   dfTotalExpendituresTable <- data.frame(dfExpensesReviewed |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Current=sum(Amount)), dfExpensesReviewed_YTD |> dplyr::filter(Category==xCategory) |> dplyr::summarise(YTD=sum(Amount), Average=YTD/Months), dfBudgetTargets |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Budget=sum(Amount)))
