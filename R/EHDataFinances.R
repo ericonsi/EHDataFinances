@@ -836,7 +836,7 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
 }
 
 #' @export
-EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, dfBudget, xCategory, Folder) {
+EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory) {
 
   dfTotalExpendituresTable <- data.frame(dfExpensesReviewed |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Current=sum(Amount)), dfExpensesReviewed_YTD |> dplyr::filter(Category==xCategory) |> dplyr::summarise(YTD=sum(Amount)))
   EHFinances_MakeKableTable(dfTotalExpendituresTable, "Total Spending")
