@@ -91,8 +91,10 @@ EH_LabelColor = "#5d3f6a"
 # Import data
 dfExpenses <- EHFinances_ImportRawAccountFiles(xMonth)[[1]]
 dfCategories <- EHFinances_ImportCategories()
+dfROR <- EHFinances_ImportROR(xMonth)
 dfAmazonOrders <- EHFinances_ImportAmazonOrders(xMonth)
 dfExpenses2025 <- EHFinances_Import2025()
+
 
 ```
 
@@ -293,7 +295,13 @@ dfxx <- bind_rows(dfRenovationsYTD_Grouped, tibble(SubCategory = "TOTAL", Total 
 EHFinances_MakeKableTable(dfxx, "Renovation Breakdown YTD")
 
 ```
+### f. ROR Breakdown YTD
 
+```{r}
+
+EHFinances_MakeKableTable(dfROR, "Renovation Breakdown YTD")
+
+```
 
 
 ## 2. Categories in Detail
@@ -303,6 +311,12 @@ EHFinances_MakeKableTable(dfxx, "Renovation Breakdown YTD")
 ```{r fig.width=10, fig.height = 3}
 
 xCategory="Home"
+
+dfTotalExpendituresTable <- data.frame(Current = dfExpensesReviewed |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Spending_This_month=sum(Amount)), Spending_YTD = dfExpensesReviewed_YTD |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Total_YTD=sum(Amount)))
+EHFinances_MakeKableTable(dfTotalExpendituresTable)
+                                       
+#, YTD = sum(dfExpensesReviewed_YTD$Amount |> dplyr::filter(Category=="Home")))
+
 EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 

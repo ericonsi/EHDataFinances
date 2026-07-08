@@ -836,6 +836,14 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
 }
 
 #' @export
+EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, dfBudget, xCategory, Folder) {
+
+  dfTotalExpendituresTable <- data.frame(dfExpensesReviewed |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Current=sum(Amount)), dfExpensesReviewed_YTD |> dplyr::filter(Category==xCategory) |> dplyr::summarise(YTD=sum(Amount)))
+  EHFinances_MakeKableTable(dfTotalExpendituresTable, "Total Spending")
+
+}
+
+#' @export
 EHFinances_MakeKableTable <- function(df, xCaption = "")  {
 a <- kable(df,  caption = xCaption, format.args = list(big.mark = ","), digits = 0) |>
   kable_styling(full_width = FALSE, position = "center",
