@@ -116,7 +116,7 @@ dfExpenses8 <- EHFinances_AssignShoppingCategories(dfExpenses7)
 
 #Write or open override file
 
-dfExpenses9 <- EHFinances_WriteOrOpenOverrideFile(dfExpenses8, Folder=xMonth, AlreadyWritten = FALSE)
+dfExpenses9 <- EHFinances_WriteOrOpenOverrideFile(dfExpenses8, Folder=xMonth, AlreadyWritten = TRUE)
 
 ```
 
@@ -134,7 +134,7 @@ dfIncomeTaxes <- liExpenseDFs[[4]]
 
 ```{r}
 
-dfShopping <- EHFinances_WriteOrOpenShoppingFile(dfExpensesReviewed, Folder=xMonth, AlreadyWritten = FALSE)
+dfShopping <- EHFinances_WriteOrOpenShoppingFile(dfExpensesReviewed, Folder=xMonth, AlreadyWritten = TRUE)
 
 ```
 

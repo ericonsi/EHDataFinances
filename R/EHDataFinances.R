@@ -693,13 +693,15 @@ EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
 #' @export
 EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfRuby_ytd, dfRenovation, dfRenovation_ytd, dfIncomeTaxes, dfIncomeTaxes_ytd, dfBudget, dfBudget_ytd, Folder) {
 
+  grandTotal = sum(as.numeric(dfExpenses$Amount)) + sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount) + sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount) + sum(dfRenovation$Amount) +  sum(dfIncomeTaxes$Amount)
+  grandTotalYtd =   sum(dfExpenses_ytd$Amount) + sum((dfRuby_ytd |> filter(SubCategory == "Tuition Etc."))$Amount) + sum((dfRuby_ytd |> filter(SubCategory != "Tuition Etc."))$Amount) + sum(dfRenovation_ytd$Amount) +  sum(dfIncomeTaxes_ytd$Amount)
 
-  mat2 <- matrix(c(sum(as.numeric(dfExpenses$Amount)), sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation$Amount),  sum(dfIncomeTaxes$Amount), sum(dfBudget$Differential),
-                   sum(dfExpenses_ytd$Amount), sum((dfRuby_ytd |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby_ytd |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation_ytd$Amount),  sum(dfIncomeTaxes_ytd$Amount), sum(dfBudget_ytd$Differential)), ncol=2, byrow=FALSE)
+  mat2 <- matrix(c(sum(as.numeric(dfExpenses$Amount)), sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation$Amount),  sum(dfIncomeTaxes$Amount), sum(dfBudget$Differential), grandTotal,
+                   sum(dfExpenses_ytd$Amount), sum((dfRuby_ytd |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby_ytd |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation_ytd$Amount),  sum(dfIncomeTaxes_ytd$Amount), sum(dfBudget_ytd$Differential), grandTotalYtd), ncol=2, byrow=FALSE)
 
 
   colnames(mat2) <- c(paste0("Amount_", Folder), "Amount_YTD")
-  rownames(mat2) <- c("Total Expenses:", "Total Ruby Tuition:", "Ruby Non Tuition:", "Renovation:", "Income Taxes:", "Budget Surplus:")
+  rownames(mat2) <- c("Total Expenses", "Total Ruby Tuition", "Ruby Non Tuition", "Renovation", "Income Taxes", "Budget Surplus", "TOTAL")
 
   dfMat <- as.data.frame(mat2)
 
