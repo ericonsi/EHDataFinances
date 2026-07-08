@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.25)  8 JUL 2026 07:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.25)  8 JUL 2026 08:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -476,6 +476,9 @@ LaTeX Warning: Label `tab:unnamed-chunk-17' multiply defined.
 LaTeX Warning: Label `tab:unnamed-chunk-18' multiply defined.
 
 
+LaTeX Warning: Label `tab:unnamed-chunk-18' multiply defined.
+
+
 LaTeX Warning: Label `tab:unnamed-chunk-19' multiply defined.
 
 
@@ -483,6 +486,12 @@ LaTeX Warning: Label `tab:unnamed-chunk-19' multiply defined.
 
 
 LaTeX Warning: Label `tab:unnamed-chunk-20' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-20' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-22' multiply defined.
 
 
 LaTeX Warning: Label `tab:unnamed-chunk-22' multiply defined.
@@ -497,7 +506,16 @@ LaTeX Warning: Label `tab:unnamed-chunk-23' multiply defined.
 LaTeX Warning: Label `tab:unnamed-chunk-23' multiply defined.
 
 
+LaTeX Warning: Label `tab:unnamed-chunk-23' multiply defined.
+
+
 LaTeX Warning: Label `tab:unnamed-chunk-24' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-24' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-25' multiply defined.
 
 
 LaTeX Warning: Label `tab:unnamed-chunk-25' multiply defined.
@@ -506,10 +524,22 @@ LaTeX Warning: Label `tab:unnamed-chunk-25' multiply defined.
 LaTeX Warning: Label `tab:unnamed-chunk-26' multiply defined.
 
 
+LaTeX Warning: Label `tab:unnamed-chunk-26' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-27' multiply defined.
+
+
 LaTeX Warning: Label `tab:unnamed-chunk-27' multiply defined.
 
 
 LaTeX Warning: Label `tab:unnamed-chunk-28' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-28' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-29' multiply defined.
 
 
 LaTeX Warning: Label `tab:unnamed-chunk-29' multiply defined.
@@ -622,28 +652,41 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \tf@toc=\write3
 \openout3 = `Main6.toc'.
 
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 103.
+(c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Overfull \hbox (1026.49063pt too wide) in paragraph at lines 116--116
+[]\T1/lmtt/m/n/10 ##          checking for file 'C:\Users\erico\AppData\Local\Temp\RtmpM5NU7x\remotes57b0578b24b1\ericonsi-EHDataFinances-116a245/DESCRIPTION' ...  v  checking for file 'C:\Users\erico\AppData\Local\Temp\RtmpM5NU7x\remotes57b0578b24b1\ericonsi-EHDataFinances-116a245/DESCRIPTION' (526ms)[] 
+ []
+
+
+Overfull \hbox (7.99359pt too wide) in paragraph at lines 116--116
+[]\T1/lmtt/m/n/10 ##       -  checking for LF line-endings in source and make files and shell scripts (383ms)[] 
+ []
+
 
 
 [1
 
 {c:/Users/erico/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}]
-<Main6_files/figure-latex/unnamed-chunk-11-1.pdf, id=64, 1011.78pt x 578.16pt>
+<Main6_files/figure-latex/unnamed-chunk-11-1.pdf, id=65, 1011.78pt x 578.16pt>
 File: Main6_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-11-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 123.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 138.
 (pdftex.def)             Requested size: 469.76266pt x 268.4358pt.
-<Main6_files/figure-latex/unnamed-chunk-12-1.pdf, id=65, 469.755pt x 325.215pt>
+<Main6_files/figure-latex/unnamed-chunk-12-1.pdf, id=66, 469.755pt x 325.215pt>
 File: Main6_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-12-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-12-1.pdf  used on input line 129.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-12-1.pdf  used on input line 144.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
 
 [2 <./Main6_files/figure-latex/unnamed-chunk-11-1.pdf>] [3 <./Main6_files/figure-latex/unnamed-chunk-12-1.pdf>]
-<Main6_files/figure-latex/unnamed-chunk-13-1.pdf, id=89, 939.51pt x 1445.4pt>
+<Main6_files/figure-latex/unnamed-chunk-13-1.pdf, id=90, 939.51pt x 1445.4pt>
 File: Main6_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-13-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 184.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 199.
 (pdftex.def)             Requested size: 422.77559pt x 650.424pt.
 
 
@@ -653,10 +696,10 @@ Overfull \vbox (24.39665pt too high) has occurred while \output is active []
 
 
 [5 <./Main6_files/figure-latex/unnamed-chunk-13-1.pdf>]
-<Main6_files/figure-latex/unnamed-chunk-14-1.pdf, id=104, 939.51pt x 1445.4pt>
+<Main6_files/figure-latex/unnamed-chunk-14-1.pdf, id=105, 939.51pt x 1445.4pt>
 File: Main6_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-14-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-14-1.pdf  used on input line 189.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-14-1.pdf  used on input line 204.
 (pdftex.def)             Requested size: 422.77559pt x 650.424pt.
 
 Overfull \vbox (24.39665pt too high) has occurred while \output is active []
@@ -664,153 +707,146 @@ Overfull \vbox (24.39665pt too high) has occurred while \output is active []
 
 
 [6 <./Main6_files/figure-latex/unnamed-chunk-14-1.pdf>]
-<Main6_files/figure-latex/unnamed-chunk-17-1.pdf, id=115, 722.7pt x 216.81pt>
+<Main6_files/figure-latex/unnamed-chunk-17-1.pdf, id=116, 722.7pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-17-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-17-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-17-1.pdf  used on input line 243.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-17-1.pdf  used on input line 258.
 (pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
 
 
 [7 <./Main6_files/figure-latex/unnamed-chunk-17-1.pdf>]
-Overfull \hbox (54.43857pt too wide) in alignment at lines 274--297
+Overfull \hbox (54.43857pt too wide) in alignment at lines 289--312
  [] [] [] [] 
  []
 
-<Main6_files/figure-latex/unnamed-chunk-18-1.pdf, id=130, 794.97pt x 216.81pt>
+<Main6_files/figure-latex/unnamed-chunk-18-1.pdf, id=131, 794.97pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-18-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-18-1.pdf  used on input line 302.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-18-1.pdf  used on input line 326.
 (pdftex.def)             Requested size: 469.76819pt x 128.11859pt.
 
-Overfull \hbox (5.54237pt too wide) in alignment at lines 305--328
+Overfull \hbox (5.54237pt too wide) in alignment at lines 329--352
  [] [] [] [] 
  []
 
-[8 <./Main6_files/figure-latex/unnamed-chunk-18-1.pdf>]
-Overfull \hbox (3.85133pt too wide) in alignment at lines 333--356
+
+
+[8]
+Overfull \hbox (3.85133pt too wide) in alignment at lines 357--380
  [] [] [] [] 
  []
 
-<Main6_files/figure-latex/unnamed-chunk-19-1.pdf, id=145, 1011.78pt x 578.16pt>
+[9 <./Main6_files/figure-latex/unnamed-chunk-18-1.pdf>]
+<Main6_files/figure-latex/unnamed-chunk-19-1.pdf, id=154, 1011.78pt x 578.16pt>
 File: Main6_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-19-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-19-1.pdf  used on input line 373.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-19-1.pdf  used on input line 397.
 (pdftex.def)             Requested size: 469.76266pt x 268.4358pt.
 
-Overfull \hbox (5.47818pt too wide) in alignment at lines 376--399
+Overfull \hbox (5.47818pt too wide) in alignment at lines 400--423
  [] [] [] [] 
  []
 
 
-
-[9]
-Overfull \hbox (17.86647pt too wide) in alignment at lines 404--427
+Overfull \hbox (17.86647pt too wide) in alignment at lines 428--451
  [] [] [] [] 
  []
 
 [10 <./Main6_files/figure-latex/unnamed-chunk-19-1.pdf>]
-<Main6_files/figure-latex/unnamed-chunk-20-1.pdf, id=165, 722.7pt x 216.81pt>
+<Main6_files/figure-latex/unnamed-chunk-20-1.pdf, id=167, 722.7pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-20-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-20-1.pdf  used on input line 448.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-20-1.pdf  used on input line 481.
 (pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
 
-Overfull \hbox (76.9358pt too wide) in alignment at lines 451--470
+Overfull \hbox (76.9358pt too wide) in alignment at lines 484--503
  [] [] [] [] 
  []
 
 [11 <./Main6_files/figure-latex/unnamed-chunk-20-1.pdf>]
-<Main6_files/figure-latex/unnamed-chunk-21-1.pdf, id=179, 469.755pt x 325.215pt>
+<Main6_files/figure-latex/unnamed-chunk-21-1.pdf, id=181, 469.755pt x 325.215pt>
 File: Main6_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-21-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-21-1.pdf  used on input line 501.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-21-1.pdf  used on input line 534.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<Main6_files/figure-latex/unnamed-chunk-22-1.pdf, id=180, 722.7pt x 216.81pt>
+
+
+[12 <./Main6_files/figure-latex/unnamed-chunk-21-1.pdf>]
+<Main6_files/figure-latex/unnamed-chunk-22-1.pdf, id=192, 722.7pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-22-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-22-1.pdf  used on input line 505.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-22-1.pdf  used on input line 547.
 (pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
 
-Overfull \hbox (34.60527pt too wide) in alignment at lines 508--531
+Overfull \hbox (34.60527pt too wide) in alignment at lines 550--573
  [] [] [] [] 
  []
 
-
-
-[12 <./Main6_files/figure-latex/unnamed-chunk-21-1.pdf> <./Main6_files/figure-latex/unnamed-chunk-22-1.pdf>]
-<Main6_files/figure-latex/unnamed-chunk-23-1.pdf, id=196, 722.7pt x 216.81pt>
+[13 <./Main6_files/figure-latex/unnamed-chunk-22-1.pdf>]
+<Main6_files/figure-latex/unnamed-chunk-23-1.pdf, id=207, 722.7pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-23-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-23-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-23-1.pdf  used on input line 564.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-23-1.pdf  used on input line 615.
 (pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
-[13 <./Main6_files/figure-latex/unnamed-chunk-23-1.pdf>] [14]
-<Main6_files/figure-latex/unnamed-chunk-24-1.pdf, id=218, 722.7pt x 216.81pt>
+[14 <./Main6_files/figure-latex/unnamed-chunk-23-1.pdf>]
+<Main6_files/figure-latex/unnamed-chunk-24-1.pdf, id=221, 722.7pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-24-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-24-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-24-1.pdf  used on input line 660.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-24-1.pdf  used on input line 720.
 (pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
-<Main6_files/figure-latex/unnamed-chunk-25-1.pdf, id=219, 722.7pt x 216.81pt>
+[15 <./Main6_files/figure-latex/unnamed-chunk-24-1.pdf>]
+<Main6_files/figure-latex/unnamed-chunk-25-1.pdf, id=236, 722.7pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-25-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-25-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-25-1.pdf  used on input line 706.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-25-1.pdf  used on input line 775.
 (pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
-
-
-[15 <./Main6_files/figure-latex/unnamed-chunk-24-1.pdf>]
-<Main6_files/figure-latex/unnamed-chunk-26-1.pdf, id=232, 722.7pt x 216.81pt>
+[16 <./Main6_files/figure-latex/unnamed-chunk-25-1.pdf>]
+<Main6_files/figure-latex/unnamed-chunk-26-1.pdf, id=250, 722.7pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-26-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-26-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-26-1.pdf  used on input line 762.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-26-1.pdf  used on input line 840.
 (pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
 
-Overfull \hbox (27.96678pt too wide) in alignment at lines 765--784
+Overfull \hbox (27.96678pt too wide) in alignment at lines 843--862
  [] [] [] [] 
  []
-
-
-
-[16 <./Main6_files/figure-latex/unnamed-chunk-25-1.pdf>]
-Overfull \hbox (28.22417pt too wide) in alignment at lines 789--812
- [] [] [] [] 
- []
-
-<Main6_files/figure-latex/unnamed-chunk-27-1.pdf, id=245, 722.7pt x 216.81pt>
-File: Main6_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (type pdf)
-<use Main6_files/figure-latex/unnamed-chunk-27-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-27-1.pdf  used on input line 817.
-(pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
-
 
 [17 <./Main6_files/figure-latex/unnamed-chunk-26-1.pdf>]
-<Main6_files/figure-latex/unnamed-chunk-28-1.pdf, id=258, 722.7pt x 216.81pt>
-File: Main6_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (type pdf)
-<use Main6_files/figure-latex/unnamed-chunk-28-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-28-1.pdf  used on input line 864.
-(pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
-
-
-[18 <./Main6_files/figure-latex/unnamed-chunk-27-1.pdf>]
-Overfull \hbox (16.70181pt too wide) in alignment at lines 895--918
+Overfull \hbox (28.22417pt too wide) in alignment at lines 867--890
  [] [] [] [] 
  []
 
-<Main6_files/figure-latex/unnamed-chunk-29-1.pdf, id=272, 722.7pt x 216.81pt>
+<Main6_files/figure-latex/unnamed-chunk-27-1.pdf, id=264, 722.7pt x 216.81pt>
+File: Main6_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (type pdf)
+<use Main6_files/figure-latex/unnamed-chunk-27-1.pdf>
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-27-1.pdf  used on input line 904.
+(pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
+[18 <./Main6_files/figure-latex/unnamed-chunk-27-1.pdf>]
+<Main6_files/figure-latex/unnamed-chunk-28-1.pdf, id=279, 722.7pt x 216.81pt>
+File: Main6_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (type pdf)
+<use Main6_files/figure-latex/unnamed-chunk-28-1.pdf>
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-28-1.pdf  used on input line 960.
+(pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
+[19 <./Main6_files/figure-latex/unnamed-chunk-28-1.pdf>]
+Overfull \hbox (16.70181pt too wide) in alignment at lines 991--1014
+ [] [] [] [] 
+ []
+
+<Main6_files/figure-latex/unnamed-chunk-29-1.pdf, id=294, 722.7pt x 216.81pt>
 File: Main6_files/figure-latex/unnamed-chunk-29-1.pdf Graphic file (type pdf)
 <use Main6_files/figure-latex/unnamed-chunk-29-1.pdf>
-Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-29-1.pdf  used on input line 923.
+Package pdftex.def Info: Main6_files/figure-latex/unnamed-chunk-29-1.pdf  used on input line 1028.
 (pdftex.def)             Requested size: 469.76045pt x 140.92813pt.
-
-
-[19 <./Main6_files/figure-latex/unnamed-chunk-28-1.pdf>]
-Overfull \hbox (67.32779pt too wide) in alignment at lines 982--992
+[20 <./Main6_files/figure-latex/unnamed-chunk-29-1.pdf>]
+Overfull \hbox (67.32779pt too wide) in alignment at lines 1087--1097
  [] [] [] [] [] [] 
  []
 
 
 
-[20 <./Main6_files/figure-latex/unnamed-chunk-29-1.pdf>] [21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31]
+[21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32]
 
-[32] (./Main6.aux)
+[33] (./Main6.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -820,18 +856,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 13203 strings out of 475171
- 209802 string characters out of 5764516
- 711404 words of memory out of 5000000
- 35867 multiletter control sequences out of 15000+600000
- 607983 words of font info for 77 fonts, out of 8000000 for 9000
+ 13270 strings out of 475171
+ 210754 string characters out of 5764516
+ 707743 words of memory out of 5000000
+ 35919 multiletter control sequences out of 15000+600000
+ 608302 words of font info for 78 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  89i,7n,93p,983b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb>
-Output written on Main6.pdf (32 pages, 326651 bytes).
+<c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/erico/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on Main6.pdf (33 pages, 360108 bytes).
 PDF statistics:
- 481 PDF objects out of 1000 (max. 8388607)
- 397 compressed objects within 4 object streams
- 99 named destinations out of 1000 (max. 500000)
+ 504 PDF objects out of 1000 (max. 8388607)
+ 416 compressed objects within 5 object streams
+ 110 named destinations out of 1000 (max. 500000)
  286 words of extra memory for PDF output out of 10000 (max. 10000000)
 
