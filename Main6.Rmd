@@ -103,7 +103,7 @@ dfExpenses2025 <- EHFinances_Import2025()
 
 dfExpenses2 <- EHFinances_AssignCategoriesAndSubcategories(dfExpenses)
 dfExpenses3 <- EHFinances_AssignTrips(dfExpenses2, "2025-12-28", "2026-01-08", "Rio")
-dfExpenses3 <- EHFinances_AssignTrips(dfExpenses2, "2026-02-2", "2026-02-10", "Puerto Rico")
+dfExpenses3 <- EHFinances_AssignTrips(dfExpenses2, "2026-02-2", "2026-02-10", "PR_2602")
 dfExpenses3 <- EHFinances_AssignTrips(dfExpenses2, "2026-04-24", "2026-04-26", "Atlanta")
 dfExpenses3 <- EHFinances_AssignTrips(dfExpenses2, "2026-06-13", "2026-06-14", "Maine")
 dfExpenses4 <- EHFinances_AssignRuby(dfExpenses3)
@@ -202,7 +202,10 @@ grid.arrange(a, b, ncol = 2)
 
 ```{r}
 #par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
+
+
 grid.arrange(liBudget[[3]], liBudget[[4]], ncol = 2)
+
 
 Total <- c("TOTAL", sum(dfBudget$Amount_Budget), sum(dfBudget$Amount_Spent), sum(dfBudget$Differential))
            
@@ -213,8 +216,10 @@ Total_YTD <- c("TOTAL", sum(dfBudget_YTD$Amount_Budget), sum(dfBudget_YTD$Amount
            
 dfBudgetWithTotal_YTD <- rbind(dfBudget_YTD, Total_YTD)
 
-EHFinances_MakeKableTable(dfBudgetWithTotal,  "Budget Summary")
-EHFinances_MakeKableTable(dfBudgetWithTotal_YTD,  "Budget Summary YTD")
+EHFinances_MakeKableTable(dfBudgetWithTotal |> dplyr::filter(Category != "NA1"),  "Budget Summary Current Month")
+EHFinances_MakeKableTable(dfBudgetWithTotal_YTD|> dplyr::filter(Category != "NA1"),  "Budget Summary YTD")
+
+
 
 ```
 
