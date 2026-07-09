@@ -273,10 +273,13 @@ dfExpenses2 <- dfExpenses |>
   dplyr::mutate(Category = if_else(Category=="Groceries" & Amount < 20, "Food & Drink", Category)) |>
   dplyr::mutate(SubCategory=if_else(Category=="Groceries" & SubCategory=="NA", "Other", SubCategory)) |>
   dplyr::mutate(SubCategory = if_else(Category=="Gas", "Gas", SubCategory)) |>
+  dplyr::mutate(SubCategory = if_else(SubCategory=="Puerto Rico", "PR_2602", SubCategory)) |>
+  dplyr::mutate(SubCategory = if_else(SubCategory=="PR", "PR_2602", SubCategory)) |>
   dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
   dplyr::mutate(Category = if_else(Category=="Automotive", "Car", Category)) |>
   dplyr::mutate(Category = if_else(Category=="NA", "NA1", Category)) |>
   dplyr::mutate(Category = if_else(Category=="Venmo", "NA1", Category)) |>
+  dplyr::mutate(Category = if_else(SubCategory=="Parking", "Travel Local", Category)) |>
   mutate(SubCategory = if_else(Category=="Food & Drink", "Uncategorized", SubCategory)) |>
   dplyr::mutate(Amount=round(Amount,0)) |>
   dplyr::mutate(Category = if_else(Category=="Professional Services", "Home", Category)) |>

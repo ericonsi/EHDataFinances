@@ -189,9 +189,9 @@ EHFinances_CreateTotalsTable(dfExpensesReviewed, dfExpensesReviewed_YTD, dfRuby,
 
 ```{r fig.width = 14, fig.height=8}
 
-a <- EHData::EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |> dplyr::select(Category, Amount), xfill =EH_Turquoise, rectfill = EH_Cream, font_size = 15, xtitle = "Total Spent by Category, 2602", labelColor=EH_LabelColor, labelSize = 5)
+a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |> dplyr::select(Category, Amount), xfill =EH_Turquoise, rectfill = EH_Cream, font_size = 15, xtitle = paste("Total Spent by Category,", xMonth), labelColor=EH_LabelColor, labelSize = 5, decreasingOrder = FALSE)
 
-b <- EHData::EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |> dplyr::select(Category, Amount), xfill =EH_Turquoise, rectfill = EH_Cream, font_size = 15, xtitle = "Total Spent by Category, YTD", labelColor=EH_LabelColor, labelSize = 5)
+b <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |> dplyr::select(Category, Amount), xfill =EH_Turquoise, rectfill = EH_Cream, font_size = 15, xtitle = "Total Spent by Category, YTD", labelColor=EH_LabelColor, labelSize = 5, decreasingOrder = FALSE)
 
 par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
 grid.arrange(a, b, ncol = 2)
@@ -218,9 +218,11 @@ EHFinances_MakeKableTable(dfBudgetWithTotal_YTD,  "Budget Summary YTD")
 
 ```
 
-### c. Spending by SubCategory For This Month
+
 
 ```{r, fig.width=13, fig.height=20}
+
+### c. Spending by SubCategory [Place this in the white space if reactivated]
 
 a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Health & Wellness") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Health & Wellness", labelColor = EH_LabelColor)
 
@@ -247,12 +249,14 @@ k <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr
 l <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(ToDelete == 0, Category=="Subscriptions") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "SubScriptions", labelColor = EH_LabelColor)
 
 
-grid.arrange(a, b, c, d, e, f, g, h, i, j, k, l, ncol=3)
+#grid.arrange(a, b, c, d, e, f, g, h, i, j, k, l, ncol=3)
 ```
 
-### d. Spending by SubCategory YTD
+
 
 ```{r, fig.width=13, fig.height=20}
+
+### d. Spending by SubCategory YTD [Place this in the white space if reactivated]
 
 a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Health & Wellness") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "Health & Wellness, YTD", labelColor = EH_LabelColor)
 
@@ -279,10 +283,10 @@ k <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  d
 l <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(ToDelete == 0, Category=="Subscriptions") |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = "SubScriptions, YTD", labelColor = EH_LabelColor)
 
 
-grid.arrange(a, b, c, d, e, f, g, h, i, j, k, l, ncol=3)
+#grid.arrange(a, b, c, d, e, f, g, h, i, j, k, l, ncol=3)
 ```
 
-### e. Renovation Breakdown YTD
+### c. Renovation Breakdown YTD
 
 ```{r}
 
@@ -295,7 +299,7 @@ dfxx <- bind_rows(dfRenovationsYTD_Grouped, tibble(SubCategory = "TOTAL", Total 
 EHFinances_MakeKableTable(dfxx, "Renovation Breakdown YTD")
 
 ```
-### f. ROR Breakdown YTD
+### d. Asset Breakdown YTD
 
 ```{r}
 
@@ -532,8 +536,19 @@ EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory,
 
 xCategory="Travel"
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
+
+dfTravel_Grouped <- dfExpensesReviewed_YTD |>
+  dplyr::filter(Category=="Travel") |>
+  group_by(SubCategory) |>
+  dplyr::summarise(Total = sum(Amount)) 
+
+dfxx <- bind_rows(dfTravel_Grouped, tibble(SubCategory = "TOTAL", Total = sum(dfTravel_Grouped$Total)))
+
+EHFinances_MakeKableTable(dfxx, "Travel Breakdown YTD")
 EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+z = dfExpensesReviewed_YTD |> dplyr::filter(Category=="Travel", SubCategory == "Hotel")
 
 ```
 
