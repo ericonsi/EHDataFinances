@@ -827,8 +827,8 @@ EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
 #' @export
 EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, dfBudget, xCategory, Folder) {
 
-  a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = xCategory)
-  b <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = xCategory)
+  a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = paste0(xCategory, ", ", Folder))
+  b <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = paste0(xCategory, ", YTD"))
 
 
   grid.arrange(a,b, ncol=2)
@@ -841,6 +841,7 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
 EHFinances_CreateCategoryTimePlot <- function(dfExpensesReviewed_YTD, dfBudget, xCategory) {
 
   c <- EHFinances_CreateTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+  grid.arrange(c)
 }
 
 
