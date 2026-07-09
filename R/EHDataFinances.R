@@ -273,8 +273,6 @@ dfExpenses2 <- dfExpenses |>
   dplyr::mutate(Category = if_else(Category=="Groceries" & Amount < 20, "Food & Drink", Category)) |>
   dplyr::mutate(SubCategory=if_else(Category=="Groceries" & SubCategory=="NA", "Other", SubCategory)) |>
   dplyr::mutate(SubCategory = if_else(Category=="Gas", "Gas", SubCategory)) |>
-  dplyr::mutate(SubCategory = if_else(SubCategory=="Puerto Rico", "PR_2602", SubCategory)) |>
-  dplyr::mutate(SubCategory = if_else(SubCategory=="PR", "PR_2602", SubCategory)) |>
   dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
   dplyr::mutate(Category = if_else(Category=="Automotive", "Car", Category)) |>
   dplyr::mutate(Category = if_else(Category=="NA", "NA1", Category)) |>
@@ -830,13 +828,21 @@ EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
 EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, dfBudget, xCategory, Folder) {
 
   a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = xCategory)
-  b <- EHFinances_CreateTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+  b <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = xCategory)
 
-  grid.arrange(a,b,ncol=2)
+
+  grid.arrange(a,b, ncol=2)
 
   EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 
 }
+
+#' @export
+EHFinances_CreateCategoryTimePlot <- function(dfExpensesReviewed_YTD, dfBudget, xCategory) {
+
+  c <- EHFinances_CreateTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+}
+
 
 #' @export
 EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets) {
