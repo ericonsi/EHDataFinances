@@ -312,7 +312,7 @@ EHFinances_MakeKableTable(dfROR, "ROR")
 
 xCategory="Home"
 
-EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets, xMonth, dfBudgetTargets)
+EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
 EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
