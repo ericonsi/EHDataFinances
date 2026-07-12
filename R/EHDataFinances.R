@@ -791,7 +791,7 @@ EHFinances_CreateTopSpendingTable_AllYTD <- function(df, xNumber, Folder, ytd=TR
 
 
 #' @export
-EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
+EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory, xTitle="Expenditures Over Time", cumulative=FALSE) {
 
   EH_Turquoise = "#33a0a0"
   EH_Cream = "#FFFEE0"
@@ -811,6 +811,12 @@ EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
     dplyr::rename(Month=1) |>
     mutate(Budget=Bu)
 
+    if(cumulative) {
+      df <- df |>
+      mutate(Expenditures = cumsum(Expenditures)) |>
+      mutate(Budget=Budget*row_number())
+    }
+
   a <- ggplot(df, aes(x = Month)) +
     geom_line(aes(y = Expenditures, color = "Expenditures"), size = 1) +
     geom_line(aes(y = Budget, color = "Budget"), size = 2) +
@@ -818,7 +824,7 @@ EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
     theme(panel.background = element_rect(fill = EH_Cream, colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
     scale_color_manual("", values = c("Expenditures" = EH_Turquoise, "Budget" = EH_Squash)) +
     scale_x_continuous(breaks = function(x) seq(ceiling(min(x)), floor(max(x)), by = 1)) +
-    ggtitle("Expenditures Over Time") +
+    ggtitle(xTitle) +
     scale_y_continuous(limits = c(0, NA))
 
   return(a)
@@ -841,7 +847,8 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
 EHFinances_CreateCategoryTimePlot <- function(dfExpensesReviewed_YTD, dfBudget, xCategory) {
 
   c <- EHFinances_CreateTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
-  grid.arrange(c)
+  d <- EHFinances_CreateTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory, xTitle="Cumulative Expenditures Over Time", cumulative=TRUE)
+  grid.arrange(c,d, ncol=2)
 }
 
 
