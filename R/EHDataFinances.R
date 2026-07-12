@@ -718,7 +718,7 @@ EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfR
 
   dfMat <- as.data.frame(mat2)
 
-  tab_custom <- kable(dfMat,  caption = "Spending Summary", format.args = list(big.mark = ","), digits = 0) |>
+  tab_custom <- kable(dfMat,  caption = "Spending Summary", format.args = list(big.mark = ","), digits = 0, table.envir = "H") |>
     kable_styling(full_width = FALSE, position = "center",
                   latex_options = c("striped", "hold_position"))
 
@@ -743,7 +743,7 @@ a <- df %>%
   kable(
     col.names = c("Transaction Date", "SubCategory", "Description", "Amount"),
     caption = cap,
-    align = c("l", "l", "l", "r")
+    align = c("l", "l", "l", "r"), table.envir = "H"
   ) %>%
   kable_styling(
     bootstrap_options = c("striped", "hover"),
@@ -777,7 +777,7 @@ EHFinances_CreateTopSpendingTable_AllYTD <- function(df, xNumber, Folder, ytd=TR
     kable(
       col.names = c("Category", "SubCategory", "Description", "Amount"),
       caption = cap,
-      align = c("l", "l", "l", "r")
+      align = c("l", "l", "l", "r"), table.envir = "H"
     ) %>%
     kable_styling(
       bootstrap_options = c("striped", "hover"),
@@ -865,7 +865,7 @@ EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD
 
 #' @export
 EHFinances_MakeKableTable <- function(df, xCaption = "")  {
-a <- kable(df,  caption = xCaption, format.args = list(big.mark = ","), digits = 0) |>
+a <- kable(df,  caption = xCaption, format.args = list(big.mark = ","), digits = 0, table.envir = "H") |>
   kable_styling(full_width = FALSE, position = "center",
                 latex_options = c("striped", "hold_position"))
 
