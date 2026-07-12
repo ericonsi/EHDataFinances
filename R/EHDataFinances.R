@@ -839,8 +839,6 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
 
   grid.arrange(a,b, ncol=2)
 
-  EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
-
 }
 
 #' @export
