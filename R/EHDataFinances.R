@@ -6,6 +6,7 @@ library(tidyverse)
 library(anytime)
 library(kableExtra)
 library(datefixR)
+library(EHData)
 
 #' EHSummarize_CategoryByTotal_ReturnsSingleTable5
 #'
@@ -825,11 +826,10 @@ EHFinances_CreateTimePlot <- function(df_ytd, dfBudget, xCategory) {
 }
 
 #' @export
-EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, dfBudget, xCategory, Folder) {
+EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YTD, dfBudget, xCategory, Folder, xmaxRecords=0) {
 
   a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = paste0(xCategory, ", ", Folder))
-  b <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = paste0(xCategory, ", YTD"))
-
+  b <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed_YTD |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, maxRecords = xmaxRecords, xtitle = paste0(xCategory, ", YTD"))
 
   grid.arrange(a,b, ncol=2)
 

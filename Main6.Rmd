@@ -323,8 +323,10 @@ EHFinances_MakeKableTable(dfROR, "ROR")
 xCategory="Home"
 
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
-EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder, xmaxRecords=8)
+z = EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+z1 = EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+grid.arrange(z, z1)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
 ```
