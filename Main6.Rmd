@@ -316,20 +316,37 @@ EHFinances_MakeKableTable(dfROR, "ROR")
 
 ## 2. Categories in Detail
 
+```{r}
+
+EHCatDetails <- function (dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, dfBudgetTargets, xMonth) {
+  
+EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
+
+}
+
+```
+
+
 ### a. Home
 
 ```{r fig.width=10, fig.height = 3}
-
 xCategory="Home"
 
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder, xmaxRecords=8)
-z = EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
-z1 = EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
-grid.arrange(z, z1)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
+
 ```
+
+
+
 
 ### b. Shopping
 
@@ -338,7 +355,9 @@ EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory,
 xCategory="Shopping"
 
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
 ```
@@ -391,8 +410,11 @@ a
 ```{r fig.width=10, fig.height = 3}
 
 xCategory="Car"
+
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
 ```
@@ -434,7 +456,7 @@ dfExpenses2025Maintenance <- dfExpenses2025 |>
     theme(legend.position="none")
 
 
-grid.arrange(a,b, ncol=2)
+#grid.arrange(a,b, ncol=2)
 
 
   
@@ -447,7 +469,9 @@ grid.arrange(a,b, ncol=2)
 
 xCategory="Health & Wellness"
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
 ```
@@ -458,7 +482,9 @@ EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory,
 
 xCategory="Food & Drink"
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
 a <- dfExpensesReviewed |>
@@ -501,9 +527,10 @@ kables(list(a, b), format = "pdf") %>%
 
 xCategory="Entertainment"
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
-
 ```
 
 ### g. Groceries
@@ -512,9 +539,10 @@ EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory,
 
 xCategory="Groceries"
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
-
 ```
 
 ### h. Subscriptions
@@ -523,9 +551,10 @@ EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory,
 
 xCategory="Subscriptions"
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
-
 ```
 
 ### i. Gifts and Donations
@@ -534,9 +563,10 @@ EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory,
 
 xCategory="Gifts & Donations"
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
-
 ```
 
 ### j. Travel
@@ -544,6 +574,7 @@ EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory,
 ```{r fig.width=10, fig.height = 3}
 
 xCategory="Travel"
+
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
 
 dfTravel_Grouped <- dfExpensesReviewed_YTD |>
@@ -553,11 +584,11 @@ dfTravel_Grouped <- dfExpensesReviewed_YTD |>
 
 dfxx <- bind_rows(dfTravel_Grouped, tibble(SubCategory = "TOTAL", Total = sum(dfTravel_Grouped$Total)))
 
-EHFinances_MakeKableTable(dfxx, "Travel Breakdown YTD")
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
-z = dfExpensesReviewed_YTD |> dplyr::filter(Category=="Travel", SubCategory == "Hotel")
 
 ```
 
@@ -566,8 +597,11 @@ z = dfExpensesReviewed_YTD |> dplyr::filter(Category=="Travel", SubCategory == "
 ```{r fig.width=10, fig.height = 3}
 
 xCategory="Travel Local"
+
 EHFinances_CategoryTotals(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory, xMonth, dfBudgetTargets)
-EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, Folder)
+EHFinances_CategoryDetails(dfExpensesReviewed, dfExpensesReviewed_YTD, xCategory=xCategory, dfBudget, xMonth, xmaxRecords=8)
+EHFinances_CreateCategoryTimePlot(dfExpensesReviewed_YTD, dfBudget, xCategory)
+EHFinances_CreateTopSpendingTable(dfExpensesReviewed, xCategory, Folder, fontSize=8)
 EHFinances_CreateTopSpendingTable(dfExpensesReviewed_YTD, xCategory = xCategory, Folder, fontSize=8, ytd=TRUE)
 
 ```
