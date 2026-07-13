@@ -858,8 +858,7 @@ EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD
   Months = as.numeric(substr(xMonth, nchar(xMonth) - 2 + 1, nchar(xMonth)))
 
   dfTotalExpendituresTable <- data.frame(dfExpensesReviewed |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Current=sum(Amount)), dfExpensesReviewed_YTD |> dplyr::filter(Category==xCategory) |> dplyr::summarise(YTD=sum(Amount), Average=YTD/Months), dfBudgetTargets |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Budget=sum(Amount)))
-  z <- EHFinances_MakeKableTable(dfTotalExpendituresTable, "Total Spending")
-  print(z)
+  EHFinances_MakeKableTable(dfTotalExpendituresTable, "Total Spending")
 
 }
 
@@ -869,6 +868,6 @@ a <- kable(df,  caption = xCaption, format.args = list(big.mark = ","), digits =
   kable_styling(full_width = FALSE, position = "center",
                 latex_options = c("striped", "hold_position"))
 
-return(a)
+print(a)
 }
 
