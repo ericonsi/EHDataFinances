@@ -856,7 +856,9 @@ EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD
 
   Months = as.numeric(substr(xMonth, nchar(xMonth) - 2 + 1, nchar(xMonth)))
 
-  dfTotalExpendituresTable <- data.frame(dfExpensesReviewed |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Current=sum(Amount)), dfExpensesReviewed_YTD |> dplyr::filter(Category==xCategory) |> dplyr::summarise(YTD=sum(Amount), Average=YTD/Months), dfBudgetTargets |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Budget=sum(Amount)))
+  dfTotalExpendituresTable <- data.frame(dfExpensesReviewed |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Current_Month=sum(Amount)), dfExpensesReviewed_YTD |> dplyr::filter(Category==xCategory) |> dplyr::summarise(YTD=sum(Amount), Monthly_Average=YTD/Months), dfBudgetTargets |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Monthly_Budget=sum(Amount)))
+  dfTotalExpendituresTable <- dfTotalExpendituresTable |>
+    mutate(Budget_Surplus=YTD - Monthly_Budget*Months)
   EHFinances_MakeKableTable(dfTotalExpendituresTable, "Total Spending")
 
 }
