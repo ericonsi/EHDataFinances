@@ -837,7 +837,7 @@ EHFinances_CategoryDetails <- function(dfExpensesReviewed, dfExpensesReviewed_YT
     if(xmaxRecords == 0) {
       ytdTitle = ", YTD" }
     else {
-      ytdTitle = paste0(", YTD (top ", xmaxRecords, " categories)")
+      ytdTitle = paste0(", YTD (top ", xmaxRecords, " SubCategories)")
     }
 
   a <- EHSummarize_CategoryByTotal_ReturnsSingleTable(dfExpensesReviewed |>  dplyr::filter(Category==xCategory) |> dplyr::select(SubCategory, Amount), xfill =EH_Squash, rectfill = EH_Cream, font_size = 9, xtitle = paste0(xCategory, ", ", Folder))
@@ -864,7 +864,7 @@ EHFinances_CategoryTotals <- function(dfExpensesReviewed, dfExpensesReviewed_YTD
 
   dfTotalExpendituresTable <- data.frame(dfExpensesReviewed |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Current_Month=sum(Amount)), dfExpensesReviewed_YTD |> dplyr::filter(Category==xCategory) |> dplyr::summarise(YTD=sum(Amount), Monthly_Average=YTD/Months), dfBudgetTargets |> dplyr::filter(Category==xCategory) |> dplyr::summarise(Monthly_Budget=sum(Amount)))
   dfTotalExpendituresTable <- dfTotalExpendituresTable |>
-    mutate(Budget_Surplus=YTD - Monthly_Budget*Months)
+    mutate(Budget_Surplus=Monthly_Budget*Months-YTD)
   EHFinances_MakeKableTable(dfTotalExpendituresTable, "Total Spending")
 
 }
