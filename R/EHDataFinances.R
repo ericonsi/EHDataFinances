@@ -753,7 +753,6 @@ a <- df %>%
   )
 
 return (a)
-
 }
 
 #' @export
@@ -868,6 +867,6 @@ a <- kable(df,  caption = xCaption, format.args = list(big.mark = ","), digits =
   kable_styling(full_width = FALSE, position = "center",
                 latex_options = c("striped", "hold_position"))
 
-print(a)
+return(a)
 }
 
