@@ -1,5 +1,5 @@
 ---
-title: "Jenny and Eric Spending Report, June"
+title: "Jenny and Eric Spending Report, "
 output:
   pdf_document:
     toc: true
@@ -77,7 +77,7 @@ library(datefixR)
 ```{r}
 #Assign Month
 
-xMonth="2606"
+xMonth="2608"
 Folder = xMonth
 EH_Turquoise = "#33a0a0"
 EH_Cream = "#FFFEE0"

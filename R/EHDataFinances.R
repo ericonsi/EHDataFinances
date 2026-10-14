@@ -702,21 +702,30 @@ EHFinances_CreateBudgetAnalysisDFs <- function(df, df_ytd, Folder) {
   )
 }
 
+EHRoundAllNumbers <- function(df, numDigits=0) {
+
+  df1 <- df |>
+    mutate(across(where(is.numeric), ~ round(., digits = numDigits)))
+
+return (df1)
+
+}
 
 #' @export
-EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfRuby_ytd, dfRenovation, dfRenovation_ytd, dfIncomeTaxes, dfIncomeTaxes_ytd, dfBudget, dfBudget_ytd, Folder) {
+EHFinances_CreateTotalsTable <- function(dfExpenses, dfExpenses_ytd, dfRuby, dfRuby_ytd, dfRenovation, dfRenovation_ytd, dfIncomeTaxes, dfIncomeTaxes_ytd, dfBudget, dfBudget_ytd, TaxOverBudget, Folder) {
 
   grandTotal = sum(as.numeric(dfExpenses$Amount)) + sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount) + sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount) + sum(dfRenovation$Amount) +  sum(dfIncomeTaxes$Amount)
   grandTotalYtd =   sum(dfExpenses_ytd$Amount) + sum((dfRuby_ytd |> filter(SubCategory == "Tuition Etc."))$Amount) + sum((dfRuby_ytd |> filter(SubCategory != "Tuition Etc."))$Amount) + sum(dfRenovation_ytd$Amount) +  sum(dfIncomeTaxes_ytd$Amount)
 
-  mat2 <- matrix(c(sum(as.numeric(dfExpenses$Amount)), sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation$Amount),  sum(dfIncomeTaxes$Amount), sum(dfBudget$Differential), grandTotal,
-                   sum(dfExpenses_ytd$Amount), sum((dfRuby_ytd |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby_ytd |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation_ytd$Amount),  sum(dfIncomeTaxes_ytd$Amount), sum(dfBudget_ytd$Differential), grandTotalYtd), ncol=2, byrow=FALSE)
+  mat2 <- matrix(c(sum(as.numeric(dfExpenses$Amount)), sum((dfRuby |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation$Amount),  sum(dfIncomeTaxes$Amount), "0", sum(dfBudget$Differential), grandTotal,
+                   sum(dfExpenses_ytd$Amount), sum((dfRuby_ytd |> filter(SubCategory == "Tuition Etc."))$Amount), sum((dfRuby_ytd |> filter(SubCategory != "Tuition Etc."))$Amount), sum(dfRenovation_ytd$Amount),  sum(dfIncomeTaxes_ytd$Amount), TaxOverBudget, sum(dfBudget_ytd$Differential), grandTotalYtd), ncol=2, byrow=FALSE)
 
 
   colnames(mat2) <- c(paste0("Amount_", Folder), "Amount_YTD")
-  rownames(mat2) <- c("Total Expenses", "Total Ruby Tuition", "Ruby Non Tuition", "Renovation", "Income Taxes", "Budget Surplus", "TOTAL")
+  rownames(mat2) <- c("Total Expenses", "Total Ruby Tuition", "Ruby Non Tuition", "Renovation", "Income Taxes", "Taxes Over Budget", "Budget Surplus", "TOTAL")
 
   dfMat <- as.data.frame(mat2)
+  dfMat <- EHRoundAllNumbers(dfMat)
 
   tab_custom <- kable(dfMat,  caption = "Spending Summary", format.args = list(big.mark = ","), digits = 0, table.envir = "H") |>
     kable_styling(full_width = FALSE, position = "center",
