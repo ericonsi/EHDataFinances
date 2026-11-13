@@ -1,10 +1,10 @@
 ---
-title: "Jenny and Eric Spending Report, "
+title: "Jenny and Eric Spending Report, September"
 output:
   pdf_document:
     toc: true
     toc_depth: 5
-date: "2026-06-01"
+date: "2026-10-01"
 ---
 
 ```{r setup, include = FALSE, warning=FALSE, message=FALSE}
@@ -77,7 +77,11 @@ library(datefixR)
 ```{r}
 #Assign Month
 
-xMonth="2608"
+xMonth="2609"
+TaxEstimate = 85000
+BudgetGoal= 173000
+Solvency=225000
+
 Folder = xMonth
 EH_Turquoise = "#33a0a0"
 EH_Cream = "#FFFEE0"
@@ -176,13 +180,16 @@ dfBudget_AnnualTargets <- dfBudget |>
   dplyr::select(Category, Amount_Budget) |>
   dplyr::rename(Amount=Amount_Budget)
 
+TaxOverBudget = sum(dfIncomeTaxes_YTD |> dplyr::select(Amount)) - TaxEstimate
+
+
 ```
 
 ## 1. Overall Spending
 
 ```{r fig.width = 14, fig.height=8}
 
-EHFinances_CreateTotalsTable(dfExpensesReviewed, dfExpensesReviewed_YTD, dfRuby, dfRuby_YTD, dfRenovation, dfRenovation_YTD, dfIncomeTaxes, dfIncomeTaxes_YTD, dfBudget, dfBudget_YTD, Folder)
+EHFinances_CreateTotalsTable(dfExpensesReviewed, dfExpensesReviewed_YTD, dfRuby, dfRuby_YTD, dfRenovation, dfRenovation_YTD, dfIncomeTaxes, dfIncomeTaxes_YTD, dfBudget, dfBudget_YTD, TaxOverBudget, Folder)
 
 ```
 

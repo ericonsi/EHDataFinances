@@ -73,7 +73,7 @@ EHFinances_ImportCategories <- function()
 EHFinances_ImportROR <- function(Folder)
 {
 
-  dfROR <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\ROR.csv"))
+  dfROR <- read_csv(paste0("D:\\RStudio\\Finances\\AccountDownloads\\", Folder, "\\ROR_", Folder, ".csv"))
 
   return(dfROR)
 
