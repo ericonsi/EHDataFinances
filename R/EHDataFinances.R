@@ -274,6 +274,7 @@ dfExpenses2 <- dfExpenses |>
   dplyr::mutate(Category = if_else(Category=="Groceries" & Amount < 20, "Food & Drink", Category)) |>
   dplyr::mutate(SubCategory=if_else(Category=="Groceries" & SubCategory=="NA", "Other", SubCategory)) |>
   dplyr::mutate(SubCategory = if_else(Category=="Gas", "Gas", SubCategory)) |>
+  dplyr::mutate(Category = if_else(SubCategory == "Gas" & Amount < 10, "Food & Drink", Category)) |>
   dplyr::mutate(Category = if_else(Category=="Gas", "Car", Category)) |>
   dplyr::mutate(Category = if_else(Category=="Automotive", "Car", Category)) |>
   dplyr::mutate(Category = if_else(Category=="NA", "NA1", Category)) |>
